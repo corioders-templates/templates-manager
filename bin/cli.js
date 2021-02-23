@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 const inquirer = require('inquirer');
-const { renameSync } = require('fs');
-const { spawnSync, execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 const path = require('path');
 
 const ROOT_DIR = path.resolve(__dirname, '..');
