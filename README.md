@@ -1,0 +1,1 @@
+run npm link to register command

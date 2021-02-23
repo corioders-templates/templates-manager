@@ -1,0 +1,6 @@
+{
+  "name": "cli",
+  "bin": {
+    "corioders": "./bin/cli.js"
+  }
+}
