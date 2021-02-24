@@ -1,6 +1,11 @@
 #!/usr/bin/env node
-const { create } = require('./commands/create.js');
 
 if (process.argv.includes('create')) {
+	const { create } = require('../src/commands/create.js');
 	create();
+}
+
+if (process.argv.includes('run')) {
+	const { run } = require('../src/commands/run.js');
+	run();
 }
