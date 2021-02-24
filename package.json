@@ -4,6 +4,7 @@
 		"corioders": "./bin/cli.js"
 	},
 	"dependencies": {
-		"inquirer": "^7.3.3"
+		"inquirer": "^7.3.3",
+		"replace-in-file": "^6.2.0"
 	}
 }

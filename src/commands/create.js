@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const { spawnSync } = require('child_process');
 const path = require('path');
+const { configure } = require('../configure');
 
 async function create() {
 	const ROOT_DIR = path.resolve(__dirname, '..', '..');
@@ -13,9 +14,7 @@ async function create() {
 	});
 
 	const selected = templates[answer['Choose a template']];
-	spawnSync('git', ['clone', selected.url, selected.name], { stdio: 'inherit' });
-	const PROJECT_DIR = path.resolve(process.cwd(), selected.name);
-	spawnSync('./configure', { cwd: PROJECT_DIR, stdio: 'inherit' });
+	configure(selected.url);
 }
 
 exports.create = create;
