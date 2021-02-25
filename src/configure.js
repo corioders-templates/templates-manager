@@ -1,18 +1,21 @@
 const { spawnSync } = require('child_process');
 const path = require('path');
 const inquirer = require('inquirer');
+const { save } = require('./save');
+const { read } = require('./read');
 
 let PROJECT_DIR, APP_DIR, TOOLS_DIR;
 
-async function configure(selectedUrl) {
+async function configure(selected) {
 	const config = await input();
 	if (!config) return;
 	PROJECT_DIR = path.resolve(process.cwd(), config.name);
 	APP_DIR = path.resolve(PROJECT_DIR, 'app');
 	TOOLS_DIR = path.resolve(PROJECT_DIR, 'tools');
-	clone(selectedUrl, config.name);
+	clone(selected.url, config.name);
 	await replacePhrases(config);
 	git(config.url);
+	save(selected, config);
 }
 
 function clone(selectedUrl, name) {
@@ -76,12 +79,14 @@ async function replace(from, to, files = path.resolve(PROJECT_DIR, '**', '*')) {
 }
 
 async function input() {
+	const defaultConfig = read();
 	let config = {};
 	answer = await inquirer.prompt({
 		name: 'Name of this project',
 		type: 'input',
 		validate: async (input) => {
-			if (input.includes(' ')) return `You cannot set string with spaces as project name!`;
+			if (/\s/.test(input)) return `You cannot set string with whitespace as project name!`;
+			if (input == '') return `You cannot set empty string as project name!`;
 			return true;
 		},
 	});
@@ -91,6 +96,7 @@ async function input() {
 	answer = await inquirer.prompt({
 		name: 'Repo for this project is on',
 		type: 'list',
+		default: defaultConfig.repoPlatform,
 		choices: ['Github', 'Gitlab', 'Bitbucket'],
 	});
 
@@ -99,8 +105,10 @@ async function input() {
 	answer = await inquirer.prompt({
 		name: `${config.repoPlatform} username`,
 		type: 'input',
+		default: defaultConfig.ghUsername,
 		validate: async (input) => {
-			if (input.includes(' ')) return `You cannot set string with spaces as ${config.repoPlatform} username!`;
+			if (/\s/.test(input)) return `You cannot set string with whitespace as ${config.repoPlatform} username!`;
+			if (input == '') return `You cannot set empty string as ${config.repoPlatform} username!`;
 			return true;
 		},
 	});
@@ -112,7 +120,8 @@ async function input() {
 		default: config.name,
 		type: 'input',
 		validate: async (input) => {
-			if (input.includes(' ')) return `You cannot set string with spaces as ${config.repoPlatform} repo name!`;
+			if (/\s/.test(input)) return `You cannot set string with whitespace as ${config.repoPlatform} repo name!`;
+			if (input == '') return `You cannot set empty string as ${config.repoPlatform} repo name!`;
 			return true;
 		},
 	});
@@ -126,6 +135,7 @@ async function input() {
 	answer = await inquirer.prompt({
 		name: 'Which remote url are you using?',
 		type: 'list',
+		default: defaultConfig.url,
 		choices: [
 			`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
 			`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
@@ -138,6 +148,11 @@ async function input() {
 		name: 'License',
 		default: 'MIT',
 		type: 'input',
+		validate: async (input) => {
+			if (/\s/.test(input)) return `You cannot set string with whitespace as license!`;
+			if (input == '') return `You cannot set empty string as license!`;
+			return true;
+		},
 	});
 
 	config.license = answer['License'];
@@ -146,6 +161,11 @@ async function input() {
 		name: 'Version',
 		default: '1.0.0',
 		type: 'input',
+		validate: async (input) => {
+			if (/\s/.test(input)) return `You cannot set string with whitespace as version!`;
+			if (input == '') return `You cannot set empty string as version!`;
+			return true;
+		},
 	});
 
 	config.version = answer['Version'];
@@ -154,6 +174,11 @@ async function input() {
 		name: 'Author',
 		default: config.ghUsername,
 		type: 'input',
+		validate: async (input) => {
+			if (/\s/.test(input)) return `You cannot set string with whitespace as author!`;
+			if (input == '') return `You cannot set empty string as author!`;
+			return true;
+		},
 	});
 
 	config.author = answer['Author'];
