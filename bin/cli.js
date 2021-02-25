@@ -4,6 +4,7 @@ const { program } = require('commander');
 const { create } = require('../src/commands/create.js');
 const { run } = require('../src/commands/run.js');
 const { install } = require('../src/commands/install.js');
+const { update } = require('../src/commands/update.js');
 
 program.version('0.0.1');
 program.command('create').alias('c').description('Create new project').action(create);
@@ -27,5 +28,6 @@ program
 	.action((options) => {
 		install(options);
 	});
+program.command('update').description('Update template').action(update);
 
 program.parse(process.argv);

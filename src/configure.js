@@ -14,7 +14,7 @@ async function configure(selected) {
 	TOOLS_DIR = path.resolve(PROJECT_DIR, 'tools');
 	clone(selected.url, config.name);
 	await replacePhrases(config);
-	git(config.url);
+	git(config.url, selected.url);
 	save(selected, config);
 }
 
@@ -23,11 +23,13 @@ function clone(selectedUrl, name) {
 	if (clone != 0) return;
 }
 
-function git(url) {
+function git(url, templateUrl) {
 	let { status: add } = spawnSync('git', ['add', '.'], { cwd: PROJECT_DIR });
 	if (add != 0) return;
 	let { status: commit } = spawnSync('git', ['commit', '-m', '"init"'], { cwd: PROJECT_DIR });
 	if (commit != 0) return;
+	let { status: origin } = spawnSync('git', ['remote', 'rename', 'origin', 'template'], { cwd: PROJECT_DIR });
+	if (origin != 0) return;
 	let { status } = spawnSync('git', ['remote', 'add', 'origin', url], { cwd: PROJECT_DIR });
 	if (status != 0) return;
 }
