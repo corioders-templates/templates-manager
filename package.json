@@ -3,6 +3,9 @@
 	"bin": {
 		"corioders": "./bin/cli.js"
 	},
+	"scripts": {
+		"postinstall": "node ./src/clearConfig.js"
+	},
 	"dependencies": {
 		"commander": "^7.1.0",
 		"inquirer": "^7.3.3",
