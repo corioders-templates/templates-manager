@@ -12,9 +12,9 @@ async function configure(selected) {
 	PROJECT_DIR = path.resolve(process.cwd(), config.name);
 	APP_DIR = path.resolve(PROJECT_DIR, 'app');
 	TOOLS_DIR = path.resolve(PROJECT_DIR, 'tools');
-	clone(selected.url, config.name);
-	await replacePhrases(config);
-	git(config.url, selected.url);
+	// clone(selected.url, config.name);
+	// await replacePhrases(config);
+	// git(config.url, selected.url);
 	save(selected, config);
 }
 

@@ -1,10 +1,13 @@
 const { resolve } = require('path');
-const { writeFileSync } = require('fs');
+const { existsSync, mkdirSync, writeFileSync } = require('fs');
+const { homedir } = require('os');
 
 function save(selected, config) {
-	const ROOT_DIR = resolve(__dirname, '..');
-	const CONFIG_PATH = resolve(ROOT_DIR, 'data', 'userDefaultConfig.json');
+	const HOME_DIR = homedir();
+	const CLI_DIR = resolve(HOME_DIR, '.corioders', 'cli');
+	const CONFIG_PATH = resolve(CLI_DIR, 'userConfig.json');
 	const CONFIG_SOURCE = JSON.stringify({ selected, ...config });
+	if (!existsSync(CLI_DIR)) mkdirSync(CLI_DIR, { recursive: true });
 	writeFileSync(CONFIG_PATH, CONFIG_SOURCE);
 }
 
