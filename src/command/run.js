@@ -10,6 +10,9 @@ exports.run = async function (options) {
 		options = { both: true };
 	}
 
+	const chalk = require('chalk');
+	console.log(chalk.blue.bold('Launching your app'));
+
 	if (options.hasOwnProperty('both')) {
 		const { workaround } = require('../../more/stmux/workaround');
 		const { status: install } = spawnSync('yarn', { cwd: STMUX_DIR });

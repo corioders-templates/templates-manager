@@ -34,7 +34,7 @@ exports.workaround = function () {
 			);
 
 		fs.writeFileSync(keysFile.path, modifiedKeysModuleSource);
-		const { status } = spawnSync('yarn', ['build', '--force'], { stdio: 'inherit', cwd: STMUX_DIR });
+		const { status } = spawnSync('yarn', ['build', '--force'], { cwd: STMUX_DIR });
 		if (status != 0) return;
 	}
 };

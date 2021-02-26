@@ -12,8 +12,11 @@ exports.install = async function install(options) {
 		options = { app: true, server: true };
 	}
 
-	if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { stdio: 'inherit', cwd: APP_DIR() });
-	if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { stdio: 'inherit', cwd: SERVER_DIR() });
+	const chalk = require('chalk');
+	console.log(chalk.blue.bold('Installing dependencies'));
+
+	if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { cwd: APP_DIR() });
+	if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { cwd: SERVER_DIR() });
 };
 
 async function ask() {
