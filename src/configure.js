@@ -12,9 +12,9 @@ async function configure(selected) {
 	PROJECT_DIR = path.resolve(process.cwd(), config.name);
 	APP_DIR = path.resolve(PROJECT_DIR, 'app');
 	TOOLS_DIR = path.resolve(PROJECT_DIR, 'tools');
-	// clone(selected.url, config.name);
-	// await replacePhrases(config);
-	// git(config.url, selected.url);
+	clone(selected.url, config.name);
+	await replacePhrases(config);
+	git(config.url, selected.url);
 	save(selected, config);
 }
 
@@ -134,14 +134,15 @@ async function input() {
 	const extension = platform == 'bitbucket' ? 'org' : 'com';
 	config.repository = `${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`;
 
+	const urlChoices = [
+		`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
+		`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
+	];
 	answer = await inquirer.prompt({
 		name: 'Which remote url are you using?',
 		type: 'list',
-		default: defaultConfig.url,
-		choices: [
-			`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
-			`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
-		],
+		default: defaultConfig.url == undefined ? defaultConfig.url : defaultConfig.url.includes('git@') ? urlChoices[1] : urlChoices[0],
+		choices: urlChoices,
 	});
 
 	config.url = answer['Which remote url are you using?'];
