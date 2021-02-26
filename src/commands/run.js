@@ -1,4 +1,4 @@
-const { spawnSync } = require('child_process');
+const { spawnSync, execSync } = require('child_process');
 const { resolve } = require('path');
 
 async function run(options) {
@@ -9,13 +9,22 @@ async function run(options) {
 	}
 
 	const TOOLS_DIR = resolve(process.cwd(), 'tools');
+
 	if (options.hasOwnProperty('both')) {
-		const STMUX_DIR = resolve(TOOLS_DIR, 'node_modules', 'stmux');
+		const { workaround } = require('../../more/stmux/workaround');
+		const ROOT_DIR = resolve(__dirname, '..', '..');
+		const STMUX_DIR = resolve(ROOT_DIR, 'node_modules', 'stmux');
 		const { status: install } = spawnSync('yarn', { cwd: STMUX_DIR });
 		if (install != 0) return;
-		const { status: workaround } = spawnSync('yarn', ['workaroundStmux'], { cwd: TOOLS_DIR });
-		if (workaround != 0) return;
-		const { status } = spawnSync('yarn', ['sideBySide'], { stdio: 'inherit', cwd: TOOLS_DIR });
+		workaround();
+		const { status } = spawnSync(
+			'node',
+			[resolve(STMUX_DIR, 'bin', 'stmux.js'), `-e ERROR`, `-m beep,system`, `-M true`, `-c line`, `--`, `[`, `yarn app`, `..`, `yarn server`, `]`],
+			{
+				stdio: 'inherit',
+				cwd: TOOLS_DIR,
+			},
+		);
 		if (status != 0) return;
 	} else if (options.hasOwnProperty('app')) {
 		const { status } = spawnSync('yarn', ['app'], { stdio: 'inherit', cwd: TOOLS_DIR });
