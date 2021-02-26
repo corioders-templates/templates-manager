@@ -7,23 +7,21 @@
 // 2. rebuild
 
 const fs = require('fs');
-const path = require('path');
 const { spawnSync } = require('child_process');
 
 const md5 = require('md5');
 
-const ROOT_DIR = path.resolve(__dirname, '..', '..');
-const stmuxPath = path.resolve(ROOT_DIR, 'node_modules/stmux');
+const { STMUX_KEYS_PATH, STMUX_DIR } = require('../../src/components/common/paths');
 
 const keysFile = {
 	md5: {
 		before: '35e51369fa0a68ea0504779a17f69d45',
 		after: '31240ff4d72ea6d99a4b4ebcad69a138',
 	},
-	path: path.resolve(stmuxPath, 'src/stmux-9-keys.js'),
+	path: STMUX_KEYS_PATH,
 };
 
-function workaround() {
+exports.workaround = function () {
 	if (check(keysFile)) {
 		const keysFileSource = fs.readFileSync(keysFile.path).toString();
 
@@ -36,10 +34,10 @@ function workaround() {
 			);
 
 		fs.writeFileSync(keysFile.path, modifiedKeysModuleSource);
-		const { status } = spawnSync('yarn', ['build', '--force'], { stdio: 'inherit', cwd: stmuxPath });
+		const { status } = spawnSync('yarn', ['build', '--force'], { stdio: 'inherit', cwd: STMUX_DIR });
 		if (status != 0) return;
 	}
-}
+};
 
 function check(file) {
 	const fileSource = fs.readFileSync(file.path).toString();
@@ -53,5 +51,3 @@ function check(file) {
 
 	return true;
 }
-
-exports.workaround = workaround;

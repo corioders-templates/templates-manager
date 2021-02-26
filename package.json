@@ -3,9 +3,6 @@
 	"bin": {
 		"corioders": "./bin/cli.js"
 	},
-	"scripts": {
-		"postinstall": "node ./src/clearConfig.js"
-	},
 	"dependencies": {
 		"chalk": "^4.1.0",
 		"commander": "^7.1.0",

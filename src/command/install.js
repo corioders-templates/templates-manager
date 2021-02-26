@@ -1,13 +1,9 @@
-const path = require('path');
-
 const { spawnSync } = require('child_process');
-const { checkDir } = require('../checkDir');
+const { checkDir } = require('../components/common/checkDir');
 
-const ROOT_DIR = process.cwd();
-const APP_DIR = path.resolve(ROOT_DIR, 'app');
-const SERVER_DIR = path.resolve(ROOT_DIR, 'server');
+const { APP_DIR, SERVER_DIR } = require('../components/common/paths');
 
-async function install(options) {
+exports.install = async function install(options) {
 	if (!checkDir()) return;
 
 	if (options.app == undefined && options.server == undefined && options.both == undefined) {
@@ -16,11 +12,9 @@ async function install(options) {
 		options = { app: true, server: true };
 	}
 
-	if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { stdio: 'inherit', cwd: APP_DIR });
-	if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { stdio: 'inherit', cwd: SERVER_DIR });
-}
-
-exports.install = install;
+	if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { stdio: 'inherit', cwd: APP_DIR() });
+	if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { stdio: 'inherit', cwd: SERVER_DIR() });
+};
 
 async function ask() {
 	const inquirer = require('inquirer');
