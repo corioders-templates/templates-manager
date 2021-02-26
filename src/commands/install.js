@@ -1,12 +1,15 @@
 const path = require('path');
 
 const { spawnSync } = require('child_process');
+const { checkDir } = require('../checkDir');
 
 const ROOT_DIR = process.cwd();
 const APP_DIR = path.resolve(ROOT_DIR, 'app');
 const SERVER_DIR = path.resolve(ROOT_DIR, 'server');
 
 async function install(options) {
+	if (!checkDir()) return;
+
 	if (options.app == undefined && options.server == undefined && options.both == undefined) {
 		options = await ask();
 	} else if (options.hasOwnProperty('both')) {

@@ -1,14 +1,15 @@
-const { spawnSync, execSync } = require('child_process');
+const { spawnSync } = require('child_process');
 const { resolve } = require('path');
+const { checkDir } = require('../checkDir');
 
 async function run(options) {
+	if (!checkDir()) return;
+
 	if (options.app == undefined && options.server == undefined && options.both == undefined) {
 		options = await ask();
 	} else if (options.hasOwnProperty('app') && options.hasOwnProperty('server')) {
 		options = { both: true };
 	}
-
-	const TOOLS_DIR = resolve(process.cwd(), 'tools');
 
 	if (options.hasOwnProperty('both')) {
 		const { workaround } = require('../../more/stmux/workaround');
