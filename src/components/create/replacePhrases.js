@@ -33,7 +33,6 @@ exports.replacePhrases = async function (config) {
 };
 
 async function replace(from, to, files, configName) {
-	console.log(files);
 	if (Array.isArray(from)) {
 		for (let i in from) {
 			from[i] = new RegExp(from[i], 'g');

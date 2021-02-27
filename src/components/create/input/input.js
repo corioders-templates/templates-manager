@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
-const { read } = require('./read');
-const { TEMPLATES_PATH } = require('../common/paths');
+const { read } = require('../read');
+const { validateWhitespace, validateVersion } = require('./validate');
+const { TEMPLATES_PATH } = require('../../common/paths');
 
 exports.input = async function () {
 	const defaultConfig = read();
@@ -36,7 +37,7 @@ exports.input = async function () {
 
 	config.url = await prompt('Which remote url are you using?', 'list', urlChoices, defaultUrl);
 	config.license = await prompt('License', 'input', undefined, 'MIT', validateWhitespace('license'));
-	config.version = await prompt('Version', 'input', undefined, '1.0.0', validateWhitespace('version'));
+	config.version = await prompt('Version', 'input', undefined, '1.0.0', validateVersion());
 	config.author = await prompt('Author', 'input', undefined, config.ghUsername, validateWhitespace('author'));
 
 	return config;
@@ -45,12 +46,4 @@ exports.input = async function () {
 async function prompt(name, type, choices = undefined, defaultValue = undefined, validate = undefined) {
 	const answer = await inquirer.prompt({ name, type, choices, default: defaultValue, validate });
 	return answer[name];
-}
-
-function validateWhitespace(name) {
-	return async function (input) {
-		if (/\s/.test(input)) return `You cannot set string with whitespace as ${name}!`;
-		if (input == '') return `You cannot set empty string as ${name}!`;
-		return true;
-	};
 }

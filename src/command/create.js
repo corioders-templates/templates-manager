@@ -1,7 +1,7 @@
 const figlet = require('figlet');
 const chalk = require('chalk');
 const ora = require('ora');
-const { input } = require('../components/create/input');
+const { input } = require('../components/create/input/input');
 const { clone, git } = require('../components/create/git');
 const { replacePhrases } = require('../components/create/replacePhrases');
 const { save } = require('../components/create/save');
