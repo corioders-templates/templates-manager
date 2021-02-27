@@ -13,6 +13,8 @@ exports.git = function (url) {
 	if (commit != 0) return;
 	let { status: origin } = spawnSync('git', ['remote', 'rename', 'origin', 'template'], { cwd: PROJECT_DIR(true) });
 	if (origin != 0) return;
+	let { status: noPush } = spawnSync('git', ['remote', 'set-url', '--push', 'template', 'no_push'], { cwd: PROJECT_DIR(true) });
+	if (noPush != 0) return;
 	let { status } = spawnSync('git', ['remote', 'add', 'origin', url], { cwd: PROJECT_DIR(true) });
 	if (status != 0) return;
 };
