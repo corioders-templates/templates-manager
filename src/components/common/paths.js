@@ -14,11 +14,8 @@ exports.STMUX_PATH = resolve(this.STMUX_DIR, 'bin', 'stmux.js');
 exports.STMUX_KEYS_PATH = resolve(this.STMUX_DIR, 'src/stmux-9-keys.js');
 
 //PROJECT
-const { name } = require(this.CONFIG_PATH);
-exports.PROJECT_DIR_OUTSIDE = resolve(process.cwd(), name);
-exports.PROJECT_DIR_INSIDE = process.cwd();
-exports.PROJECT_DIR = (isDuringCreate = false) => (isDuringCreate ? this.PROJECT_DIR_OUTSIDE : this.PROJECT_DIR_INSIDE);
-exports.APP_DIR = (isDuringCreate = false) => resolve(isDuringCreate ? this.PROJECT_DIR_OUTSIDE : this.PROJECT_DIR_INSIDE, 'app');
-exports.TOOLS_DIR = (isDuringCreate = false) => resolve(isDuringCreate ? this.PROJECT_DIR_OUTSIDE : this.PROJECT_DIR_INSIDE, 'tools');
-exports.SERVER_DIR = (isDuringCreate = false) => resolve(isDuringCreate ? this.PROJECT_DIR_OUTSIDE : this.PROJECT_DIR_INSIDE, 'server');
-exports.JSON_PATH = (isDuringCreate = false) => resolve(this.APP_DIR(isDuringCreate), 'package.json');
+exports.PROJECT_DIR = (name = undefined) => (name != undefined ? resolve(process.cwd(), name) : process.cwd());
+exports.APP_DIR = (name) => resolve(this.PROJECT_DIR(name), 'app');
+exports.TOOLS_DIR = (name) => resolve(this.PROJECT_DIR(name), 'tools');
+exports.SERVER_DIR = (name) => resolve(this.PROJECT_DIR(name), 'server');
+exports.JSON_PATH = (name) => resolve(this.APP_DIR(name), 'package.json');

@@ -8,119 +8,49 @@ exports.input = async function () {
 
 	const templates = require(TEMPLATES_PATH);
 	const templatesNames = Object.getOwnPropertyNames(templates);
+	const defaultTemplate =
+		defaultConfig.template == undefined ? undefined : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name);
 
-	let answer = await inquirer.prompt({
-		name: 'Choose a template',
-		choices: templatesNames,
-		default:
-			defaultConfig.template == undefined ? defaultConfig.template : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name),
-		type: 'list',
-	});
+	config.template = templates[await prompt('Choose a template', 'list', templatesNames, defaultTemplate)];
+	config.name = await prompt('Name of this project', 'input', undefined, undefined, validateWhitespace('project name'));
+	config.repoPlatform = await prompt('Repo for this project is on', 'list', ['Github', 'Gitlab', 'Bitbucket'], defaultConfig.repoPlatform);
 
-	config.template = templates[answer['Choose a template']];
+	config.ghUsername = await prompt(
+		`${config.repoPlatform} username`,
+		'input',
+		undefined,
+		defaultConfig.ghUsername,
+		validateWhitespace(`${config.repoPlatform} username`),
+	);
 
-	answer = await inquirer.prompt({
-		name: 'Name of this project',
-		type: 'input',
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as project name!`;
-			if (input == '') return `You cannot set empty string as project name!`;
-			return true;
-		},
-	});
-
-	config.name = answer['Name of this project'];
-
-	answer = await inquirer.prompt({
-		name: 'Repo for this project is on',
-		type: 'list',
-		default: defaultConfig.repoPlatform,
-		choices: ['Github', 'Gitlab', 'Bitbucket'],
-	});
-
-	config.repoPlatform = answer['Repo for this project is on'];
-
-	answer = await inquirer.prompt({
-		name: `${config.repoPlatform} username`,
-		type: 'input',
-		default: defaultConfig.ghUsername,
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as ${config.repoPlatform} username!`;
-			if (input == '') return `You cannot set empty string as ${config.repoPlatform} username!`;
-			return true;
-		},
-	});
-
-	config.ghUsername = answer[`${config.repoPlatform} username`];
-
-	answer = await inquirer.prompt({
-		name: `${config.repoPlatform} repo name`,
-		default: config.name,
-		type: 'input',
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as ${config.repoPlatform} repo name!`;
-			if (input == '') return `You cannot set empty string as ${config.repoPlatform} repo name!`;
-			return true;
-		},
-	});
-
-	config.ghRepo = answer[`${config.repoPlatform} repo name`];
+	config.ghRepo = await prompt(`${config.repoPlatform} repo name`, 'input', undefined, config.name, validateWhitespace(`${config.repoPlatform} name`));
 
 	const platform = config.repoPlatform.toLowerCase();
 	const extension = platform == 'bitbucket' ? 'org' : 'com';
 	config.repository = `${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`;
-
 	const urlChoices = [
 		`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
 		`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
 	];
-	answer = await inquirer.prompt({
-		name: 'Which remote url are you using?',
-		type: 'list',
-		default: defaultConfig.url == undefined ? defaultConfig.url : defaultConfig.url.includes('git@') ? urlChoices[1] : urlChoices[0],
-		choices: urlChoices,
-	});
+	const defaultUrl = defaultConfig.url == undefined ? defaultConfig.url : defaultConfig.url.includes('git@') ? urlChoices[1] : urlChoices[0];
 
-	config.url = answer['Which remote url are you using?'];
-
-	answer = await inquirer.prompt({
-		name: 'License',
-		default: 'MIT',
-		type: 'input',
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as license!`;
-			if (input == '') return `You cannot set empty string as license!`;
-			return true;
-		},
-	});
-
-	config.license = answer['License'];
-
-	answer = await inquirer.prompt({
-		name: 'Version',
-		default: '1.0.0',
-		type: 'input',
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as version!`;
-			if (input == '') return `You cannot set empty string as version!`;
-			return true;
-		},
-	});
-
-	config.version = answer['Version'];
-
-	answer = await inquirer.prompt({
-		name: 'Author',
-		default: config.ghUsername,
-		type: 'input',
-		validate: async (input) => {
-			if (/\s/.test(input)) return `You cannot set string with whitespace as author!`;
-			if (input == '') return `You cannot set empty string as author!`;
-			return true;
-		},
-	});
-
-	config.author = answer['Author'];
+	config.url = await prompt('Which remote url are you using?', 'list', urlChoices, defaultUrl);
+	config.license = await prompt('License', 'input', undefined, 'MIT', validateWhitespace('license'));
+	config.version = await prompt('Version', 'input', undefined, '1.0.0', validateWhitespace('version'));
+	config.author = await prompt('Author', 'input', undefined, config.ghUsername, validateWhitespace('author'));
 
 	return config;
 };
+
+async function prompt(name, type, choices = undefined, defaultValue = undefined, validate = undefined) {
+	const answer = await inquirer.prompt({ name, type, choices, default: defaultValue, validate });
+	return answer[name];
+}
+
+function validateWhitespace(name) {
+	return async function (input) {
+		if (/\s/.test(input)) return `You cannot set string with whitespace as ${name}!`;
+		if (input == '') return `You cannot set empty string as ${name}!`;
+		return true;
+	};
+}

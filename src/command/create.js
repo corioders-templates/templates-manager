@@ -18,10 +18,10 @@ exports.create = async function () {
 
 	spinner.start();
 
-	clone(config.template.url, config.name);
+	await clone(config.template.url, config.name);
+	await save(config.template, config);
 	await replacePhrases(config);
-	git(config.url);
-	save(config.template, config);
+	await git(config.url, config.name);
 
 	spinner.stop();
 };

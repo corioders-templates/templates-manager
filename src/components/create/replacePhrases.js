@@ -11,17 +11,29 @@ exports.replacePhrases = async function (config) {
 		author: '___TEMPLATE_PROJECT_AUTHOR___',
 	};
 
-	await replace([templatePhrases.name, templatePhrases.repositoryUrl], [config.name, config.repository]);
-	await replace([templatePhrases.license, templatePhrases.version, templatePhrases.author], [config.license, config.version, config.author], JSON_PATH(true));
+	const { name } = config;
 
-	await Promise.all([
-		replace(templatePhrases.branches, 'master|main|develop|deploy', resolve(TOOLS_DIR(true), 'config', '.husky', 'pre-push')),
-		replace('# cd tools', 'cd tools', resolve(TOOLS_DIR(true), 'config', '.husky', 'commit-msg')),
-		replace('open-pull-requests-limit: 0', 'open-pull-requests-limit: 5', resolve(PROJECT_DIR(true), '.github', 'dependabot.yml')),
-	]);
+	try {
+		await replace([templatePhrases.name, templatePhrases.repositoryUrl], [name, config.repository], resolve(PROJECT_DIR(name), '**', '*'), name);
+		await replace(
+			[templatePhrases.license, templatePhrases.version, templatePhrases.author],
+			[config.license, config.version, config.author],
+			JSON_PATH(name),
+			name,
+		);
+
+		await Promise.all([
+			replace(templatePhrases.branches, 'master|main|develop|deploy', resolve(TOOLS_DIR(name), 'config', '.husky', 'pre-push')),
+			replace('# cd tools', 'cd tools', resolve(TOOLS_DIR(name), 'config', '.husky', 'commit-msg')),
+			replace('open-pull-requests-limit: 0', 'open-pull-requests-limit: 5', resolve(PROJECT_DIR(name), '.github', 'dependabot.yml')),
+		]);
+	} catch (error) {
+		console.error(error);
+	}
 };
 
-async function replace(from, to, files = resolve(PROJECT_DIR(true), '**', '*')) {
+async function replace(from, to, files, configName) {
+	console.log(files);
 	if (Array.isArray(from)) {
 		for (let i in from) {
 			from[i] = new RegExp(from[i], 'g');
@@ -35,12 +47,12 @@ async function replace(from, to, files = resolve(PROJECT_DIR(true), '**', '*')) 
 			to,
 			files,
 			ignore: [
-				resolve(APP_DIR(true), 'node_modules', '**', '*'),
-				resolve(TOOLS_DIR(true), 'node_modules', '**', '*'),
-				resolve(PROJECT_DIR(true), 'server', 'vendor', '**', '*'),
+				resolve(APP_DIR(configName), 'node_modules', '**', '*'),
+				resolve(TOOLS_DIR(configName), 'node_modules', '**', '*'),
+				resolve(PROJECT_DIR(configName), 'server', 'vendor', '**', '*'),
 			],
 		});
 	} catch (error) {
-		console.error('Error occurred:', error);
+		console.error(error);
 	}
 }

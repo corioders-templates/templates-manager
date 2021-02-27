@@ -37,7 +37,7 @@ async function ask() {
 	let answer = await inquirer.prompt({
 		name: 'Run',
 		choices: ['app', 'server'],
-		default: ['app'],
+		default: ['app', 'server'],
 		type: 'checkbox',
 	});
 
