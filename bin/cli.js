@@ -28,6 +28,6 @@ program
 	.action((options) => {
 		install(options);
 	});
-program.command('update').description('Update template').action(update);
+program.command('update').alias('u').description('Update template').action(update);
 
 program.parse(process.argv);
