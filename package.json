@@ -4,6 +4,7 @@
 	"version": "0.0.1",
 	"license": "MIT",
 	"description": "Cli made for creating projects with our templates",
+	"repository": "https://github.com/corioders-templates/cli",
 	"bin": {
 		"corioders": "./bin/cli.js"
 	},
