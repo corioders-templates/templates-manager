@@ -3,9 +3,9 @@ const { read } = require('../read');
 const { validateWhitespace, validateVersion } = require('./validate');
 const { TEMPLATES_PATH } = require('../../common/paths');
 
-exports.input = async function () {
+exports.input = async function (name) {
 	const defaultConfig = read();
-	let config = {};
+	let config = { name };
 
 	const templates = require(TEMPLATES_PATH);
 	const templatesNames = Object.getOwnPropertyNames(templates);
@@ -13,7 +13,6 @@ exports.input = async function () {
 		defaultConfig.template == undefined ? undefined : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name);
 
 	config.template = templates[await prompt('Choose a template', 'list', templatesNames, defaultTemplate)];
-	config.name = await prompt('Name of this project', 'input', undefined, undefined, validateWhitespace('project name'));
 	config.repoPlatform = await prompt('Repo for this project is on', 'list', ['Github', 'Gitlab', 'Bitbucket'], defaultConfig.repoPlatform);
 
 	config.ghUsername = await prompt(

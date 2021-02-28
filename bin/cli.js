@@ -7,7 +7,14 @@ const { install } = require('../src/command/install.js');
 const { update } = require('../src/command/update.js');
 
 program.version('0.0.1');
-program.command('create').alias('c').description('Create new project').action(create);
+program
+	.command('create <projectName>')
+	.alias('c')
+	.option('-d, --default', 'Create new project using your default config')
+	.description('Create new project')
+	.action((name, options) => {
+		create(name, options);
+	});
 program
 	.command('run')
 	.alias('r')
