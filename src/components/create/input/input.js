@@ -9,8 +9,7 @@ exports.input = async function (name) {
 
 	const templates = require(TEMPLATES_PATH);
 	const templatesNames = Object.getOwnPropertyNames(templates);
-	const defaultTemplate =
-		defaultConfig.template == undefined ? undefined : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name);
+	const defaultTemplate = defaultConfig.template == undefined ? undefined : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name);
 
 	config.template = templates[await prompt('Choose a template', 'list', templatesNames, defaultTemplate)];
 	config.repoPlatform = await prompt('Repo for this project is on', 'list', ['Github', 'Gitlab', 'Bitbucket'], defaultConfig.repoPlatform);
@@ -28,10 +27,7 @@ exports.input = async function (name) {
 	const platform = config.repoPlatform.toLowerCase();
 	const extension = platform == 'bitbucket' ? 'org' : 'com';
 	config.repository = `${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`;
-	const urlChoices = [
-		`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
-		`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
-	];
+	const urlChoices = [`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`, `git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`];
 	const defaultUrl = defaultConfig.url == undefined ? undefined : defaultConfig.ssh ? urlChoices[1] : urlChoices[0];
 
 	config.url = await prompt('Which remote url are you using?', 'list', urlChoices, defaultUrl);
@@ -49,18 +45,3 @@ async function prompt(name, type, choices = undefined, defaultValue = undefined,
 }
 
 exports.prompt = prompt;
-
-const readline = require('readline');
-exports.askQuestion = function (query) {
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
-
-	return new Promise((resolve) =>
-		rl.question(query, (ans) => {
-			rl.close();
-			resolve(ans);
-		}),
-	);
-};
