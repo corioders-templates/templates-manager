@@ -1,10 +1,10 @@
 const inquirer = require('inquirer');
-const { read } = require('../read');
 const { validateWhitespace, validateVersion } = require('./validate');
 const { TEMPLATES_PATH } = require('../../common/paths');
+const { getDefault } = require('./default/getDeafult');
 
-exports.input = async function (name) {
-	const defaultConfig = read();
+exports.getNormal = async function (name) {
+	const defaultConfig = getDefault(name);
 	let config = { name };
 
 	const templates = require(TEMPLATES_PATH);

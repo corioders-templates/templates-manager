@@ -1,8 +1,8 @@
-const open = require('open');
 const chalk = require('chalk');
+const open = require('open');
+const { prompt } = require('../../util/prompt');
 const { copy } = require('copy-paste');
-const { sleep } = require('./sleep');
-const { prompt } = require('../create/input/input');
+const { sleep } = require('../../util/sleep');
 
 exports.openGithub = async function (repoName, platform) {
 	console.log(

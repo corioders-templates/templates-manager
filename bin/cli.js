@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
 const { create } = require('../src/command/create.js');
 const { run } = require('../src/command/run.js');
-const { install } = require('../src/command/install.js');
+const { program } = require('commander');
 const { update } = require('../src/command/update.js');
+const { install } = require('../src/command/install.js');
 
 program.version('0.0.1');
 program

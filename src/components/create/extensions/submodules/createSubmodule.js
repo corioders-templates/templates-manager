@@ -1,7 +1,7 @@
 const { copyDir } = require('./copyDir');
-const { spawn } = require('../../../common/spawn');
+const { spawn } = require('../../../../util/spawn');
 const { SUBMODULE, MAIN_REPO } = require('../../../common/paths');
-const { sleep } = require('../../../common/sleep');
+const { sleep } = require('../../../../util/sleep');
 const { rmdir } = require('fs').promises;
 const { resolve } = require('path');
 const { openGithub } = require('../../../common/openGithub');

@@ -1,5 +1,5 @@
 const { spawnSync } = require('child_process');
-const { checkDir } = require('../components/common/checkDir');
+const { checkDir } = require('../util/fileSystem/checkDir');
 const { PROJECT_DIR } = require('../components/common/paths');
 
 exports.update = function () {

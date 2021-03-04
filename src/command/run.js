@@ -1,6 +1,7 @@
 const { spawnSync } = require('child_process');
-const { checkDir } = require('../components/common/checkDir');
+const { checkDir } = require('../util/fileSystem/checkDir');
 const { STMUX_DIR, TOOLS_DIR, STMUX_PATH } = require('../components/common/paths');
+
 exports.run = async function (options) {
 	if (!checkDir()) return;
 

@@ -1,5 +1,5 @@
 const { existsSync, mkdirSync, writeFileSync } = require('fs');
-const { CONFIG_DIR, CONFIG_PATH } = require('../common/paths');
+const { CONFIG_DIR, CONFIG_PATH } = require('../../../common/paths');
 
 exports.save = async function (selected, config) {
 	const CONFIG_SOURCE = JSON.stringify({ selected, ...config });

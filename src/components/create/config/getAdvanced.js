@@ -1,6 +1,7 @@
-const { input, prompt } = require('../input/input');
-exports.advanced = async function (name) {
-	let config = await input(name);
+const { getNormal } = require('./getNormal');
+const { prompt } = require('../../../util/prompt');
+exports.getAdvanced = async function (name) {
+	let config = await getNormal(name);
 	const submodules = await prompt('If you want to create git submodules choose where', 'checkbox', ['app', 'server'], []);
 	config.submodules = [];
 	if (submodules.includes('app')) config = await ask('app', config);

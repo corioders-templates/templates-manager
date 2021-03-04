@@ -1,4 +1,4 @@
-const { spawn } = require('../common/spawn');
+const { spawn } = require('../../util/spawn');
 const { PROJECT_DIR, MAIN_REPO } = require('../common/paths');
 
 exports.clone = async function (selectedUrl, name) {

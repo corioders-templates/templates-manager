@@ -1,7 +1,7 @@
-const { spawnSync } = require('child_process');
-const { checkDir } = require('../components/common/checkDir');
+const { checkDir } = require('../util/fileSystem/checkDir');
 
 const { APP_DIR, SERVER_DIR } = require('../components/common/paths');
+const { spawnSync } = require('child_process');
 
 exports.install = async function install(options) {
 	if (!checkDir()) return;

@@ -1,5 +1,5 @@
 const { read } = require('./read');
-exports.loadDefault = function (name) {
+exports.getDefault = function (name) {
 	const config = read();
 	if (config.name == undefined) return false;
 
