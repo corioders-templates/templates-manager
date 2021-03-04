@@ -32,9 +32,10 @@ exports.input = async function (name) {
 		`https://${platform}.${extension}/${config.ghUsername}/${config.ghRepo}`,
 		`git@${platform}.${extension}:${config.ghUsername}/${config.ghRepo}.git`,
 	];
-	const defaultUrl = defaultConfig.url == undefined ? defaultConfig.url : defaultConfig.url.includes('git@') ? urlChoices[1] : urlChoices[0];
+	const defaultUrl = defaultConfig.url == undefined ? undefined : defaultConfig.ssh ? urlChoices[1] : urlChoices[0];
 
 	config.url = await prompt('Which remote url are you using?', 'list', urlChoices, defaultUrl);
+	config.ssh = config.url == urlChoices[1] ? true : false;
 	config.license = await prompt('License', 'input', undefined, 'MIT', validateWhitespace('license'));
 	config.version = await prompt('Version', 'input', undefined, '1.0.0', validateVersion());
 	config.author = await prompt('Author', 'input', undefined, config.ghUsername, validateWhitespace('author'));
@@ -46,3 +47,20 @@ async function prompt(name, type, choices = undefined, defaultValue = undefined,
 	const answer = await inquirer.prompt({ name, type, choices, default: defaultValue, validate });
 	return answer[name];
 }
+
+exports.prompt = prompt;
+
+const readline = require('readline');
+exports.askQuestion = function (query) {
+	const rl = readline.createInterface({
+		input: process.stdin,
+		output: process.stdout,
+	});
+
+	return new Promise((resolve) =>
+		rl.question(query, (ans) => {
+			rl.close();
+			resolve(ans);
+		}),
+	);
+};
