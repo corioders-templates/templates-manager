@@ -6,10 +6,11 @@ const { getDefault } = require('./default/getDeafult');
 exports.getNormal = async function (name) {
 	const defaultConfig = getDefault(name);
 	let config = { name };
-
 	const templates = require(TEMPLATES_PATH);
 	const templatesNames = Object.getOwnPropertyNames(templates);
 	const defaultTemplate = defaultConfig.template == undefined ? undefined : Object.keys(templates).find((key) => templates[key].name == defaultConfig.template.name);
+
+	config.sleep = defaultConfig.sleep == undefined ? true : false;
 
 	config.template = templates[await prompt('Choose a template', 'list', templatesNames, defaultTemplate)];
 	config.repoPlatform = await prompt('Repo for this project is on', 'list', ['Github', 'Gitlab', 'Bitbucket'], defaultConfig.repoPlatform);

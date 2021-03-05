@@ -21,7 +21,7 @@ exports.create = async function (name, options) {
 	await save(config.template, config);
 	await replacePhrases(config);
 	spinner.stop();
-	await openGithub(config.ghRepo, config.repoPlatform.toLowerCase());
+	await openGithub(config.ghRepo, config.repoPlatform.toLowerCase(), config.sleep);
 	if (config.submodules != undefined && config.submodules != []) {
 		await submodules(config, spinner);
 		spinner.start();
