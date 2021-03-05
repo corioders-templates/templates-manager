@@ -18,7 +18,7 @@ exports.createSubmodule = async function (submoduleName, projectName, url, repoN
 	spinner.start();
 	while (true) {
 		try {
-			await sleep(5000);
+			await sleep(500);
 			await spawn('git', ['push', 'origin', 'master'], { cwd: SUBMODULE(submoduleName, projectName) });
 			break;
 		} catch (e) {}
