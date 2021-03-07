@@ -7,6 +7,7 @@ const { replacePhrases } = require('../components/create/replacePhrases');
 const { save } = require('../components/create/config/default/save');
 const { submodules } = require('../components/create/extensions/submodules/submodules');
 const { openGithub } = require('../components/common/openGithub');
+const { cleanup } = require('../components/create/cleanup');
 
 exports.create = async function (name, options) {
 	console.clear();
@@ -27,6 +28,7 @@ exports.create = async function (name, options) {
 		spinner.start();
 		await git(config.url, config.name, true);
 		spinner.stop();
+		await cleanup(config.name);
 	} else {
 		spinner.start();
 		await git(config.url, config.name);
