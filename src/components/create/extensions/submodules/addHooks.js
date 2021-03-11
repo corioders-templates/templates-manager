@@ -12,7 +12,7 @@ exports.addHooks = async function (submoduleName, projectName) {
 	if (!existsSync(JSON_PATH)) await writeFile(JSON_PATH, '{}', 'utf-8');
 	await spawn('npx', ['add-dependencies', 'husky', '@commitlint/cli', 'commitlint-config-jira', 'commitlint-plugin-jira-rules', '--dev'], { cwd: HOOKS_PATH });
 	const json = require(JSON_PATH);
-	if (json.scripts == undefined) json.scripts = { postinstall: 'husky install ./.husky' };
-	else json.scripts.postinstall = 'husky install ./.husky';
+	if (json.scripts == undefined) json.scripts = { postinstall: 'cd .. && husky install ./.husky' };
+	else json.scripts.postinstall = 'cd .. && husky install ./.husky';
 	await writeFile(JSON_PATH, JSON.stringify(json, null, 2), 'utf-8');
 };

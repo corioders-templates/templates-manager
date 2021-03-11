@@ -5,20 +5,26 @@ const { spawnSync } = require('child_process');
 const { prepareOptions } = require('../components/common/prepareOptions');
 const { existsSync } = require('fs');
 const { resolve } = require('path');
+const { spawn } = require('../util/spawn');
 
 exports.install = async function install(options) {
-	options = await prepareOptions(options);
-	if (!checkDir(options)) return;
-	const submodule = existsSync(resolve(PROJECT_DIR(), '.submodule'));
+	try {
+		options = await prepareOptions(options);
+		if (!checkDir(options)) return;
+		const submodule = existsSync(resolve(PROJECT_DIR(), '.submodule'));
 
-	const chalk = require('chalk');
-	console.log(chalk.blue.bold('Installing dependencies'));
+		const chalk = require('chalk');
+		console.log(chalk.blue.bold('Installing dependencies'));
 
-	if (!submodule) {
-		if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { cwd: APP_DIR() });
-		if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { cwd: SERVER_DIR() });
-	} else {
-		if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { cwd: PROJECT_DIR() });
-		if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { cwd: PROJECT_DIR() });
+		if (!submodule) {
+			if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { cwd: APP_DIR() });
+			if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { cwd: SERVER_DIR() });
+		} else {
+			await spawn('yarn', ['install'], { cwd: resolve(PROJECT_DIR(), 'hooks') });
+			if (options.hasOwnProperty('app')) await spawn('yarn', ['install'], { cwd: PROJECT_DIR() });
+			if (options.hasOwnProperty('server')) await spawn('go', ['mod', 'download'], { cwd: PROJECT_DIR() });
+		}
+	} catch (error) {
+		console.error(error);
 	}
 };
