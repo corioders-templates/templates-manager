@@ -1,6 +1,7 @@
 const { createSubmodule } = require('./createSubmodule');
 const { PROJECT_DIR, MAIN_REPO } = require('../../../common/paths');
 const { mkdir, rename } = require('fs').promises;
+const { addSubmodules } = require('./addSubmodules');
 
 exports.submodules = async function (config, spinner) {
 	try {
@@ -14,6 +15,10 @@ exports.submodules = async function (config, spinner) {
 			await createSubmodule('app', config.name, config.submodules['app'].url, config.submodules['app'].ghRepo, config.repoPlatform.toLowerCase(), spinner);
 		if (config.submodules.server != undefined)
 			await createSubmodule('server', config.name, config.submodules['server'].url, config.submodules['server'].ghRepo, config.repoPlatform.toLowerCase(), spinner);
+
+		spinner.start();
+		await addSubmodules(config);
+		spinner.stop();
 	} catch (error) {
 		console.error(error);
 	}

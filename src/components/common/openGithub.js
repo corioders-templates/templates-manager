@@ -4,7 +4,7 @@ const { prompt } = require('../../util/prompt');
 const { copy } = require('copy-paste');
 const { sleep } = require('../../util/sleep');
 
-exports.openGithub = async function (repoName, platform, sleepToRead) {
+exports.openGithub = async function (repoName, platform, sleepToRead = false) {
 	console.log(
 		`Please create repo for this submodule with name ${repoName} ${platform != 'bitbucket' ? '' : `without readme & gitignore and with default branch master`}`,
 	);
