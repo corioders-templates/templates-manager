@@ -6,6 +6,7 @@ const { copyFile } = require('fs').promises;
 const { resolve } = require('path');
 const { openGithub } = require('../../../common/openGithub');
 const { addHooks } = require('./addHooks');
+const { writeFile } = require('fs/promises');
 
 exports.createSubmodule = async function (submoduleName, projectName, url, repoName, platform, spinner) {
 	spinner.start();
@@ -15,6 +16,7 @@ exports.createSubmodule = async function (submoduleName, projectName, url, repoN
 	await spawn('git', ['filter-branch', '--subdirectory-filter', submoduleName, '--', '--all'], { cwd: SUBMODULE(submoduleName, projectName) });
 	await copyFile(resolve(MAIN_REPO(projectName), '.gitignore'), resolve(SUBMODULE(submoduleName, projectName), '.gitignore'));
 	await addHooks(submoduleName, projectName);
+	await writeFile(resolve(SUBMODULE(submoduleName, projectName), '.submodule'), '', 'utf-8');
 	await spawn('git', ['add', '.'], { cwd: SUBMODULE(submoduleName, projectName) });
 	await spawn('git', ['commit', '-m', 'submodule', '--no-verify'], { cwd: SUBMODULE(submoduleName, projectName) });
 	await spawn('git', ['remote', 'set-url', 'origin', url], { cwd: SUBMODULE(submoduleName, projectName) });
