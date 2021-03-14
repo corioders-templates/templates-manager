@@ -8,6 +8,7 @@ const { openGithub } = require('../../../common/openGithub');
 const { addHooks } = require('./addHooks');
 const { writeFile } = require('fs/promises');
 const { moveVscode } = require('./moveVscode');
+const { moveGithub } = require('./moveGithub');
 
 exports.createSubmodule = async function (submoduleName, projectName, url, repoName, platform, spinner) {
 	spinner.start();
@@ -19,6 +20,7 @@ exports.createSubmodule = async function (submoduleName, projectName, url, repoN
 	await addHooks(submoduleName, projectName);
 	await writeFile(resolve(SUBMODULE(submoduleName, projectName), '.submodule'), '', 'utf-8');
 	await moveVscode(submoduleName, projectName);
+	await moveGithub(submoduleName, projectName, platform);
 	await spawn('git', ['add', '.'], { cwd: SUBMODULE(submoduleName, projectName) });
 	await spawn('git', ['commit', '-m', 'submodule', '--no-verify'], { cwd: SUBMODULE(submoduleName, projectName) });
 	await spawn('git', ['remote', 'set-url', 'origin', url], { cwd: SUBMODULE(submoduleName, projectName) });
