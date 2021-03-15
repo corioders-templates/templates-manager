@@ -1,5 +1,5 @@
 const { checkDir } = require('../util/fileSystem/checkDir');
-const { STMUX_DIR, TOOLS_DIR, STMUX_PATH, PROJECT_DIR } = require('../components/common/paths');
+const { STMUX_DIR, TOOLS_DIR, STMUX_PATH, PROJECT_DIR, APP_DIR, SERVER_DIR } = require('../components/common/paths');
 const { prepareOptions } = require('../components/common/prepareOptions');
 const { existsSync } = require('fs');
 const { spawn } = require('../util/spawn');
@@ -25,10 +25,8 @@ exports.run = async function (options) {
 			cwd: TOOLS_DIR(),
 		});
 	} else if (options.hasOwnProperty('app')) {
-		if (!submodule) await spawn('yarn', ['app'], { stdio: 'inherit', cwd: TOOLS_DIR() });
-		else await spawn('yarn', ['start'], { stdio: 'inherit', cwd: PROJECT_DIR() });
+		await spawn('yarn', ['start'], { stdio: 'inherit', cwd: !submodule ? APP_DIR() : PROJECT_DIR() });
 	} else {
-		if (!submodule) await spawn('yarn', ['server'], { stdio: 'inherit', cwd: TOOLS_DIR() });
-		else await spawn('go', ['run', '.'], { stdio: 'inherit', cwd: PROJECT_DIR() });
+		await spawn('go', ['run', '.'], { stdio: 'inherit', cwd: !submodule ? SERVER_DIR() : PROJECT_DIR() });
 	}
 };
