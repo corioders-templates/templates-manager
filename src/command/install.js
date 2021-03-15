@@ -20,7 +20,7 @@ exports.install = async function install(options) {
 			if (options.hasOwnProperty('app')) spawnSync('yarn', ['install'], { cwd: APP_DIR() });
 			if (options.hasOwnProperty('server')) spawnSync('go', ['mod', 'download'], { cwd: SERVER_DIR() });
 		} else {
-			await spawn('yarn', ['install'], { cwd: resolve(PROJECT_DIR(), 'hooks') });
+			await spawn('yarn', ['install'], { cwd: resolve(PROJECT_DIR(), 'tools', 'config') });
 			if (options.hasOwnProperty('app')) await spawn('yarn', ['install'], { cwd: PROJECT_DIR() });
 			if (options.hasOwnProperty('server')) await spawn('go', ['mod', 'download'], { cwd: PROJECT_DIR() });
 		}

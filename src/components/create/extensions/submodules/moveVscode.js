@@ -23,10 +23,7 @@ async function update(submoduleName, SUBMODULE_VSCODE_PATH) {
 }
 
 function cleanFile(data, fileName, submoduleName) {
-	if (fileName == 'settings') {
-		delete data.protoc;
-		data['commitlint.config.file'] = 'hooks/commitlint.config.js';
-	}
+	if (fileName == 'settings') delete data.protoc;
 
 	if (submoduleName == 'app') {
 		if (fileName == 'launch') data.configurations.splice(2, 1);
