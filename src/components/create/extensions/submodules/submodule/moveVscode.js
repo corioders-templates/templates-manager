@@ -1,6 +1,6 @@
 const { resolve, basename } = require('path');
 const { copyDir } = require('../shared/copyDir');
-const { SUBMODULE, MAIN_REPO } = require('../../../../common/paths');
+const { SUBMODULE, MAIN_REPO, ROOT_DIR } = require('../../../../common/paths');
 const { writeFile } = require('fs/promises');
 
 exports.moveVscode = async function (submoduleName, projectName) {
@@ -23,19 +23,26 @@ async function update(submoduleName, SUBMODULE_VSCODE_PATH) {
 }
 
 function cleanFile(data, fileName, submoduleName) {
-	if (fileName == 'settings') delete data.protoc;
+	const cleanVscode = require(resolve(ROOT_DIR, 'data', 'cleanVscode.json'));
 
 	if (submoduleName == 'app') {
-		if (fileName == 'launch') data.configurations.splice(2, 1);
+		if (fileName == 'settings') data = clean(data, cleanVscode.app.settings);
+		if (fileName == 'launch') data.configurations.splice(...cleanVscode.app.launch);
 	} else if (submoduleName == 'server') {
-		if (fileName == 'settings') {
-			delete data['files.exclude']['app/out/**/*.map'];
-			delete data['path-intellisense.mappings'];
-			delete data['eslint.workingDirectories'];
-			delete data['prettier.configPath'];
-			delete data['[javascript]'];
-			delete data['[typescript]'];
-		} else if (fileName == 'launch') data.configurations.splice(0, 2);
+		if (fileName == 'settings') data = clean(data, cleanVscode.server.settings);
+		else if (fileName == 'launch') data.configurations.splice(...cleanVscode.server.launch);
+	}
+	return data;
+}
+
+function clean(data, toDelete) {
+	for (let element of toDelete) {
+		console.log(data);
+		if (typeof element == 'string' || element instanceof String) delete data[element];
+		else if (typeof element == 'object' && element != null) {
+			const key = Object.keys(element)[0];
+			delete data[key][element[key]];
+		}
 	}
 	return data;
 }
