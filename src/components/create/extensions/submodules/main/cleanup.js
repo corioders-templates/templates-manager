@@ -1,9 +1,12 @@
+const { writeFile, unlink } = require('fs/promises');
 const { resolve } = require('path');
-const { MAIN_REPO } = require('../../../../common/paths');
+const { MAIN_REPO, ROOT_DIR } = require('../../../../common/paths');
+const { cleanVsc } = require('../shared/cleanVsc');
 const { updateDependabot } = require('../shared/updateDependabot');
 
 exports.cleanup = async function (config) {
 	await dependabot(config);
+	await cleanVscode(config);
 };
 
 async function dependabot(config) {
@@ -15,4 +18,26 @@ async function dependabot(config) {
 	} else if (config.submodules.server != undefined) {
 		await updateDependabot(resolve(MAIN_REPO(config.name), '.github', 'dependabot.yml'), ['tools', 'app'], repoPlatform, false);
 	}
+}
+
+async function cleanVscode(config) {
+	const VSCODE_PATH = resolve(MAIN_REPO(config.name), '.vscode');
+	const SETTINGS_PATH = resolve(VSCODE_PATH, 'settings.json');
+	const LAUNCH_PATH = resolve(VSCODE_PATH, 'launch.json');
+	let settings = require(SETTINGS_PATH);
+	let launch = require(LAUNCH_PATH);
+	const cleanConfig = require(resolve(ROOT_DIR, 'data', 'cleanVscode.json'));
+
+	if (config.submodules.app != undefined && config.submodules.server != undefined) launch = undefined;
+
+	if (config.submodules.app != undefined) {
+		settings = cleanVsc(settings, cleanConfig.main.app.settings);
+		if (launch != undefined) launch.configurations.splice(...cleanConfig.server.launch);
+	}
+	if (config.submodules.server != undefined && launch != undefined) launch.configurations.splice(...cleanConfig.app.launch);
+
+	await writeFile(SETTINGS_PATH, JSON.stringify(settings, null, 2), 'utf-8');
+
+	if (launch == undefined) await unlink(LAUNCH_PATH);
+	else await writeFile(LAUNCH_PATH, JSON.stringify(launch, null, 2), 'utf-8');
 }

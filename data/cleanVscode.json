@@ -14,5 +14,17 @@
 			"[typescript]"
 		],
 		"launch": [0, 2]
+	},
+	"main": {
+		"app": {
+			"settings": [
+				{ "files.exclude": "app/out/**/*.map" },
+				"path-intellisense.mappings",
+				"eslint.workingDirectories",
+				"prettier.configPath",
+				"[javascript]",
+				"[typescript]"
+			]
+		}
 	}
 }
