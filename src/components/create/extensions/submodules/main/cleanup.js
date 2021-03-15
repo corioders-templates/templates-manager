@@ -1,12 +1,13 @@
-const { writeFile, unlink } = require('fs/promises');
+const { writeFile, unlink, rename, rmdir } = require('fs/promises');
 const { resolve } = require('path');
-const { MAIN_REPO, ROOT_DIR } = require('../../../../common/paths');
+const { PROJECT_DIR, MAIN_REPO, ROOT_DIR } = require('../../../../common/paths');
 const { cleanVsc } = require('../shared/cleanVsc');
 const { updateDependabot } = require('../shared/updateDependabot');
 
 exports.cleanup = async function (config) {
 	await dependabot(config);
 	await cleanVscode(config);
+	await changeName(config);
 };
 
 async function dependabot(config) {
@@ -40,4 +41,11 @@ async function cleanVscode(config) {
 
 	if (launch == undefined) await unlink(LAUNCH_PATH);
 	else await writeFile(LAUNCH_PATH, JSON.stringify(launch, null, 2), 'utf-8');
+}
+
+async function changeName(config) {
+	const tempDirName = `.temp${config.name}ProjectDir`;
+	await rename(MAIN_REPO(config.name, config.name), PROJECT_DIR(tempDirName));
+	await rmdir(PROJECT_DIR(config.name), { recursive: true });
+	await rename(PROJECT_DIR(tempDirName), PROJECT_DIR(config.name));
 }

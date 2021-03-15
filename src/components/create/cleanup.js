@@ -1,12 +1,12 @@
-const { rename, rmdir } = require('fs/promises');
-const { PROJECT_DIR, MAIN_REPO } = require('../common/paths');
+const { rmdir } = require('fs/promises');
+const { resolve } = require('path');
+const { PROJECT_DIR } = require('../common/paths');
 
-exports.cleanup = async function (name) {
+exports.cleanup = async function (config) {
 	try {
-		const tempDirName = `.temp${name}ProjectDir`;
-		await rename(MAIN_REPO(name, name), PROJECT_DIR(tempDirName));
-		await rmdir(PROJECT_DIR(name), { recursive: true });
-		await rename(PROJECT_DIR(tempDirName), PROJECT_DIR(name));
+		const repoPlatform = config.repoPlatform.toLowerCase();
+		if (repoPlatform != 'github') await rmdir(resolve(PROJECT_DIR(config.name), '.github'), { recursive: true });
+		if (repoPlatform != 'gitlab') await rmdir(resolve(PROJECT_DIR(config.name), '.gitlab'), { recursive: true });
 	} catch (error) {
 		console.error(error);
 	}

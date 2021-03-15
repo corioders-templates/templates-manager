@@ -25,15 +25,11 @@ exports.create = async function (name, options) {
 	if (config.submodules != undefined && config.submodules != []) {
 		const { submodules } = require('../components/create/extensions/submodules/submodules');
 		await submodules(config, spinner);
-		spinner.start();
-		await git(config.url, config.name, true);
-		spinner.stop();
-		await cleanup(config.name);
-	} else {
-		spinner.start();
-		await git(config.url, config.name);
-		spinner.stop();
 	}
+	spinner.start();
+	await cleanup(config);
+	await git(config.url, config.name);
+	spinner.stop();
 
 	process.exit(0);
 };
