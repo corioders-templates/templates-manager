@@ -5,7 +5,6 @@ const { getConfig } = require('../components/create/config/getConfig');
 const { clone, git } = require('../components/create/git');
 const { replacePhrases } = require('../components/create/replacePhrases');
 const { save } = require('../components/create/config/default/save');
-const { submodules } = require('../components/create/extensions/submodules/submodules');
 const { openGithub } = require('../components/common/openGithub');
 const { cleanup } = require('../components/create/cleanup');
 
@@ -24,6 +23,7 @@ exports.create = async function (name, options) {
 	spinner.stop();
 	await openGithub(config.ghRepo, config.repoPlatform.toLowerCase(), config.sleep);
 	if (config.submodules != undefined && config.submodules != []) {
+		const { submodules } = require('../components/create/extensions/submodules/submodules');
 		await submodules(config, spinner);
 		spinner.start();
 		await git(config.url, config.name, true);
