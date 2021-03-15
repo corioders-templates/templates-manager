@@ -1,7 +1,7 @@
 const { rmdir } = require('fs/promises');
 const { resolve } = require('path');
-const { spawn } = require('../../../../util/spawn');
-const { MAIN_REPO } = require('../../../common/paths');
+const { spawn } = require('../../../../../util/spawn');
+const { MAIN_REPO } = require('../../../../common/paths');
 
 exports.addSubmodules = async function (config) {
 	if (config.submodules.app != undefined) await add('app', config.name, config.submodules['app'].url);

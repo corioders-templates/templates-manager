@@ -1,6 +1,6 @@
 const { resolve, basename } = require('path');
-const { copyDir } = require('./copyDir');
-const { SUBMODULE, MAIN_REPO } = require('../../../common/paths');
+const { copyDir } = require('../shared/copyDir');
+const { SUBMODULE, MAIN_REPO } = require('../../../../common/paths');
 const { writeFile } = require('fs/promises');
 
 exports.moveVscode = async function (submoduleName, projectName) {

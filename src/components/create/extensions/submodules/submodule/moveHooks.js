@@ -1,11 +1,11 @@
 const { resolve } = require('path');
-const { spawn } = require('../../../../util/spawn');
-const { copyDir } = require('./copyDir');
-const { SUBMODULE, MAIN_REPO } = require('../../../common/paths');
+const { spawn } = require('../../../../../util/spawn');
+const { copyDir } = require('../shared/copyDir');
+const { SUBMODULE, MAIN_REPO } = require('../../../../common/paths');
 const { readFile, writeFile, mkdir } = require('fs/promises');
 const { existsSync } = require('fs');
 
-exports.addHooks = async function (submoduleName, projectName) {
+exports.moveHooks = async function (submoduleName, projectName) {
 	const TOOLS_DIR = resolve(SUBMODULE(submoduleName, projectName), 'tools');
 	const CONFIG_DIR = resolve(TOOLS_DIR, 'config');
 	const JSON_PATH = resolve(CONFIG_DIR, 'package.json');

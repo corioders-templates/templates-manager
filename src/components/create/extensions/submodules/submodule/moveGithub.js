@@ -1,7 +1,7 @@
 const { resolve } = require('path');
-const { copyDir } = require('./copyDir');
-const { MAIN_REPO, SUBMODULE } = require('../../../common/paths');
-const { updateDependabot } = require('./updateDependabot');
+const { copyDir } = require('../shared/copyDir');
+const { MAIN_REPO, SUBMODULE } = require('../../../../common/paths');
+const { updateDependabot } = require('../shared/updateDependabot');
 
 exports.moveGithub = async function (submoduleName, projectName, repoPlatform) {
 	if (repoPlatform == 'bitbucket') return;

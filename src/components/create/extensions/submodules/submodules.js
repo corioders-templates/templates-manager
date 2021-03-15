@@ -1,7 +1,7 @@
-const { createSubmodule } = require('./createSubmodule');
+const { createSubmodule } = require('./submodule/createSubmodule');
 const { PROJECT_DIR, MAIN_REPO } = require('../../../common/paths');
 const { mkdir, rename } = require('fs').promises;
-const { addSubmodules } = require('./addSubmodules');
+const { addSubmodules } = require('./main/addSubmodules');
 
 exports.submodules = async function (config, spinner) {
 	try {
