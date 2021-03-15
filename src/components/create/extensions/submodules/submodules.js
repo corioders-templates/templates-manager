@@ -2,6 +2,7 @@ const { createSubmodule } = require('./submodule/createSubmodule');
 const { PROJECT_DIR, MAIN_REPO } = require('../../../common/paths');
 const { mkdir, rename } = require('fs').promises;
 const { addSubmodules } = require('./main/addSubmodules');
+const { cleanup } = require('./main/cleanup');
 
 exports.submodules = async function (config, spinner) {
 	try {
@@ -18,6 +19,7 @@ exports.submodules = async function (config, spinner) {
 
 		spinner.start();
 		await addSubmodules(config);
+		await cleanup(config);
 		spinner.stop();
 	} catch (error) {
 		console.error(error);

@@ -5,8 +5,15 @@ exports.updateDependabot = async function (path, dirName, repoPlatform, isSubmod
 	if (repoPlatform != 'github') return;
 	let config = await readFile(path, 'utf-8');
 	config = new YAML.parse(config);
-	let updates = config.updates.find((obj) => obj.directory == `/${dirName}`);
-	if (isSubmodule) updates.directory = '/';
+	let updates;
+	if (isSubmodule) {
+		updates = config.updates.find((obj) => obj.directory == `/${dirName}`);
+		updates.directory = '/';
+	} else {
+		updates = config.updates.filter((obj) => {
+			if (dirName.includes(obj.directory.replace('/', ''))) return obj;
+		});
+	}
 	config.updates = updates;
 	await writeFile(path, YAML.stringify(config), 'utf-8');
 };
