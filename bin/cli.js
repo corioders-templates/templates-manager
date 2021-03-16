@@ -38,4 +38,16 @@ program
 	});
 program.command('update').alias('u').description('Update template').action(update);
 
+const { VUE_FILE } = require('../src/components/common/paths');
+const { existsSync } = require('fs');
+if (existsSync(VUE_FILE)) {
+	program
+		.command('component <componentName>')
+		.alias('comp')
+		.action((name) => {
+			const { component } = require('../src/command/component');
+			component(name);
+		});
+}
+
 program.parse(process.argv);

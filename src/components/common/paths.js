@@ -22,5 +22,7 @@ exports.JSON_PATH = (name) => resolve(this.APP_DIR(name), 'package.json');
 
 //submodules
 exports.SUBMODULE = (submoduleName, projectName) => resolve(process.cwd(), projectName, submoduleName);
-exports.MAIN_REPO = (projectName, dir = undefined) =>
-	dir == undefined ? this.SUBMODULE(projectName, projectName) : this.SUBMODULE(projectName, projectName, dir);
+exports.MAIN_REPO = (projectName, dir = undefined) => (dir == undefined ? this.SUBMODULE(projectName, projectName) : this.SUBMODULE(projectName, projectName, dir));
+
+//vue
+exports.VUE_FILE = resolve(this.PROJECT_DIR(), '.vue');
