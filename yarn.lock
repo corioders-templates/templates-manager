@@ -693,10 +693,10 @@ inherits@2, inherits@^2.0.3, inherits@^2.0.4, inherits@~2.0.3:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"
   integrity sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==
 
-inquirer@^7.3.3:
-  version "7.3.3"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-7.3.3.tgz#04d176b2af04afc157a83fd7c100e98ee0aad003"
-  integrity sha512-JG3eIAj5V9CwcGvuOmoo6LB9kbAYT8HXffUl6memuszlwDC/qvFAJw49XJ5NROSFNPxp3iQg1GqkFhaY/CR0IA==
+inquirer@^8.0.0:
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.0.0.tgz#957a46db1abcf0fdd2ab82deb7470e90afc7d0ac"
+  integrity sha512-ON8pEJPPCdyjxj+cxsYRe6XfCJepTxANdNnTebsTuQgXpRyZRRT9t4dJwjRubgmvn20CLSEnozRUayXyM9VTXA==
   dependencies:
     ansi-escapes "^4.2.1"
     chalk "^4.1.0"
@@ -704,10 +704,10 @@ inquirer@^7.3.3:
     cli-width "^3.0.0"
     external-editor "^3.0.3"
     figures "^3.0.0"
-    lodash "^4.17.19"
+    lodash "^4.17.21"
     mute-stream "0.0.8"
     run-async "^2.4.0"
-    rxjs "^6.6.0"
+    rxjs "^6.6.6"
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
@@ -849,7 +849,7 @@ lodash@4.17.20:
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
   integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
-lodash@^4.17.19:
+lodash@^4.17.19, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -1176,10 +1176,10 @@ run-async@^2.4.0:
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.1.tgz#8440eccf99ea3e70bd409d49aab88e10c189a455"
   integrity sha512-tvVnVv01b8c1RrA6Ep7JkStj85Guv/YrMcwqYQnwjsAS2cTmmPGBBjAjpCW7RrSodNSoE2/qg9O4bceNvUuDgQ==
 
-rxjs@^6.6.0:
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.3.tgz#8ca84635c4daa900c0d3967a6ee7ac60271ee552"
-  integrity sha512-trsQc+xYYXZ3urjOiJOuCOa5N3jAZ3eiSpQB5hIT8zGlL2QfnHLJ2r7GMkBGuIausdJN1OneaI6gQlsqNHHmZQ==
+rxjs@^6.6.6:
+  version "6.6.6"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.6.6.tgz#14d8417aa5a07c5e633995b525e1e3c0dec03b70"
+  integrity sha512-/oTwee4N4iWzAMAL9xdGKjkEHmIwupR3oXbQjCKywF1BeFohswF3vZdogbmEF6pZkOsXTzWkrZszrWpQTByYVg==
   dependencies:
     tslib "^1.9.0"
 
@@ -1599,10 +1599,10 @@ yallist@^4.0.0:
   resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
-yaml@^1.10.1:
-  version "1.10.1"
-  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.1.tgz#bb13d805ed104fba38f533570f3441027eeeca22"
-  integrity sha512-z/asvd+V08l1ywhaemZVirCwjdzLo6O1/0j2JbYCsGjiezupNQqjs5IIPyNtctbHjPEckqzVGd4jvpU5Lr25vQ==
+yaml@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
+  integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
 yargs-parser@^20.2.2:
   version "20.2.6"
