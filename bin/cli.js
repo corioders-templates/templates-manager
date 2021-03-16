@@ -42,11 +42,11 @@ const { VUE_FILE } = require('../src/components/common/paths');
 const { existsSync } = require('fs');
 if (existsSync(VUE_FILE)) {
 	program
-		.command('component <componentName>')
+		.command('route <routeName>')
 		.alias('comp')
 		.action((name) => {
-			const { component } = require('../src/command/component');
-			component(name);
+			const { route } = require('../src/command/route');
+			route(name);
 		});
 }
 
