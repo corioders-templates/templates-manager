@@ -44,6 +44,9 @@ corioders create
 
 # shorter version
 corioders c
+
+# create a new project with advanced options
+corioders create -adv
 ```
 
 ### Usage - run command
