@@ -3,7 +3,7 @@ const { resolve } = require('path');
 const { ROOT_DIR } = require('../../common/paths');
 
 exports.createFiles = async function (fileName, alias, dirName, path) {
-	const files = require(resolve(ROOT_DIR, 'data', '.routes.json'));
+	const files = require(resolve(ROOT_DIR, 'data', 'routes.json'));
 	const phrases = {
 		name: '___ROUTE_NAME___',
 		dirName: '___ROUTE_DIR_NAME___',
