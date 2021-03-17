@@ -4,6 +4,6 @@ const { prepareName } = require('../components/route/prepareName');
 
 exports.route = async function (componentName) {
 	const { name, dirName, alias } = prepareName(componentName);
-	await createRoute(name, dirName);
+	await createRoute(name, alias, dirName);
 	await addAlias(alias, dirName);
 };
