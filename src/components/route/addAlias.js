@@ -5,9 +5,7 @@ const { PROJECT_DIR, APP_DIR } = require('../common/paths');
 
 exports.addAlias = async function (alias, dirName) {
 	const isSubmodule = existsSync(resolve(PROJECT_DIR(), '.submodule'));
-	await webpack(alias, dirName, isSubmodule);
-	await ts(alias, dirName, isSubmodule);
-	await settings(alias, dirName, isSubmodule);
+	await Promise.all([webpack(alias, dirName, isSubmodule), ts(alias, dirName, isSubmodule), settings(alias, dirName, isSubmodule)]);
 };
 
 async function webpack(alias, dirName, isSubmodule) {

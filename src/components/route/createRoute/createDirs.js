@@ -3,8 +3,5 @@ const { resolve } = require('path');
 
 exports.createDirs = async function (path) {
 	await mkdir(path);
-	await mkdir(resolve(path, 'assets'));
-	await mkdir(resolve(path, 'components'));
-	await mkdir(resolve(path, 'routes'));
-	await mkdir(resolve(path, 'store'));
+	await Promise.all([mkdir(resolve(path, 'assets')), mkdir(resolve(path, 'components')), mkdir(resolve(path, 'routes')), mkdir(resolve(path, 'store'))]);
 };
