@@ -10,6 +10,7 @@ exports.createFiles = async function (fileName, alias, dirName, path) {
 		alias: '___ROUTE_ALIAS___',
 	};
 	files.main = files.main.replaceAll(phrases.name, fileName);
+	files.main = files.main.replaceAll(phrases.dirName, dirName);
 	files.main = files.main.replaceAll(phrases.alias, alias);
 
 	files.routes = files.routes.replaceAll(phrases.name, fileName);
@@ -17,8 +18,8 @@ exports.createFiles = async function (fileName, alias, dirName, path) {
 	files.routes = files.routes.replaceAll(phrases.alias, alias);
 
 	await Promise.all([
-		writeFile(resolve(path, `${fileName}.vue`), files.main, 'utf-8'),
-		writeFile(resolve(path, `${fileName}View.vue`), files.view, 'utf-8'),
+		writeFile(resolve(path, 'routes', `${fileName}.vue`), files.main, 'utf-8'),
+		writeFile(resolve(path, `${fileName}App.vue`), files.app, 'utf-8'),
 		writeFile(resolve(path, `routes.ts`), files.routes, 'utf-8'),
 	]);
 };
