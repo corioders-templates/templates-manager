@@ -36,7 +36,7 @@ description: add specific `project` to `meta project` created by `create`. This 
 backend  
 backend-microservice  
 frontend  
-not sure about that one: frontend-route (really really small thinks)
+not sure about that one: frontend-route (really really small stuff)
 
 ### tree:
 
