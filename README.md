@@ -1,6 +1,6 @@
 # Abstract:
 
-America wasn't build in one day, and so should be every project, slowly in small parts `corioders create` should be build with this in mind
+America wasn't build in one day, and so should be every project, slowly in small parts. `corioders` should be build with this in mind
 
 # Concepts:
 
