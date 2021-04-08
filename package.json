@@ -1,0 +1,8 @@
+{
+	"name": "@corioders/cli",
+	"version": "1.0.0",
+	"description": "Cli made for creating projects with our templates",
+	"repository": "https://github.com/corioders-templates/cli-next.git",
+	"author": "corioders",
+	"license": "MIT"
+}
