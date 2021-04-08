@@ -9,7 +9,7 @@ America wasn't build in one day, and so should be every project, slowly in small
 description: the smallest unit of "customization".  
 components are of types (this list can be extended in the future):
 
-- remote-source-version-control
+- remote-git-platform
 - application-template
 
 ## meta project:
