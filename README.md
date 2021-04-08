@@ -14,7 +14,7 @@ components are of types (this list can be extended in the future):
 
 ## meta project:
 
-description: this is a thing that stores all metadata for all `projects`
+description: this is a thing that stores all metadata for all `projects`  
 issue: where to store this `meta project` thing...
 
 ## project:
