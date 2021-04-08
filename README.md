@@ -63,10 +63,10 @@ description: untaps from components registry
 description: the smallest unit of "customization".  
 components are of types (this list can be extended in the future):
 
-- remote-source-version-control
+- remote-git-platform
 - application-template
 
-### remote-source-version-control:
+### remote-git-platform:
 
 description: this component will determine what source control remote solution will be used (eg. github, gitlab, bitbucket etc.).  
 user can select only one of them.
