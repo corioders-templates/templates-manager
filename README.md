@@ -29,6 +29,11 @@ usually this would be a folder on a disk
 ### create:
 
 description: creates new `meta project`, like creating new project on google cloud
+order of execution:
+
+- name of the `meta project`
+- create folder with this `meta project` configuration at ~/.corioders/projects/$(meta project name)
+- ask component-remote-git-platform to create repo with name $(meta project name)
 
 ### add:
 
@@ -38,17 +43,21 @@ backend-microservice
 frontend  
 not sure about that one: frontend-route (really really small stuff)
 
-### tree:
+### clone:
+
+description: when `project` is present in `meta project` configuration repo and we want to edit it directly this command downloads the remote repo
+
+### ??? tree:
 
 description: prints layout of the project `meta project`
 
 ## Components management:
 
-### tap:
+### components tap:
 
 description: taps into new components registry
 
-### untap:
+### components untap:
 
 description: untaps from components registry
 
