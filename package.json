@@ -1,19 +1,28 @@
 {
-	"name": "@corioders/cli",
-	"version": "1.0.0",
-	"description": "Cli made for creating projects with our templates",
-	"repository": "https://github.com/corioders-templates/cli-next.git",
-	"author": "corioders",
-	"license": "CC0 1.0 Universal",
-	"scripts": {
-		"postinstall": "husky install"
-	},
-	"devDependencies": {
-		"@commitlint/cli": "^12.1.1",
-		"@trivago/prettier-plugin-sort-imports": "^2.0.2",
-		"commitlint-config-jira": "^1.5.1",
-		"commitlint-plugin-jira-rules": "^1.5.1",
-		"husky": "^6.0.0",
-		"prettier": "^2.2.1"
-	}
+  "name": "@corioders/cli",
+  "version": "1.0.0",
+  "description": "Cli made for creating projects with our templates",
+  "repository": "https://github.com/corioders-templates/cli-next.git",
+  "author": "corioders",
+  "license": "CC0 1.0 Universal",
+  "scripts": {
+    "postinstall": "husky install",
+    "clean": "rm -rf out",
+    "watch": "tsc --watch tsconfig.json",
+    "build": "yarn run clean && tsc && tsc-alias -p tsconfig.json",
+    "movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json",
+    "release": "yarn run build && yarn run movePackageJson && cd out && npm publish --access public"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^12.1.1",
+    "@trivago/prettier-plugin-sort-imports": "^2.0.2",
+    "commitlint-config-jira": "^1.5.1",
+    "commitlint-plugin-jira-rules": "^1.5.1",
+    "husky": "^6.0.0",
+    "prettier": "^2.2.1",
+    "tsc-alias": "^1.2.9",
+    "typescript": "^4.2.4",
+    "json": "^10.0.0"
+  },
+  "dependencies": {}
 }

@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "module": "esnext",
+    "target": "esnext",
+
+    "types": [],
+    "lib": [
+      "ESNext",
+      "DOM",
+    ],
+
+    "baseUrl": "./src",
+    "rootDir": "./src",
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+    },
+
+    "outDir": "out",
+    "declaration": false,
+
+		"strict": true,
+		"allowJs": false,
+    "checkJs": false,
+		"alwaysStrict": true,
+		"strictNullChecks": true,
+		"strictFunctionTypes": true,
+		"strictBindCallApply": true,
+		"strictPropertyInitialization": false,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"noImplicitReturns": true
+  },
+  "include": [
+    "./src/**/*.ts",
+  ],
+}
