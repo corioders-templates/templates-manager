@@ -1,3 +1,13 @@
+# Notes:
+
+## Not really cli, more a tool:
+
+This shouldn't be called "cli" because the main goal of this is to manage projects the `templates` think is just a feature of it all.
+
+## How to create project:
+
+[TODO](https://corioders.atlassian.net/browse/CLI-11)
+
 # Abstract:
 
 America wasn't build in one day, and so should be every project, slowly in small parts. `corioders` should be build with this in mind
