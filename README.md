@@ -14,23 +14,23 @@ America wasn't build in one day, and so should be every project, slowly in small
 
 # Concepts:
 
-## component:
+## Project creation:
 
-description: the smallest unit of "customization".  
-components are of types (this list can be extended in the future):
+## General:
 
-- remote-git-platform
-- application-template
+### project:
 
-## meta project:
+description: this is a thing that stores all metadata for all `parts`.
 
-description: this is a thing that stores all metadata for all `projects`  
-issue: where to store this `meta project` thing...
+### part:
 
-## project:
+description: this is a thing that stores all files and folders related to one logical section that is `part` of a `project`. Usually this would be a folder on a disk.
 
-description: this is a thing that stores all files and folders related to one logical `project` that is part of `meta project`  
-usually this would be a folder on a disk
+### component:
+
+description: the smallest unit of "customization".
+This will be implemented in the "webpack way", we will have a global state object that is going to be altered by "plugins", in this state we have for example an interface that provides remote-git-platform etc.  
+If using this approach `components` will be uniform we have no distinct `components types` whatsoever.
 
 # Commands:
 
