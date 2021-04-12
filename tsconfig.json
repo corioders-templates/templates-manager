@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "esnext",
 
-    "types": [],
+    "types": [
+			"node",
+		],
     "lib": [
       "ESNext",
-      "DOM",
     ],
 
     "baseUrl": "./src",
