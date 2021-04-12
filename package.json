@@ -4,7 +4,7 @@
 	"description": "Cli made for creating projects with our templates",
 	"repository": "https://github.com/corioders-templates/cli-next.git",
 	"author": "corioders",
-	"license": "CC0 1.0 Universal",
+	"license": "CC0-1.0",
 	"scripts": {
 		"postinstall": "husky install",
 		"clean": "rm -rf out",
