@@ -3,6 +3,7 @@ import update from '@/lib/metadataManager/update';
 
 export default function create(name: string): void {
 	update();
-	createProject(name);
-	
+	const url = 'https://github.com/example-username/example-repo';
+	// url should be changed in the future
+	createProject(name, url);
 }

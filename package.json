@@ -38,6 +38,6 @@
 		"@types/nodegit": "^0.27.0",
 		"commander": "^7.2.0",
 		"github-api": "^3.4.0",
-		"nodegit": "^0.27.0"
+		"simple-git": "^2.37.0"
 	}
 }

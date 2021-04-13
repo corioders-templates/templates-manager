@@ -1,10 +1,12 @@
+import { resolve } from 'path';
+import simpleGit, { SimpleGit } from 'simple-git';
+
 import { storage, pathsJsonFilename } from '@/lib/constant/path/project';
 import { exists } from '@/lib/fs';
-import { mkdir, unlink, writeFile } from 'fs/promises';
-import { Repository, Remote } from 'nodegit';
-import { resolve } from 'path';
 
-export async function create(name: string): Promise<void> {
+import { mkdir, unlink, writeFile } from 'fs/promises';
+
+export async function create(name: string, url: string): Promise<void> {
 	const exists = await projectExists(name);
 	if (exists) throw new Error(`Project with name ${name} already exists`);
 	const projectPath = resolve(storage, name);
@@ -12,10 +14,9 @@ export async function create(name: string): Promise<void> {
 	await mkdir(projectPath, { recursive: true });
 	await writeFile(resolve(projectPath, pathsJsonFilename), '{}');
 
-	const projectRepo = await Repository.init(projectPath, 0);
-	const config = await projectRepo.config();
-	console.log(config);
-	// await Remote.create(projectRepo,)
+	const git: SimpleGit = simpleGit(projectPath);
+	await git.init();
+	await git.addRemote('origin', url);
 }
 
 export async function remove(name: string): Promise<void> {
