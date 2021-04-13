@@ -1,5 +1,4 @@
-import create from './create';
+import create from './project/create';
+import update from './metadataManager/update';
 
-export {
-	create
-}
+export { create, update };

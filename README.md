@@ -30,8 +30,8 @@ description: this is a thing that stores all files and folders related to one lo
 
 description: the code template for a part.
 
-### component:
+### plugin:
 
 description: the smallest unit of "customization".
 This will be implemented in the "webpack way", we will have a global state object that is going to be altered by "plugins", in this state we have for example an interface that provides remote-git-platform etc.  
-If using this approach `components` will be uniform we have no distinct `components types` whatsoever.
+If using this approach `plugins` will be uniform we have no distinct `plugins types` whatsoever.

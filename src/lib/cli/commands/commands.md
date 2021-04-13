@@ -32,9 +32,9 @@ creates part from a `part template` and assigns it to the current project.
 
 updates part based on the `part template`.
 
-## `part delete`:
+## `part remove`:
 
-deletes part.
+removes part.
 
 # Components management:
 
@@ -45,3 +45,7 @@ taps into new component-meta repo.
 ## `untap`
 
 untaps from the component-meta repo.
+
+## `update`:
+
+updates metadata repos

@@ -8,6 +8,6 @@
 	"arrowParens": "always",
 	"printWidth": 170,
 	"plugins": ["./node_modules/@trivago/prettier-plugin-sort-imports"],
-	"importOrder": ["^./", "^../"],
+	"importOrder": ["^@/", "^./", "^../"],
 	"importOrderSeparation": true
 }
