@@ -1,7 +1,7 @@
 import { resolve, join } from 'path';
 import simpleGit from 'simple-git';
 
-import { metadata } from '@/lib/constant/path/metadata';
+import { metadata } from '@/lib/constant/location/metadata';
 
 import { rmdir, lstat, readdir } from 'fs/promises';
 
