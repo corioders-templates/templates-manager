@@ -9,9 +9,10 @@
 		"postinstall": "husky install",
 		"clean": "rm -rf out",
 		"watch": "tsc --watch",
-		"build": "yarn run clean && tsc && yarn run lint && tsc-alias -p tsconfig.json",
+		"build": "yarn run clean && tsc && yarn run lint && tsc-alias -p tsconfig.json && yarn run makeExecutable",
 		"lint": "eslint .",
 		"release": "yarn run build && yarn run movePackageJson && cd out && npm publish --access public",
+		"makeExecutable": "chmod +x ./out/bin/corioders.js",
 		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json"
 	},
 	"bin": {
