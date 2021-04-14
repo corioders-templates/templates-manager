@@ -1,4 +1,5 @@
-import create from './project/create';
+import { tap } from './metadataManager/tap';
 import update from './metadataManager/update';
+import create from './project/create';
 
-export { create, update };
+export { create, update, tap };
