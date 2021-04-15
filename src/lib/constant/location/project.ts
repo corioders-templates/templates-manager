@@ -1,5 +1,6 @@
-import { dotcorioders } from './location';
 import { resolve } from 'path';
 
+import { dotcorioders } from './location';
+
 export const storage = resolve(dotcorioders, 'projects');
-export const pathsJsonFilename = `pats.json`;
+export const pathsJsonFilename = `paths.json`;
