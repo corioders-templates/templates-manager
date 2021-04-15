@@ -7,13 +7,19 @@ import { exists } from '@/nodekit/fs';
 import { rmdir, lstat, readdir } from 'fs/promises';
 
 export async function tap(url: string): Promise<void> {
+	checkUrl(url);
 	const git = simpleGit();
-	await git.clone(url, parseUrl(url));
+	await git.clone(url);
 }
 
 export async function untap(url: string): Promise<void> {
-	await rmdir(resolve(metadata, parseUrl(url)), { recursive: true });
+	checkUrl(url);
+	await rmdir(resolve(metadata, url), { recursive: true });
 	await removeEmptyDirectories(metadata);
+}
+
+function checkUrl(url: string): void {
+	if (url.includes('http://') || url.includes('https://')) throw new Error(`Url ${url} should look like this: ${url.split('//')[1]}`);
 }
 
 export async function getTaps(): Promise<string[]> {
@@ -29,10 +35,6 @@ export async function getTaps(): Promise<string[]> {
 		}
 	}
 	return taps;
-}
-
-function parseUrl(url: string): string {
-	return resolve(metadata, url.split('//')[1]);
 }
 
 async function removeEmptyDirectories(directory: string): Promise<void> {
