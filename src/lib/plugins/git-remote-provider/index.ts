@@ -1,5 +1,6 @@
-import GithubProvider from './githubProvider';
 import { Config } from '@/lib/config';
+
+import GithubProvider from './githubProvider';
 
 export enum ProviderType {
 	github,
