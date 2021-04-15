@@ -1,5 +1,6 @@
-import Provider from './provider';
 import axios, { AxiosError } from 'axios';
+
+import Provider from './provider';
 
 export default class GithubProvider extends Provider {
 	constructor(dataFolder: string) {

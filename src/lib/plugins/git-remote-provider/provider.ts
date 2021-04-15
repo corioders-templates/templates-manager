@@ -1,5 +1,6 @@
-import { writeFile, readFile, unlink } from 'fs/promises';
 import { resolve } from 'path';
+
+import { writeFile, readFile, unlink } from 'fs/promises';
 
 export default class Provider {
 	private readonly tokenFilename = 'token';

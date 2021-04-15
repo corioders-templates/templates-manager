@@ -1,5 +1,6 @@
-import registerCreate from './commands/create';
 import { Command } from 'commander';
+
+import registerCreate from './commands/create';
 
 const program = new Command();
 export type Program = typeof program;
