@@ -2,6 +2,7 @@ import { resolve, join } from 'path';
 import simpleGit from 'simple-git';
 
 import { metadata } from '@/lib/constant/location/metadata';
+import { exists } from '@/nodekit/fs';
 
 import { rmdir, lstat, readdir } from 'fs/promises';
 
@@ -15,8 +16,19 @@ export async function untap(url: string): Promise<void> {
 	await removeEmptyDirectories(metadata);
 }
 
-export function getTaps(): string[] {
-	return [];
+export async function getTaps(): Promise<string[]> {
+	const taps = [];
+	if (await exists(metadata)) {
+		const providers = await readdir(metadata);
+		for (const i in providers) {
+			const users = await readdir(resolve(metadata, providers[i]));
+			for (const j in users) {
+				const names = await readdir(resolve(metadata, providers[i], users[j]));
+				for (const k in names) taps.push(join(providers[i], users[j], names[k]));
+			}
+		}
+	}
+	return taps;
 }
 
 function parseUrl(url: string): string {
