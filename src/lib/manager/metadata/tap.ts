@@ -4,6 +4,8 @@ import simpleGit from 'simple-git';
 import { metadata } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
+import { checkUrl } from './validate';
+
 import { rmdir, lstat, readdir } from 'fs/promises';
 
 export async function tap(url: string): Promise<void> {
@@ -16,10 +18,6 @@ export async function untap(url: string): Promise<void> {
 	checkUrl(url);
 	await rmdir(resolve(metadata, url), { recursive: true });
 	await removeEmptyDirectories(metadata);
-}
-
-function checkUrl(url: string): void {
-	if (url.includes('http://') || url.includes('https://')) throw new Error(`Url ${url} should look like this: ${url.split('//')[1]}`);
 }
 
 export async function getTaps(): Promise<string[]> {
