@@ -11,7 +11,7 @@ import { rmdir, lstat, readdir } from 'fs/promises';
 export async function tap(url: string): Promise<void> {
 	checkUrl(url);
 	const git = simpleGit();
-	await git.clone(url);
+	await git.clone(`https://${url}`, resolve(metadata, url));
 }
 
 export async function untap(url: string): Promise<void> {
