@@ -35,6 +35,13 @@ export async function getTaps(): Promise<string[]> {
 	return taps;
 }
 
+export async function getTapsAbsolutePaths(): Promise<string[]> {
+	const taps = await getTaps();
+	const tapsAbsolutePaths = [];
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(metadata, tap));
+	return tapsAbsolutePaths;
+}
+
 async function removeEmptyDirectories(directory: string): Promise<void> {
 	const fileStats = await lstat(directory);
 	if (!fileStats.isDirectory()) {
