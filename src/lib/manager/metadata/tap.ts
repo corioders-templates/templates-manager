@@ -1,38 +1,44 @@
 import { resolve, join } from 'path';
 import simpleGit from 'simple-git';
 
-import { metadata } from '@/lib/constant/location/metadata';
+import { metadata, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
 import { checkUrl } from './validate';
 
-import { rmdir, lstat, readdir } from 'fs/promises';
+import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 export async function tap(url: string): Promise<void> {
 	checkUrl(url);
 	const git = simpleGit();
 	await git.clone(`https://${url}`, resolve(metadata, url));
+	const taps = await getTaps();
+	taps.push(url);
+	await writeTaps(taps);
 }
 
 export async function untap(url: string): Promise<void> {
 	checkUrl(url);
 	await rmdir(resolve(metadata, url), { recursive: true });
 	await removeEmptyDirectories(metadata);
+	const taps = await getTaps();
+	const tap = taps.indexOf(url);
+	if (tap < 0) return;
+	taps.splice(tap, 1);
+	await writeTaps(taps);
 }
 
 export async function getTaps(): Promise<string[]> {
-	const taps = [];
-	if (await exists(metadata)) {
-		const providers = await readdir(metadata);
-		for (const i in providers) {
-			const users = await readdir(resolve(metadata, providers[i]));
-			for (const j in users) {
-				const names = await readdir(resolve(metadata, providers[i], users[j]));
-				for (const k in names) taps.push(join(providers[i], users[j], names[k]));
-			}
-		}
+	let taps = [] as string[];
+	if (await exists(tapsFile)) {
+		const json = await readFile(tapsFile, { encoding: 'utf-8' });
+		taps = JSON.parse(json) as string[];
 	}
 	return taps;
+}
+
+async function writeTaps(taps: string[]): Promise<void> {
+	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
 export async function getTapsAbsolutePaths(): Promise<string[]> {
