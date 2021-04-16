@@ -42,6 +42,26 @@ export async function getTapsAbsolutePaths(): Promise<string[]> {
 	return tapsAbsolutePaths;
 }
 
+async function getJsonAbsolutePaths(name: string): Promise<string[]> {
+	const tapsAbsolutePaths = await getTapsAbsolutePaths();
+	const jsonPaths = [];
+	let jsonAbsolutePath = '';
+	for (const tapPath of tapsAbsolutePaths) {
+		jsonAbsolutePath = resolve(tapPath, `${name}.json`);
+		if (!(await exists(jsonAbsolutePath))) continue;
+		jsonPaths.push(jsonAbsolutePath);
+	}
+	return jsonPaths;
+}
+
+export async function getPluginsAbsolutePaths(): Promise<string[]> {
+	return await getJsonAbsolutePaths('plugins');
+}
+
+export async function getTemplatesAbsolutePaths(): Promise<string[]> {
+	return await getJsonAbsolutePaths('templates');
+}
+
 async function removeEmptyDirectories(directory: string): Promise<void> {
 	const fileStats = await lstat(directory);
 	if (!fileStats.isDirectory()) {
