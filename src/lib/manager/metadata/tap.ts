@@ -4,12 +4,12 @@ import { metadata, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
 import { downloader } from './downloader';
-import { checkUrl } from './validate';
+import { validateImportPath } from './importPath';
 
 import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 export async function tap(importPath: string): Promise<void> {
-	checkUrl(importPath);
+	validateImportPath(importPath);
 	await downloader(importPath, resolve(metadata, importPath));
 	const taps = await getTaps();
 	taps.push(importPath);
@@ -17,7 +17,7 @@ export async function tap(importPath: string): Promise<void> {
 }
 
 export async function untap(importPath: string): Promise<void> {
-	checkUrl(importPath);
+	validateImportPath(importPath);
 	await rmdir(resolve(metadata, importPath), { recursive: true });
 	await removeEmptyDirectories(metadata);
 	const taps = await getTaps();
