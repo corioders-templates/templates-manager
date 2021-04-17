@@ -7,5 +7,5 @@ export async function downloader(importPath: string, absoluteImportPath: string)
 		await simpleGit(absoluteImportPath).pull('origin', 'master');
 		return;
 	}
-	await simpleGit().clone(`https://${importPath}`, absoluteImportPath);
+	await simpleGit().clone(`https://${importPath}`, absoluteImportPath, ['--depth', '1', '--branch', 'master', '--single-branch']);
 }
