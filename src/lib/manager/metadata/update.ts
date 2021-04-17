@@ -4,5 +4,7 @@ import { getTaps, getTapsAbsolutePaths } from './tap';
 export async function update(): Promise<void> {
 	const taps = await getTaps();
 	const tapsPaths = await getTapsAbsolutePaths();
-	for (const i in taps) await downloader(taps[i], tapsPaths[i]);
+	const downloads = [];
+	for (const i in taps) downloads.push(downloader(taps[i], tapsPaths[i]));
+	await Promise.all(downloads);
 }
