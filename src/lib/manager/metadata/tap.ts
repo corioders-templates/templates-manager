@@ -1,6 +1,6 @@
 import { resolve, join } from 'path';
 
-import { metadata, tapsFile } from '@/lib/constant/location/metadata';
+import { metadataFolder, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
 import { downloader } from './downloader';
@@ -10,7 +10,7 @@ import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await downloader(importPath, resolve(metadata, importPath));
+	await downloader(importPath, resolve(metadataFolder, importPath));
 	const taps = await getTaps();
 	taps.push(importPath);
 	await writeTaps(taps);
@@ -19,8 +19,8 @@ export async function tap(importPath: string): Promise<void> {
 
 export async function untap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(metadata, importPath), { recursive: true });
-	await removeEmptyDirectories(metadata);
+	await rmdir(resolve(metadataFolder, importPath), { recursive: true });
+	await removeEmptyDirectories(metadataFolder);
 	const taps = await getTaps();
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
@@ -42,7 +42,7 @@ async function writeTaps(taps: string[]): Promise<void> {
 }
 
 async function checkTap(importPath: string): Promise<void> {
-	const absoluteImportPath = resolve(metadata, importPath);
+	const absoluteImportPath = resolve(metadataFolder, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
 	await untap(importPath);
 	throw new Error(`This repository doesn't contain the required configs`);
@@ -51,7 +51,7 @@ async function checkTap(importPath: string): Promise<void> {
 export async function getTapsAbsolutePaths(): Promise<string[]> {
 	const taps = await getTaps();
 	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(metadata, tap));
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(metadataFolder, tap));
 	return tapsAbsolutePaths;
 }
 
