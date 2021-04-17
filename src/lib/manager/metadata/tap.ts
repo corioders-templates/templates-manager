@@ -14,6 +14,7 @@ export async function tap(importPath: string): Promise<void> {
 	const taps = await getTaps();
 	taps.push(importPath);
 	await writeTaps(taps);
+	await checkTap(importPath);
 }
 
 export async function untap(importPath: string): Promise<void> {
@@ -38,6 +39,13 @@ export async function getTaps(): Promise<string[]> {
 
 async function writeTaps(taps: string[]): Promise<void> {
 	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
+}
+
+async function checkTap(importPath: string): Promise<void> {
+	const absoluteImportPath = resolve(metadata, importPath);
+	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
+	await untap(importPath);
+	throw new Error(`This repository doesn't contain the required configs`);
 }
 
 export async function getTapsAbsolutePaths(): Promise<string[]> {
