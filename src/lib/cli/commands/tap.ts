@@ -3,17 +3,17 @@ import { getTaps, tap, untap } from '@/lib';
 import { Program } from '../cli';
 
 export default function (program: Program): void {
-	const tapCommand = program.command('tap [url]');
+	const tapCommand = program.command('tap [importPath]');
 
-	tapCommand.action(async (url) => {
-		if (url == undefined) console.log(await getTaps());
-		else await tap(url);
+	tapCommand.action(async (importPath) => {
+		if (importPath == undefined) console.log(await getTaps());
+		else await tap(importPath);
 	});
 
-	const untapCommand = program.command('untap <url>');
+	const untapCommand = program.command('untap <importPath>');
 
-	untapCommand.action((url) => {
-		untap(url);
+	untapCommand.action((importPath) => {
+		untap(importPath);
 	});
 
 	const tapsCommand = program.command('taps');

@@ -1,28 +1,27 @@
 import { resolve, join } from 'path';
-import simpleGit from 'simple-git';
 
 import { metadata, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
+import { downloader } from './downloader';
 import { checkUrl } from './validate';
 
 import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
-export async function tap(url: string): Promise<void> {
-	checkUrl(url);
-	const git = simpleGit();
-	await git.clone(`https://${url}`, resolve(metadata, url));
+export async function tap(importPath: string): Promise<void> {
+	checkUrl(importPath);
+	await downloader(importPath, resolve(metadata, importPath));
 	const taps = await getTaps();
-	taps.push(url);
+	taps.push(importPath);
 	await writeTaps(taps);
 }
 
-export async function untap(url: string): Promise<void> {
-	checkUrl(url);
-	await rmdir(resolve(metadata, url), { recursive: true });
+export async function untap(importPath: string): Promise<void> {
+	checkUrl(importPath);
+	await rmdir(resolve(metadata, importPath), { recursive: true });
 	await removeEmptyDirectories(metadata);
 	const taps = await getTaps();
-	const tap = taps.indexOf(url);
+	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
 	taps.splice(tap, 1);
 	await writeTaps(taps);
