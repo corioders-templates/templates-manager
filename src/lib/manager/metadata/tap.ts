@@ -3,14 +3,14 @@ import { resolve, join } from 'path';
 import { metadataFolder, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
 
-import { downloader } from './downloader';
+import { download } from './download';
 import { validateImportPath } from './importPath';
 
 import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await downloader(importPath, resolve(metadataFolder, importPath));
+	await download(importPath, resolve(metadataFolder, importPath));
 	const taps = await getTaps();
 	taps.push(importPath);
 	await writeTaps(taps);
