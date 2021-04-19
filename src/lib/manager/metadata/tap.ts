@@ -13,7 +13,7 @@ export async function tap(importPath: string): Promise<void> {
 	await download(importPath, resolve(metadataFolder, importPath));
 	const taps = await getTaps();
 	taps.push(importPath);
-	await writeTaps(taps);
+	await writeTapsMetadata(taps);
 	await checkTap(importPath);
 }
 
@@ -25,7 +25,7 @@ export async function untap(importPath: string): Promise<void> {
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
 	taps.splice(tap, 1);
-	await writeTaps(taps);
+	await writeTapsMetadata(taps);
 }
 
 export async function getTaps(): Promise<string[]> {
@@ -37,7 +37,7 @@ export async function getTaps(): Promise<string[]> {
 	return taps;
 }
 
-async function writeTaps(taps: string[]): Promise<void> {
+async function writeTapsMetadata(taps: string[]): Promise<void> {
 	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
