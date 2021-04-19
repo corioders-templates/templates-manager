@@ -1,3 +1,16 @@
+import { resolve } from 'path';
+
+import { metadataFolder } from '@/lib/constant/location/metadata';
+
+import { download } from './download';
+
+export async function importPathToAbsolute(importPath: string): Promise<string> {
+	validateImportPath(importPath);
+	const repoPath = getRepoPath(importPath);
+	await download(repoPath, resolve(metadataFolder, repoPath));
+	return resolve(metadataFolder, importPath);
+}
+
 export function getRepoPath(importPath: string): string {
 	const importPathArray = importPath.split('/');
 	const repoPath: string[] = [];
