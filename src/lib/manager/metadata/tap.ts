@@ -8,6 +8,8 @@ import { validateImportPath } from './importPath';
 
 import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
+let tapsJsonCache: string[] = [];
+
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
 	await download(importPath, resolve(metadataFolder, importPath));
@@ -29,15 +31,19 @@ export async function untap(importPath: string): Promise<void> {
 }
 
 export async function getTaps(): Promise<string[]> {
+	if (tapsJsonCache.length > 0) return tapsJsonCache;
+
 	let taps: string[] = [];
 	if (await exists(tapsFile)) {
 		const json = await readFile(tapsFile, { encoding: 'utf-8' });
 		taps = JSON.parse(json) as string[];
 	}
+	tapsJsonCache = taps;
 	return taps;
 }
 
 async function writeTapsMetadata(taps: string[]): Promise<void> {
+	tapsJsonCache = taps;
 	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
