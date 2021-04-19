@@ -4,22 +4,22 @@ import { exists } from '@/nodekit/fs';
 
 import { getTapsAbsolutePaths } from './tap';
 
-async function getJsonAbsolutePaths(name: string): Promise<string[]> {
+async function getConfigAbsolutePaths(configName: string): Promise<string[]> {
 	const tapsAbsolutePaths = await getTapsAbsolutePaths();
-	const jsonPaths = [];
-	let jsonAbsolutePath = '';
+	const configPaths = [];
+	let configAbsolutePath = '';
 	for (const tapPath of tapsAbsolutePaths) {
-		jsonAbsolutePath = resolve(tapPath, `${name}.json`);
-		if (!(await exists(jsonAbsolutePath))) continue;
-		jsonPaths.push(jsonAbsolutePath);
+		configAbsolutePath = resolve(tapPath, `${configName}.json`);
+		if (!(await exists(configAbsolutePath))) continue;
+		configPaths.push(configAbsolutePath);
 	}
-	return jsonPaths;
+	return configPaths;
 }
 
 export async function getPluginsAbsolutePaths(): Promise<string[]> {
-	return await getJsonAbsolutePaths('plugins');
+	return await getConfigAbsolutePaths('plugins');
 }
 
 export async function getTemplatesAbsolutePaths(): Promise<string[]> {
-	return await getJsonAbsolutePaths('templates');
+	return await getConfigAbsolutePaths('templates');
 }
