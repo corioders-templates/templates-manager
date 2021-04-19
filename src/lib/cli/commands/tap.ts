@@ -12,7 +12,7 @@ export default function (program: Program): void {
 
 	const untapCommand = program.command('untap <importPath>');
 
-	untapCommand.action((importPath) => {
-		untap(importPath);
+	untapCommand.action(async (importPath) => {
+		await untap(importPath);
 	});
 }
