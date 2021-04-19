@@ -6,9 +6,9 @@ import { download } from './download';
 import { getRepoPath } from './importPath';
 import { validateImportPath } from './importPath';
 
-export async function whereToAbsolutePath(where: string): Promise<string> {
-	validateImportPath(where);
-	const repoPath = getRepoPath(where);
+export async function whereToAbsolutePath(importPath: string): Promise<string> {
+	validateImportPath(importPath);
+	const repoPath = getRepoPath(importPath);
 	await download(repoPath, resolve(metadataFolder, repoPath));
-	return resolve(metadataFolder, where);
+	return resolve(metadataFolder, importPath);
 }
