@@ -15,10 +15,4 @@ export default function (program: Program): void {
 	untapCommand.action((importPath) => {
 		untap(importPath);
 	});
-
-	const tapsCommand = program.command('taps');
-
-	tapsCommand.action(async () => {
-		console.log(await getTaps());
-	});
 }
