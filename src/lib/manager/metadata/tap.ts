@@ -1,12 +1,19 @@
 import { resolve, join } from 'path';
 
+
+
 import { metadataFolder, tapsFile } from '@/lib/constant/location/metadata';
 import { exists } from '@/nodekit/fs';
+
+
 
 import { download } from './download';
 import { validateImportPath } from './importPath';
 
+
+
 import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
+
 
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
@@ -29,7 +36,7 @@ export async function untap(importPath: string): Promise<void> {
 }
 
 export async function getTaps(): Promise<string[]> {
-	let taps = [] as string[];
+	let taps: string[] = [];
 	if (await exists(tapsFile)) {
 		const json = await readFile(tapsFile, { encoding: 'utf-8' });
 		taps = JSON.parse(json) as string[];
