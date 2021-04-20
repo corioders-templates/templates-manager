@@ -1,6 +1,6 @@
 import { resolve, join } from 'path';
 
-import { metadataFolder, tapsFile } from '@/lib/constant/location/metadata';
+import { modulesFolder, tapsFile } from '@/lib/constant/location/modules';
 import { exists } from '@/nodekit/fs';
 
 import { download } from './download';
@@ -12,22 +12,22 @@ let tapsJsonCache: string[] | null = null;
 
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await download(importPath, resolve(metadataFolder, importPath));
+	await download(importPath, resolve(modulesFolder, importPath));
 	const taps = await getTaps();
 	taps.push(importPath);
-	await writeTapsMetadata(taps);
+	await writeTapsModules(taps);
 	await checkTap(importPath);
 }
 
 export async function untap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(metadataFolder, importPath), { recursive: true });
-	await removeEmptyDirectories(metadataFolder);
+	await rmdir(resolve(modulesFolder, importPath), { recursive: true });
+	await removeEmptyDirectories(modulesFolder);
 	const taps = await getTaps();
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
 	taps.splice(tap, 1);
-	await writeTapsMetadata(taps);
+	await writeTapsModules(taps);
 }
 
 export async function getTaps(): Promise<string[]> {
@@ -42,13 +42,13 @@ export async function getTaps(): Promise<string[]> {
 	return taps;
 }
 
-async function writeTapsMetadata(taps: string[]): Promise<void> {
+async function writeTapsModules(taps: string[]): Promise<void> {
 	tapsJsonCache = taps;
 	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
 async function checkTap(importPath: string): Promise<void> {
-	const absoluteImportPath = resolve(metadataFolder, importPath);
+	const absoluteImportPath = resolve(modulesFolder, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
 	await untap(importPath);
 	throw new Error(`This repository doesn't contain the required configs`);
@@ -57,7 +57,7 @@ async function checkTap(importPath: string): Promise<void> {
 export async function getTapsAbsolutePaths(): Promise<string[]> {
 	const taps = await getTaps();
 	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(metadataFolder, tap));
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(modulesFolder, tap));
 	return tapsAbsolutePaths;
 }
 

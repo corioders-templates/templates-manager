@@ -40,12 +40,12 @@ removes part.
 
 ## `tap`:
 
-taps into new component-meta repo.
+taps new module repo.
 
 ## `untap`
 
-untaps from the component-meta repo.
+untaps the module repo.
 
 ## `update`:
 
-updates metadata repos
+updates modules repos
