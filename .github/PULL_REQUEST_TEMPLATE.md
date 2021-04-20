@@ -25,5 +25,3 @@ If yes, please describe the impact:
 - [ ] If adding a **new feature**, the PR's description includes a reason for adding this feature
 
 #### **Other information:**
-
-# Metadata manager
