@@ -1,12 +1,10 @@
 import { resolve, join } from 'path';
 
 import { downloadsFolder, tapsFile } from '@/lib/constant/location/modules';
-import { exists } from '@/nodekit/fs';
+import { rmdir, lstat, readdir, readFile, writeFile, exists } from '@/nodekit/fs';
 
 import { download } from './download';
 import { validateImportPath } from './importPath';
-
-import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 let tapsJsonCache: string[] | null = null;
 
