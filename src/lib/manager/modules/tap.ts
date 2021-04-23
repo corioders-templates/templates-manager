@@ -12,9 +12,10 @@ let tapsJsonCache: string[] | null = null;
 
 export async function tap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await download(importPath, resolve(modulesFolder, importPath));
 	const taps = await getTaps();
+	if (taps.includes(importPath)) throw new Error('Tap already exists');
 	taps.push(importPath);
+	await download(importPath, resolve(modulesFolder, importPath));
 	await writeTapsModules(taps);
 	await checkTap(importPath);
 }
