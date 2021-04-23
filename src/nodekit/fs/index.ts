@@ -104,3 +104,8 @@ export async function exists(path: fs.PathLike): Promise<boolean> {
 		return false;
 	}
 }
+
+export async function readJsonFile<T>(path: fs.PathLike, options: fs.BaseEncodingOptions | null = null): Promise<T> {
+	const json = await readFile(path, options);
+	return JSON.parse(json) as T;
+}
