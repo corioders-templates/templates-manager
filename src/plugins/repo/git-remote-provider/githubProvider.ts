@@ -23,11 +23,11 @@ export default class GithubProvider extends Provider {
 		await this.saveToken(token);
 	}
 
-	async signout(): Promise<void> {
+	async signOut(): Promise<void> {
 		await this.removeToken();
 	}
 
-	async isLoggedin(): Promise<boolean> {
+	async isLoggedIn(): Promise<boolean> {
 		const token = await this.loadToken();
 		return token != '';
 	}

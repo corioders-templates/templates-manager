@@ -1,18 +1,26 @@
+import { importPathToAbsolute } from '@/lib/manager/modules';
+import { buildProgram, getProgramEntry } from '@/lib/manager/program/build';
 import { Global } from '@/plugins/global';
 
-export interface Plugin {
+export abstract class Plugin {
 	/**
-	 * name must be unique across all plugins.
-	 * Note that changing name changes dataFolder
+	 * Name must be unique across all plugins.
+	 * Note that changing name changes dataFolder.
 	 */
-	name: string;
+	abstract name: string;
 
 	/**
 	 * execute is called when plugin is executed
 	 */
-	execute(dataFolder: string, global: Global): void;
+	abstract execute(dataFolder: string, global: Global): void;
 }
 
-export function importPathToPlugin(importPath: string): Plugin {
-	return {} as Plugin;
+/**
+ * importPathToPlugin creates plugin instance from importPath, it assumes that importPath is valid plugin import path.
+ */
+export async function importPathToPlugin(importPath: string): Promise<typeof Plugin> {
+	const absolutePluginPath = await importPathToAbsolute(importPath);
+	await buildProgram(importPath, absolutePluginPath);
+	const module = (await import(getProgramEntry(absolutePluginPath))) as { default: typeof Plugin };
+	return module.default;
 }

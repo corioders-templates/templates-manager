@@ -12,7 +12,28 @@ export interface Provider {
 	 */
 	listOrganizations(): Promise<string[]>;
 
-	isLoggedin(): Promise<boolean>;
+	isLoggedIn(): Promise<boolean>;
 	login(token: string): Promise<void>;
-	signout(): Promise<void>;
+	signOut(): Promise<void>;
+}
+
+export class NoopProvider {
+	static readonly noopErrorMessage = 'Called noop provider';
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	createRepo(repoName: string, organizationName?: string): Promise<string> {
+		throw new Error(NoopProvider.noopErrorMessage);
+	}
+	listOrganizations(): Promise<string[]> {
+		throw new Error(NoopProvider.noopErrorMessage);
+	}
+	isLoggedIn(): Promise<boolean> {
+		throw new Error(NoopProvider.noopErrorMessage);
+	}
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	login(token: string): Promise<void> {
+		throw new Error(NoopProvider.noopErrorMessage);
+	}
+	signOut(): Promise<void> {
+		throw new Error(NoopProvider.noopErrorMessage);
+	}
 }

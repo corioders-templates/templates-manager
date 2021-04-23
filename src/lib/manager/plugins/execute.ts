@@ -1,11 +1,12 @@
-import { Plugin } from './plugins';
-import { pluginsDataFolder } from '@/lib/constant/location/plugins';
-import { Global } from '@/plugins/global';
 import base64url from 'base64url';
 import { resolve } from 'path';
 
-export function execute(plugins: Plugin[]): Global {
-	const global: Global = {};
+import { pluginsDataFolder } from '@/lib/constant/location/plugins';
+import { Global } from '@/plugins/global';
+
+import { Plugin } from './plugins';
+
+export function execute(plugins: Plugin[], global: Global = new Global()): Global {
 	for (const plugin of plugins) {
 		executePlugin(plugin, global);
 	}
