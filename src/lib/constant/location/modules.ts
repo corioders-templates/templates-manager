@@ -1,6 +1,8 @@
-import { dotcorioders } from './location';
-import { FsJsonStorage } from '@/nodekit/storage/impl';
 import * as path from 'path';
+
+import { FsJsonStorage } from '@/nodekit/storage/impl';
+
+import { dotcorioders } from './location';
 
 export const modulesFolder = path.resolve(dotcorioders, 'modules');
 export const tapsFile = path.resolve(modulesFolder, 'taps.json');

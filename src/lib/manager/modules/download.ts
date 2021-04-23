@@ -1,6 +1,8 @@
-import { getCoriodersAttribute, setCoriodersAttribute } from './attributes';
-import { exists } from '@/nodekit/fs';
 import simpleGit, { SimpleGit } from 'simple-git';
+
+import { exists } from '@/nodekit/fs';
+
+import { setCoriodersAttribute } from './attributes';
 
 export async function download(importPath: string, absoluteImportPath: string): Promise<void> {
 	if (await exists(absoluteImportPath)) {
