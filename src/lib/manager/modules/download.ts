@@ -25,5 +25,4 @@ export async function download(importPath: string, absoluteImportPath: string): 
 async function setHashAttribute(importPath: string, git: SimpleGit): Promise<void> {
 	const hash = await git.revparse('master');
 	await setCoriodersAttribute(importPath, 'HASH', hash);
-	console.log(await getCoriodersAttribute(importPath, 'hash'));
 }

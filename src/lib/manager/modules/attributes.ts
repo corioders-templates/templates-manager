@@ -21,10 +21,11 @@ export function getCoriodersAttribute(importPath: string, key: string): Promise<
 }
 
 const nestedStorages = new Map<string, NestedStorage>();
-nestedStorages.set('CORIODERS', coriodersAttributes);
 function getNested(storage: Storage, key: string): NestedStorage {
-	console.log(key)
 	let nested = nestedStorages.get(key);
-	if (nested === undefined) nested = new NestedStorage(key, storage);
+	if (nested === undefined) {
+		nested = new NestedStorage(key, storage);
+		nestedStorages.set(key, nested)
+	}
 	return nested;
 }
