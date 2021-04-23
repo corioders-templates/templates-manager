@@ -1,11 +1,30 @@
-import simpleGit from 'simple-git';
+import simpleGit, { SimpleGit } from 'simple-git';
 
 import { exists } from '@/nodekit/fs';
 
+import { setCoriodersAttribute } from './attributes';
+
 export async function download(importPath: string, absoluteImportPath: string): Promise<void> {
 	if (await exists(absoluteImportPath)) {
-		await simpleGit(absoluteImportPath).pull('origin', 'master');
+		const git = simpleGit(absoluteImportPath);
+		const pullResult = await git.pull('origin', 'master');
+		if (pullResult.files.length === 0 && pullResult.summary.changes === 0 && pullResult.summary.deletions === 0 && pullResult.summary.insertions === 0) {
+			// No update were made.
+			return;
+		}
+
+		await setHashAttribute(importPath, git);
 		return;
 	}
-	await simpleGit().clone(`https://${importPath}`, absoluteImportPath, ['--depth', '1', '--branch', 'master', '--single-branch']);
+
+	let git = simpleGit();
+	await git.clone(`https://${importPath}`, absoluteImportPath, ['--depth', '1', '--branch', 'master', '--single-branch']);
+
+	git = simpleGit(absoluteImportPath);
+	await setHashAttribute(importPath, git);
+}
+
+async function setHashAttribute(importPath: string, git: SimpleGit): Promise<void> {
+	const hash = await git.revparse('master');
+	await setCoriodersAttribute(importPath, 'HASH', hash);
 }
