@@ -1,4 +1,4 @@
-import update from './manager/metadata/update';
+import { getTaps, tap, untap } from './manager/modules';
 import create from './project/create';
 
-export { create, update };
+export { create, getTaps, tap, untap };
