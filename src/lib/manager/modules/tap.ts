@@ -1,6 +1,6 @@
 import { resolve, join } from 'path';
 
-import { modulesFolder, tapsFile } from '@/lib/constant/location/modules';
+import { downloadsFolder, tapsFile } from '@/lib/constant/location/modules';
 import { exists } from '@/nodekit/fs';
 
 import { download } from './download';
@@ -15,15 +15,15 @@ export async function tap(importPath: string): Promise<void> {
 	const taps = await getTaps();
 	if (taps.includes(importPath)) throw new Error('Tap already exists');
 	taps.push(importPath);
-	await download(importPath, resolve(modulesFolder, importPath));
+	await download(importPath, resolve(downloadsFolder, importPath));
 	await writeTapsModules(taps);
 	await checkTap(importPath);
 }
 
 export async function untap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(modulesFolder, importPath), { recursive: true });
-	await removeEmptyDirectories(modulesFolder);
+	await rmdir(resolve(downloadsFolder, importPath), { recursive: true });
+	await removeEmptyDirectories(downloadsFolder);
 	const taps = await getTaps();
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
@@ -49,7 +49,7 @@ async function writeTapsModules(taps: string[]): Promise<void> {
 }
 
 async function checkTap(importPath: string): Promise<void> {
-	const absoluteImportPath = resolve(modulesFolder, importPath);
+	const absoluteImportPath = resolve(downloadsFolder, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
 	await untap(importPath);
 	throw new Error(`This repository doesn't contain the required configs`);
@@ -58,7 +58,7 @@ async function checkTap(importPath: string): Promise<void> {
 export async function getTapsAbsolutePaths(): Promise<string[]> {
 	const taps = await getTaps();
 	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(modulesFolder, tap));
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(downloadsFolder, tap));
 	return tapsAbsolutePaths;
 }
 

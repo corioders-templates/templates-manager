@@ -62,7 +62,7 @@ export class NestedStorage extends BaseStorage implements Storage {
 	async set(key: string, value: unknown): Promise<void> {
 		const bucket = await this.getNestedBucket(this.key);
 		bucket[key] = value;
-		this.setNestedBucket(this.key, bucket);
+		await this.setNestedBucket(this.key, bucket);
 	}
 
 	private async getNestedBucket(key: string): Promise<Bucket> {
