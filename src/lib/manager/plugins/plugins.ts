@@ -1,5 +1,6 @@
 import { importPathToAbsolute } from '@/lib/manager/modules';
 import { buildProgram, getProgramEntry } from '@/lib/manager/program/build';
+import { Storage } from '@/nodekit/storage';
 import { Global } from '@/plugins/global';
 
 export abstract class Plugin {
@@ -12,7 +13,7 @@ export abstract class Plugin {
 	/**
 	 * execute is called when plugin is executed
 	 */
-	abstract execute(dataFolder: string, global: Global): void;
+	abstract execute(storage: Storage, global: Global): void;
 }
 
 /**
@@ -37,7 +38,7 @@ export class RealPlugin implements Plugin {
 	constructor(...args: unknown[]) {}
 	name: string;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	execute(dataFolder: string, global: Global): void {}
+	execute(storage: Storage, global: Global): void {}
 }
 type RealPluginConstructor = typeof RealPlugin;
 
