@@ -1,12 +1,10 @@
 import { resolve, join } from 'path';
 
 import { downloadsFolder, tapsFile } from '@/lib/constant/location/modules';
-import { exists } from '@/nodekit/fs';
+import { rmdir, lstat, readdir, readFile, writeFile, exists } from '@/nodekit/fs';
 
 import { download } from './download';
 import { validateImportPath } from './importPath';
-
-import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 let tapsJsonCache: string[] | null = null;
 
@@ -22,12 +20,12 @@ export async function tap(importPath: string): Promise<void> {
 
 export async function untap(importPath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(downloadsFolder, importPath), { recursive: true });
-	await removeEmptyDirectories(downloadsFolder);
 	const taps = await getTaps();
 	const tap = taps.indexOf(importPath);
-	if (tap < 0) return;
+	if (tap < 0) throw new Error(`The tap ${importPath} doesn't exist`);
 	taps.splice(tap, 1);
+	await rmdir(resolve(downloadsFolder, importPath), { recursive: true });
+	await removeEmptyDirectories(downloadsFolder);
 	await writeTapsModules(taps);
 }
 

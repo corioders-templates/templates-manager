@@ -2,9 +2,7 @@ import { resolve } from 'path';
 import simpleGit from 'simple-git';
 
 import { storage, pathsJsonFilename } from '@/lib/constant/location/project';
-import { exists } from '@/nodekit/fs';
-
-import { mkdir, unlink, writeFile } from 'fs/promises';
+import { mkdir, unlink, writeFile, exists } from '@/nodekit/fs';
 
 export async function create(name: string, url: string): Promise<void> {
 	const exists = await projectExists(name);
@@ -12,7 +10,7 @@ export async function create(name: string, url: string): Promise<void> {
 	const projectPath = getProjectPath(name);
 
 	await mkdir(projectPath, { recursive: true });
-	await writeFile(resolve(projectPath, pathsJsonFilename), '{}');
+	await writeFile(resolve(projectPath, pathsJsonFilename), '{}', { encoding: 'utf-8' });
 
 	const git = simpleGit(projectPath);
 	await git.init();
