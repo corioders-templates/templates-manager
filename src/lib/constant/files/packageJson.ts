@@ -1,8 +1,7 @@
-import { readFileSync } from 'fs';
-
 import { packageJsonFile } from '@/lib/constant/location/location';
+import { readJsonFileSync } from '@/nodekit/fs/sync';
 
-export const packageJson = JSON.parse(readFileSync(packageJsonFile).toString() as string) as PackageJson;
+export const packageJson = readJsonFileSync<PackageJson>(packageJsonFile);
 
 export interface PackageJsonAddress {
 	email?: string;

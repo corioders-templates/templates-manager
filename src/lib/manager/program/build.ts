@@ -3,8 +3,7 @@ import { resolve } from 'path';
 import { packageJson, PackageJson } from '@/lib/constant/files/packageJson';
 import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/modules/attributes';
 import { exec } from '@/nodekit/child_process';
-
-import { readFile } from 'fs/promises';
+import { readJsonFile } from '@/nodekit/fs';
 
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
 	await validateProgram(absoluteProgramPath);
@@ -28,7 +27,7 @@ export function getProgramEntry(absoluteProgramPath: string): string {
 
 async function validateProgram(absoluteProgramPath: string): Promise<void> {
 	const currentProjectName = packageJson.name;
-	const programPackageJson = JSON.parse((await readFile(resolve(absoluteProgramPath, 'package.json'))).toString()) as PackageJson;
+	const programPackageJson = await readJsonFile<PackageJson>(resolve(absoluteProgramPath, 'package.json'));
 
 	if (
 		programPackageJson?.dependencies?.[currentProjectName] !== undefined ||
