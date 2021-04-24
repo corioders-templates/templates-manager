@@ -1,9 +1,17 @@
-import * as gitRemoteProvider from './git-remote-provider';
+import { AsyncSeriesHook } from 'tapable';
+
+import * as gitRemote from './git-remote-provider';
 
 export class Global {
-	'git-remote-provider': gitRemoteProvider.Provider;
+	'git-remote-provider': gitRemote.Provider;
+	hooks: GlobalHooks;
 
 	constructor() {
-		this['git-remote-provider'] = new gitRemoteProvider.NoopProvider();
+		this.hooks = new GlobalHooks();
+		this['git-remote-provider'] = new gitRemote.NoopProvider();
 	}
+}
+
+export class GlobalHooks {
+	init = new AsyncSeriesHook<[]>();
 }
