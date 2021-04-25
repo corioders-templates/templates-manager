@@ -1,8 +1,8 @@
 {
-	"name": "@corioders/cli",
+	"name": "@corioders/projects-manager",
 	"version": "1.0.0",
-	"description": "Cli made for creating projects with our templates",
-	"repository": "https://github.com/corioders-templates/cli-next.git",
+	"description": "Corioders' projects management tool",
+	"repository": "https://github.com/corioders-templates/projects-manager.git",
 	"author": "corioders",
 	"license": "CC0-1.0",
 	"scripts": {
