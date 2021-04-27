@@ -7,11 +7,11 @@ export class Global {
 	hooks: GlobalHooks;
 
 	constructor() {
-		this.hooks = new GlobalHooks();
 		this['git-remote-provider'] = new gitRemote.NoopProvider();
+		this.hooks = new GlobalHooks();
 	}
 }
 
-export class GlobalHooks {
+class GlobalHooks {
 	init = new AsyncSeriesHook<[]>();
 }

@@ -1,10 +1,11 @@
+import { Storage } from '@/nodekit/storage';
 import axios, { AxiosError } from 'axios';
 
 import Provider from './provider';
 
 export default class GithubProvider extends Provider {
-	constructor(dataFolder: string) {
-		super(dataFolder);
+	constructor(storage: Storage) {
+		super(storage);
 	}
 
 	async createRepo(repoName: string, organizationName: string = ''): Promise<string> {
