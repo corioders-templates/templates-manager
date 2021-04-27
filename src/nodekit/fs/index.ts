@@ -1,6 +1,6 @@
 import * as fs from 'graceful-fs';
 
-export function mkdir(path: fs.PathLike, options: fs.MakeDirectoryOptions | null = null): Promise<void> {
+export function mkdir(path: fs.PathLike, options: fs.MakeDirectoryOptions = { recursive: true }): Promise<void> {
 	return new Promise((resolve, reject) => {
 		fs.mkdir(path, options, (error) => {
 			if (error) {
@@ -87,6 +87,19 @@ export function lstat(path: fs.PathLike): Promise<fs.Stats> {
 export function access(path: fs.PathLike, mode: number | undefined): Promise<void> {
 	return new Promise((resolve, reject) => {
 		fs.access(path, mode, (error) => {
+			if (error) {
+				reject(error);
+				return;
+			}
+			resolve();
+		});
+	});
+}
+
+export function symlink(target: fs.PathLike, path: fs.PathLike, type: fs.symlink.Type | undefined | null): Promise<void> {
+	return new Promise(function (resolve, reject) {
+		fs.symlink(target, path, type, function (error) {
+			console.log(error);
 			if (error) {
 				reject(error);
 				return;
