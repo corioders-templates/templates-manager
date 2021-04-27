@@ -1,8 +1,8 @@
 import * as fs from 'graceful-fs';
 
 export function mkdir(path: fs.PathLike, options: fs.MakeDirectoryOptions = { recursive: true }): Promise<void> {
-	return new Promise(function (resolve, reject) {
-		fs.mkdir(path, options, function (error) {
+	return new Promise((resolve, reject) => {
+		fs.mkdir(path, options, (error) => {
 			if (error) {
 				reject(error);
 				return;
@@ -13,8 +13,8 @@ export function mkdir(path: fs.PathLike, options: fs.MakeDirectoryOptions = { re
 }
 
 export function unlink(path: fs.PathLike): Promise<void> {
-	return new Promise(function (resolve, reject) {
-		fs.unlink(path, function (error) {
+	return new Promise((resolve, reject) => {
+		fs.unlink(path, (error) => {
 			if (error) {
 				reject(error);
 				return;
@@ -25,8 +25,8 @@ export function unlink(path: fs.PathLike): Promise<void> {
 }
 
 export function writeFile(path: fs.PathLike | number, data: string | NodeJS.ArrayBufferView, options: fs.WriteFileOptions = null): Promise<void> {
-	return new Promise(function (resolve, reject) {
-		fs.writeFile(path, data, options, function (error) {
+	return new Promise((resolve, reject) => {
+		fs.writeFile(path, data, options, (error) => {
 			if (error) {
 				reject(error);
 				return;
@@ -37,8 +37,8 @@ export function writeFile(path: fs.PathLike | number, data: string | NodeJS.Arra
 }
 
 export function readFile(path: fs.PathLike | number, options: fs.BaseEncodingOptions | null = null): Promise<string> {
-	return new Promise(function (resolve, reject) {
-		fs.readFile(path, options, function (error, data) {
+	return new Promise((resolve, reject) => {
+		fs.readFile(path, options, (error, data) => {
 			if (error) {
 				reject(error);
 				return;
@@ -49,8 +49,8 @@ export function readFile(path: fs.PathLike | number, options: fs.BaseEncodingOpt
 }
 
 export function readdir(path: fs.PathLike): Promise<string[]> {
-	return new Promise(function (resolve, reject) {
-		fs.readdir(path, function (error, files) {
+	return new Promise((resolve, reject) => {
+		fs.readdir(path, (error, files) => {
 			if (error) {
 				reject(error);
 				return;
@@ -61,8 +61,8 @@ export function readdir(path: fs.PathLike): Promise<string[]> {
 }
 
 export function rmdir(path: fs.PathLike, options: fs.RmDirOptions = { recursive: true }): Promise<void> {
-	return new Promise(function (resolve, reject) {
-		fs.rmdir(path, options, function (error) {
+	return new Promise((resolve, reject) => {
+		fs.rmdir(path, options, (error) => {
 			if (error) {
 				reject(error);
 				return;
@@ -73,8 +73,8 @@ export function rmdir(path: fs.PathLike, options: fs.RmDirOptions = { recursive:
 }
 
 export function lstat(path: fs.PathLike): Promise<fs.Stats> {
-	return new Promise(function (resolve, reject) {
-		fs.lstat(path, function (error, stats) {
+	return new Promise((resolve, reject) => {
+		fs.lstat(path, (error, stats) => {
 			if (error) {
 				reject(error);
 				return;
@@ -85,8 +85,8 @@ export function lstat(path: fs.PathLike): Promise<fs.Stats> {
 }
 
 export function access(path: fs.PathLike, mode: number | undefined): Promise<void> {
-	return new Promise(function (resolve, reject) {
-		fs.access(path, mode, function (error) {
+	return new Promise((resolve, reject) => {
+		fs.access(path, mode, (error) => {
 			if (error) {
 				reject(error);
 				return;
