@@ -10,46 +10,46 @@ import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
 
 let tapsJsonCache: string[] | null = null;
 
-export async function tap(importPath: string): Promise<void> {
+export async function tap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
 	validateImportPath(importPath);
-	const taps = await getTaps();
+	const taps = await getTaps(tapsFilePath);
 	if (taps.includes(importPath)) throw new Error('Tap already exists');
 	taps.push(importPath);
-	await download(importPath, resolve(modulesFolder, importPath));
-	await writeTapsModules(taps);
-	await checkTap(importPath);
+	await download(importPath, resolve(modulesFolderPath, importPath));
+	await writeTapsFile(taps, tapsFilePath);
+	await checkTap(importPath, modulesFolderPath);
 }
 
-export async function untap(importPath: string): Promise<void> {
+export async function untap(importPath: string, modulesFolder: string, tapsFile: string): Promise<void> {
 	validateImportPath(importPath);
 	await rmdir(resolve(modulesFolder, importPath), { recursive: true });
 	await removeEmptyDirectories(modulesFolder);
-	const taps = await getTaps();
+	const taps = await getTaps(tapsFile);
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
 	taps.splice(tap, 1);
-	await writeTapsModules(taps);
+	await writeTapsFile(taps, tapsFile);
 }
 
-export async function getTaps(): Promise<string[]> {
+export async function getTaps(tapsFilePath: string): Promise<string[]> {
 	if (tapsJsonCache !== null) return tapsJsonCache;
 
 	let taps: string[] = [];
-	if (await exists(tapsFile)) {
-		const json = await readFile(tapsFile, { encoding: 'utf-8' });
+	if (await exists(tapsFilePath)) {
+		const json = await readFile(tapsFilePath, { encoding: 'utf-8' });
 		taps = JSON.parse(json) as string[];
 	}
 	tapsJsonCache = taps;
 	return taps;
 }
 
-async function writeTapsModules(taps: string[]): Promise<void> {
+async function writeTapsFile(taps: string[], tapsFilePath: string): Promise<void> {
 	tapsJsonCache = taps;
-	await writeFile(tapsFile, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
+	await writeFile(tapsFilePath, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
-async function checkTap(importPath: string): Promise<void> {
-	const absoluteImportPath = resolve(modulesFolder, importPath);
+async function checkTap(importPath: string, modulesFolderPath: string): Promise<void> {
+	const absoluteImportPath = resolve(modulesFolderPath, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
 	await untap(importPath);
 	throw new Error(`This repository doesn't contain the required configs`);
