@@ -1,32 +1,30 @@
 import { resolve, join } from 'path';
 
-import { exists } from '@/nodekit/fs';
+import { rmdir, lstat, readdir, readFile, writeFile, exists } from '@/nodekit/fs';
 
 import { download } from './download';
 import { validateImportPath } from './importPath';
 
-import { rmdir, lstat, readdir, readFile, writeFile } from 'fs/promises';
-
 let tapsJsonCache: string[] | null = null;
 
-export async function tap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
+export async function tap(importPath: string, downloadsFolderPath: string, tapsFilePath: string): Promise<void> {
 	validateImportPath(importPath);
 	const taps = await getTaps(tapsFilePath);
 	if (taps.includes(importPath)) throw new Error('Tap already exists');
 	taps.push(importPath);
-	await download(importPath, resolve(modulesFolderPath, importPath));
+	await download(importPath, resolve(downloadsFolderPath, importPath));
 	await writeTapsFile(taps, tapsFilePath);
-	await checkTap(importPath, modulesFolderPath, tapsFilePath);
+	await checkTap(importPath, downloadsFolderPath, tapsFilePath);
 }
 
-export async function untap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
+export async function untap(importPath: string, downloadsFolderPath: string, tapsFilePath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(modulesFolderPath, importPath), { recursive: true });
-	await removeEmptyDirectories(modulesFolderPath);
 	const taps = await getTaps(tapsFilePath);
 	const tap = taps.indexOf(importPath);
-	if (tap < 0) return;
+	if (tap < 0) throw new Error(`The tap ${importPath} doesn't exist`);
 	taps.splice(tap, 1);
+	await rmdir(resolve(downloadsFolderPath, importPath), { recursive: true });
+	await removeEmptyDirectories(downloadsFolderPath);
 	await writeTapsFile(taps, tapsFilePath);
 }
 
@@ -47,17 +45,17 @@ async function writeTapsFile(taps: string[], tapsFilePath: string): Promise<void
 	await writeFile(tapsFilePath, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
-async function checkTap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
-	const absoluteImportPath = resolve(modulesFolderPath, importPath);
+async function checkTap(importPath: string, downloadsFolderPath: string, tapsFilePath: string): Promise<void> {
+	const absoluteImportPath = resolve(downloadsFolderPath, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
-	await untap(importPath, modulesFolderPath, tapsFilePath);
+	await untap(importPath, downloadsFolderPath, tapsFilePath);
 	throw new Error(`This repository doesn't contain the required configs`);
 }
 
-export async function getTapsAbsolutePaths(modulesFolderPath: string, tapsFilePath: string): Promise<string[]> {
+export async function getTapsAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
 	const taps = await getTaps(tapsFilePath);
 	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(modulesFolderPath, tap));
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(downloadsFolderPath, tap));
 	return tapsAbsolutePaths;
 }
 

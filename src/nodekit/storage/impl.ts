@@ -1,6 +1,8 @@
-import { Storage, BaseStorage } from './storage';
-import { mkdir, readFile, writeFile } from 'fs/promises';
 import { resolve } from 'path';
+
+import { mkdir, readFile, writeFile } from '@/nodekit/fs';
+
+import { Storage, BaseStorage } from './storage';
 
 export class MapStorage extends BaseStorage implements Storage {
 	private map = new Map<string, unknown>();

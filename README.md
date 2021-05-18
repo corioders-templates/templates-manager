@@ -1,4 +1,4 @@
-# Notes:
+# Corioders projects manager:
 
 ## Not really cli, more a tool:
 

@@ -4,8 +4,8 @@ import { exists } from '@/nodekit/fs';
 
 import { getTapsAbsolutePaths } from './tap';
 
-async function getConfigAbsolutePaths(configName: string, modulesFolderPath: string, tapsFilePath: string): Promise<string[]> {
-	const tapsAbsolutePaths = await getTapsAbsolutePaths(modulesFolderPath, tapsFilePath);
+async function getConfigAbsolutePaths(configName: string, downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	const tapsAbsolutePaths = await getTapsAbsolutePaths(downloadsFolderPath, tapsFilePath);
 	const configPaths = [];
 	let configAbsolutePath = '';
 	for (const tapPath of tapsAbsolutePaths) {
@@ -16,10 +16,10 @@ async function getConfigAbsolutePaths(configName: string, modulesFolderPath: str
 	return configPaths;
 }
 
-export async function getPluginsAbsolutePaths(modulesFolderPath: string, tapsFilePath: string): Promise<string[]> {
-	return await getConfigAbsolutePaths('plugins', modulesFolderPath, tapsFilePath);
+export async function getPluginsAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	return await getConfigAbsolutePaths('plugins', downloadsFolderPath, tapsFilePath);
 }
 
-export async function getTemplatesAbsolutePaths(modulesFolderPath: string, tapsFilePath: string): Promise<string[]> {
-	return await getConfigAbsolutePaths('templates', modulesFolderPath, tapsFilePath);
+export async function getTemplatesAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	return await getConfigAbsolutePaths('templates', downloadsFolderPath, tapsFilePath);
 }

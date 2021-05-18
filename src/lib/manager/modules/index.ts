@@ -12,33 +12,35 @@ export class Modules {
 
 	private modulesFolderPath: string;
 	private tapsFilePath: string;
+	private downloadsFolderPath: string;
 	private initPaths(modulesFolder: string): void {
 		this.modulesFolderPath = modulesFolder;
 		this.tapsFilePath = resolve(modulesFolder, 'taps.json');
+		this.downloadsFolderPath = resolve(modulesFolder, 'downloads');
 	}
 
 	async getPluginsAbsolutePaths(): Promise<string[]> {
-		return await getPluginsAbsolutePaths(this.modulesFolderPath, this.tapsFilePath);
+		return await getPluginsAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
 	}
 	async getTemplatesAbsolutePaths(): Promise<string[]> {
-		return await getTemplatesAbsolutePaths(this.modulesFolderPath, this.tapsFilePath);
+		return await getTemplatesAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
 	}
 
 	async importPathToAbsolute(importPath: string): Promise<string> {
-		return await importPathToAbsolute(importPath, this.modulesFolderPath);
+		return await importPathToAbsolute(importPath, this.downloadsFolderPath);
 	}
 
 	async tap(importPath: string): Promise<void> {
-		await tap(importPath, this.modulesFolderPath, this.tapsFilePath);
+		await tap(importPath, this.downloadsFolderPath, this.tapsFilePath);
 	}
 	async untap(importPath: string): Promise<void> {
-		await untap(importPath, this.modulesFolderPath, this.tapsFilePath);
+		await untap(importPath, this.downloadsFolderPath, this.tapsFilePath);
 	}
 	async getTaps(): Promise<string[]> {
 		return await getTaps(this.tapsFilePath);
 	}
 
 	async update(): Promise<void> {
-		await update(this.modulesFolderPath, this.tapsFilePath);
+		await update(this.downloadsFolderPath, this.tapsFilePath);
 	}
 }
