@@ -1,4 +1,4 @@
-import { Modules } from './manager/modules';
+import { ModulesManager } from './manager/modules';
 import create from './project/create';
 
-export { create, Modules };
+export { create, ModulesManager };

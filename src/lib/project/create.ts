@@ -1,9 +1,9 @@
 import { defaultModulesFolder } from '@/lib/constant/location/modules';
 import { create as createProject } from '@/lib/manager/corioders/project';
-import { Modules } from '@/lib/manager/modules';
+import { ModulesManager } from '@/lib/manager/modules';
 
 export default async function create(name: string): Promise<void> {
-	const modulesManager = new Modules(defaultModulesFolder);
+	const modulesManager = new ModulesManager(defaultModulesFolder);
 	await modulesManager.update();
 
 	const url = 'https://github.com/example-username/example-repo';

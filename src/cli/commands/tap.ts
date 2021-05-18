@@ -1,10 +1,10 @@
-import { Modules } from '@/lib';
+import { ModulesManager } from '@/lib';
 import { defaultModulesFolder } from '@/lib/constant/location/modules';
 
 import { Program } from '../cli';
 
 export default function (program: Program): void {
-	const modulesManager = new Modules(defaultModulesFolder);
+	const modulesManager = new ModulesManager(defaultModulesFolder);
 	const tapCommand = program.command('tap [importPath]');
 
 	tapCommand.action(async (importPath) => {

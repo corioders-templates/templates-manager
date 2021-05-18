@@ -5,7 +5,7 @@ import { importPathToAbsolute } from './importPath';
 import { tap, untap, getTaps } from './tap';
 import { update } from './update';
 
-export class Modules {
+export class ModulesManager {
 	constructor(modulesFolder: string) {
 		this.initPaths(modulesFolder);
 	}
