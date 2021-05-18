@@ -1,14 +1,12 @@
 import { resolve } from 'path';
 
-import { modulesFolder } from '@/lib/constant/location/modules';
-
 import { download } from './download';
 
-export async function importPathToAbsolute(importPath: string): Promise<string> {
+export async function importPathToAbsolute(importPath: string, modulesFolderPath: string): Promise<string> {
 	validateImportPath(importPath);
 	const repoPath = getRepoPath(importPath);
-	await download(repoPath, resolve(modulesFolder, repoPath));
-	return resolve(modulesFolder, importPath);
+	await download(repoPath, resolve(modulesFolderPath, repoPath));
+	return resolve(modulesFolderPath, importPath);
 }
 
 export function getRepoPath(importPath: string): string {

@@ -1,8 +1,11 @@
+import { defalutModulesFolder } from '@/lib/constant/location/modules';
 import { create as createProject } from '@/lib/manager/corioders/project';
-import { update } from '@/lib/manager/modules';
+import { Modules } from '@/lib/manager/modules';
 
 export default async function create(name: string): Promise<void> {
-	await update();
+	const modulesManager = new Modules(defalutModulesFolder);
+	await modulesManager.update();
+
 	const url = 'https://github.com/example-username/example-repo';
 	// url should be changed in the future
 	createProject(name, url);

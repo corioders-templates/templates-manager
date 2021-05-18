@@ -1,6 +1,5 @@
 import { resolve, join } from 'path';
 
-import { modulesFolder, tapsFile } from '@/lib/constant/location/modules';
 import { exists } from '@/nodekit/fs';
 
 import { download } from './download';
@@ -17,18 +16,18 @@ export async function tap(importPath: string, modulesFolderPath: string, tapsFil
 	taps.push(importPath);
 	await download(importPath, resolve(modulesFolderPath, importPath));
 	await writeTapsFile(taps, tapsFilePath);
-	await checkTap(importPath, modulesFolderPath);
+	await checkTap(importPath, modulesFolderPath, tapsFilePath);
 }
 
-export async function untap(importPath: string, modulesFolder: string, tapsFile: string): Promise<void> {
+export async function untap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
 	validateImportPath(importPath);
-	await rmdir(resolve(modulesFolder, importPath), { recursive: true });
-	await removeEmptyDirectories(modulesFolder);
-	const taps = await getTaps(tapsFile);
+	await rmdir(resolve(modulesFolderPath, importPath), { recursive: true });
+	await removeEmptyDirectories(modulesFolderPath);
+	const taps = await getTaps(tapsFilePath);
 	const tap = taps.indexOf(importPath);
 	if (tap < 0) return;
 	taps.splice(tap, 1);
-	await writeTapsFile(taps, tapsFile);
+	await writeTapsFile(taps, tapsFilePath);
 }
 
 export async function getTaps(tapsFilePath: string): Promise<string[]> {
@@ -48,17 +47,17 @@ async function writeTapsFile(taps: string[], tapsFilePath: string): Promise<void
 	await writeFile(tapsFilePath, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
-async function checkTap(importPath: string, modulesFolderPath: string): Promise<void> {
+async function checkTap(importPath: string, modulesFolderPath: string, tapsFilePath: string): Promise<void> {
 	const absoluteImportPath = resolve(modulesFolderPath, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;
-	await untap(importPath);
+	await untap(importPath, modulesFolderPath, tapsFilePath);
 	throw new Error(`This repository doesn't contain the required configs`);
 }
 
-export async function getTapsAbsolutePaths(): Promise<string[]> {
-	const taps = await getTaps();
+export async function getTapsAbsolutePaths(modulesFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	const taps = await getTaps(tapsFilePath);
 	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(modulesFolder, tap));
+	for (const tap of taps) tapsAbsolutePaths.push(resolve(modulesFolderPath, tap));
 	return tapsAbsolutePaths;
 }
 

@@ -17,14 +17,28 @@ export class Modules {
 		this.tapsFilePath = resolve(modulesFolder, 'taps.json');
 	}
 
+	async getPluginsAbsolutePaths(): Promise<string[]> {
+		return await getPluginsAbsolutePaths(this.modulesFolderPath, this.tapsFilePath);
+	}
+	async getTemplatesAbsolutePaths(): Promise<string[]> {
+		return await getTemplatesAbsolutePaths(this.modulesFolderPath, this.tapsFilePath);
+	}
+
+	async importPathToAbsolute(importPath: string): Promise<string> {
+		return await importPathToAbsolute(importPath, this.modulesFolderPath);
+	}
+
 	async tap(importPath: string): Promise<void> {
 		await tap(importPath, this.modulesFolderPath, this.tapsFilePath);
 	}
 	async untap(importPath: string): Promise<void> {
 		await untap(importPath, this.modulesFolderPath, this.tapsFilePath);
 	}
-	getTaps() {}
+	async getTaps(): Promise<string[]> {
+		return await getTaps(this.tapsFilePath);
+	}
 
-	getPluginsAbsolutePaths() {}
-	getTemplatesAbsolutePaths() {}
+	async update(): Promise<void> {
+		await update(this.modulesFolderPath, this.tapsFilePath);
+	}
 }
