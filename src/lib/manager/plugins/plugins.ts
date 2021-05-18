@@ -1,4 +1,4 @@
-import { defalutModulesFolder } from '@/lib/constant/location/modules';
+import { defaultModulesFolder } from '@/lib/constant/location/modules';
 import { Modules } from '@/lib/manager/modules';
 import { buildProgram, getProgramEntry } from '@/lib/manager/program/build';
 import { Storage } from '@/nodekit/storage';
@@ -21,7 +21,7 @@ export abstract class Plugin {
  * importPathToPlugin creates plugin instance from importPath, it assumes that importPath is valid plugin import path.
  */
 export async function importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
-	const modulesManager = new Modules(defalutModulesFolder);
+	const modulesManager = new Modules(defaultModulesFolder);
 	const absolutePluginPath = await modulesManager.importPathToAbsolute(importPath);
 	await buildProgram(importPath, absolutePluginPath);
 	const module = (await import(getProgramEntry(absolutePluginPath))) as { default?: unknown };
