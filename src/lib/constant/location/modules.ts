@@ -4,9 +4,7 @@ import { FsJsonStorage } from '@/nodekit/storage/impl';
 
 import { dotcorioders } from './location';
 
-export const modulesFolder = path.resolve(dotcorioders, 'modules');
-export const tapsFile = path.resolve(modulesFolder, 'taps.json');
-export const downloadsFolder = path.resolve(modulesFolder, 'downloads');
+export const defaultModulesFolder = path.resolve(dotcorioders, 'modules');
 
-const attributesStoragePath = path.resolve(modulesFolder, 'attributes');
+const attributesStoragePath = path.resolve(defaultModulesFolder, 'attributes');
 export const attributesStorage = new FsJsonStorage(attributesStoragePath);
