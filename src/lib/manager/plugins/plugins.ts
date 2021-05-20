@@ -1,5 +1,4 @@
-import { defaultModulesManager } from '@/lib/manager';
-import { buildProgram, getProgramEntry } from '@/lib/manager/program/build';
+import { defaultModulesManager, defaultProgramManager } from '@/lib/manager';
 import { Storage } from '@/nodekit/storage';
 import { Global } from '@/plugins/global';
 
@@ -21,8 +20,8 @@ export abstract class Plugin {
  */
 export async function importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
 	const absolutePluginPath = await defaultModulesManager.importPathToAbsolute(importPath);
-	await buildProgram(importPath, absolutePluginPath);
-	const module = (await import(getProgramEntry(absolutePluginPath))) as { default?: unknown };
+	await defaultProgramManager.buildProgram(importPath, absolutePluginPath);
+	const module = (await import(defaultProgramManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
 	const plugin = module.default;
 	if (plugin === undefined) throw new Error('Plugin entry point must have a default export');
 	if (!isRealPluginConstructor(plugin)) throw new Error('Plugin entry point must export default class that implements Plugin class');
