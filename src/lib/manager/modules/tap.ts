@@ -12,7 +12,7 @@ export async function tap(importPath: string, downloadsFolderPath: string, tapsF
 	const taps = await getTaps(tapsFilePath);
 	if (taps.includes(importPath)) throw new Error('Tap already exists');
 	taps.push(importPath);
-	await download(importPath, resolve(downloadsFolderPath, importPath));
+	await download(importPath, downloadsFolderPath);
 	await writeTapsFile(taps, tapsFilePath);
 	await checkTap(importPath, downloadsFolderPath, tapsFilePath);
 }
