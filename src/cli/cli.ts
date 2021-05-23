@@ -1,6 +1,7 @@
 import { Command } from 'commander';
 
 import registerCreate from './commands/create';
+import registerPart from './commands/part';
 import registerTap from './commands/tap';
 
 const program = new Command();
@@ -10,5 +11,6 @@ program.version('0.0.1');
 
 registerCreate(program);
 registerTap(program);
+registerPart(program);
 
 program.parse(process.argv);

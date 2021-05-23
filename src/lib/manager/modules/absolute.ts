@@ -4,8 +4,8 @@ import { exists } from '@/nodekit/fs';
 
 import { getTapsAbsolutePaths } from './tap';
 
-async function getConfigAbsolutePaths(configName: string): Promise<string[]> {
-	const tapsAbsolutePaths = await getTapsAbsolutePaths();
+async function getConfigAbsolutePaths(configName: string, downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	const tapsAbsolutePaths = await getTapsAbsolutePaths(downloadsFolderPath, tapsFilePath);
 	const configPaths = [];
 	let configAbsolutePath = '';
 	for (const tapPath of tapsAbsolutePaths) {
@@ -16,10 +16,10 @@ async function getConfigAbsolutePaths(configName: string): Promise<string[]> {
 	return configPaths;
 }
 
-export async function getPluginsAbsolutePaths(): Promise<string[]> {
-	return await getConfigAbsolutePaths('plugins');
+export async function getPluginsAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	return await getConfigAbsolutePaths('plugins', downloadsFolderPath, tapsFilePath);
 }
 
-export async function getTemplatesAbsolutePaths(): Promise<string[]> {
-	return await getConfigAbsolutePaths('templates');
+export async function getTemplatesAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+	return await getConfigAbsolutePaths('templates', downloadsFolderPath, tapsFilePath);
 }

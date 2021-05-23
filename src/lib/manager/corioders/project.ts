@@ -1,13 +1,12 @@
 import { resolve } from 'path';
 import simpleGit from 'simple-git';
 
-import { storage, pathsJsonFilename } from '@/lib/constant/location/project';
 import { mkdir, unlink, writeFile, exists } from '@/nodekit/fs';
 
-export async function create(name: string, url: string): Promise<void> {
-	const exists = await projectExists(name);
+export async function create(name: string, url: string, projectsStoragePath: string, pathsJsonFilename: string): Promise<void> {
+	const exists = await projectExists(name, projectsStoragePath);
 	if (exists) throw new Error(`Project with name ${name} already exists`);
-	const projectPath = getProjectPath(name);
+	const projectPath = getProjectPath(name, projectsStoragePath);
 
 	await mkdir(projectPath, { recursive: true });
 	await writeFile(resolve(projectPath, pathsJsonFilename), '{}', { encoding: 'utf-8' });
@@ -17,17 +16,17 @@ export async function create(name: string, url: string): Promise<void> {
 	await git.addRemote('origin', url);
 }
 
-export async function remove(name: string): Promise<void> {
-	const exists = await projectExists(name);
+export async function remove(name: string, projectsStoragePath: string): Promise<void> {
+	const exists = await projectExists(name, projectsStoragePath);
 	if (!exists) throw new Error(`Project with name ${name} doesn't exist`);
 
-	await unlink(getProjectPath(name));
+	await unlink(getProjectPath(name, projectsStoragePath));
 }
 
-async function projectExists(name: string): Promise<boolean> {
-	return await exists(getProjectPath(name));
+async function projectExists(name: string, projectsStoragePath: string): Promise<boolean> {
+	return await exists(getProjectPath(name, projectsStoragePath));
 }
 
-function getProjectPath(projectName: string): string {
-	return resolve(storage, projectName);
+function getProjectPath(projectName: string, projectsStoragePath: string): string {
+	return resolve(projectsStoragePath, projectName);
 }
