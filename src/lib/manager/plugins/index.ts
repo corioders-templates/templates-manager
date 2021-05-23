@@ -6,12 +6,12 @@ import { execute } from './execute';
 import { importPathToPlugin, Plugin, RealPlugin, RealPluginConstructor } from './plugins';
 
 export class PluginsManager {
-	private ProgramManager: ProgramManager;
-	private ModulesManager: ModulesManager;
-	constructor(pluginsDataFolder: string, ProgramManager: ProgramManager, ModulesManager: ModulesManager) {
+	private programManager: ProgramManager;
+	private modulesManager: ModulesManager;
+	constructor(pluginsDataFolder: string, programManager: ProgramManager, modulesManager: ModulesManager) {
 		this.initPaths(pluginsDataFolder);
-		this.ProgramManager = ProgramManager;
-		this.ModulesManager = ModulesManager;
+		this.programManager = programManager;
+		this.modulesManager = modulesManager;
 	}
 	private pluginsDataFolder: string;
 	private initPaths(pluginsDataFolder: string): void {
@@ -22,7 +22,7 @@ export class PluginsManager {
 		return execute(plugins, global, this.pluginsDataFolder);
 	}
 	importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
-		return importPathToPlugin(importPath, this.ProgramManager, this.ModulesManager);
+		return importPathToPlugin(importPath, this.programManager, this.modulesManager);
 	}
 }
 

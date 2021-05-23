@@ -19,10 +19,10 @@ export abstract class Plugin {
 /**
  * importPathToPlugin creates plugin instance from importPath, it assumes that importPath is valid plugin import path.
  */
-export async function importPathToPlugin(importPath: string, ProgramManager: ProgramManager, ModulesManager: ModulesManager): Promise<RealPluginConstructor> {
-	const absolutePluginPath = await ModulesManager.importPathToAbsolute(importPath);
-	await ProgramManager.buildProgram(importPath, absolutePluginPath);
-	const module = (await import(ProgramManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
+export async function importPathToPlugin(importPath: string, programManager: ProgramManager, modulesManager: ModulesManager): Promise<RealPluginConstructor> {
+	const absolutePluginPath = await modulesManager.importPathToAbsolute(importPath);
+	await programManager.buildProgram(importPath, absolutePluginPath);
+	const module = (await import(programManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
 	const plugin = module.default;
 	if (plugin === undefined) throw new Error('Plugin entry point must have a default export');
 	if (!isRealPluginConstructor(plugin)) throw new Error('Plugin entry point must export default class that implements Plugin class');
