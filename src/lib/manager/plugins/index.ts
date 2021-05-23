@@ -6,6 +6,8 @@ import { execute } from './execute';
 import { importPathToPlugin, Plugin, RealPlugin, RealPluginConstructor } from './plugins';
 
 export class PluginsManager {
+	private ProgramManager: ProgramManager;
+	private ModulesManager: ModulesManager;
 	constructor(pluginsDataFolder: string, ProgramManager: ProgramManager, ModulesManager: ModulesManager) {
 		this.initPaths(pluginsDataFolder);
 		this.ProgramManager = ProgramManager;
@@ -15,8 +17,6 @@ export class PluginsManager {
 	private initPaths(pluginsDataFolder: string): void {
 		this.pluginsDataFolder = pluginsDataFolder;
 	}
-	private ProgramManager: ProgramManager;
-	private ModulesManager: ModulesManager;
 
 	execute(plugins: Plugin[], global: Global = new Global()): Global {
 		return execute(plugins, global, this.pluginsDataFolder);
