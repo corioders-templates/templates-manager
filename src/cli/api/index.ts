@@ -2,7 +2,7 @@ import { prompt } from 'inquirer';
 
 export interface Config {}
 
-interface cliApi {
+export interface CliApi {
 	choose(question: string, choices: string[], defaultValue: undefined | string | string[] | boolean): Promise<string>;
 	check(question: string, choices: string[], defaultValue: undefined | string | string[] | boolean): Promise<string[]>;
 	confirm(question: string, defaultValue: undefined | string | string[] | boolean): Promise<boolean>;
@@ -10,7 +10,7 @@ interface cliApi {
 	password(question: string): Promise<string>;
 }
 
-const api: cliApi = {
+export const cliApi: CliApi = {
 	async choose(question, choices, defaultValue) {
 		const val = await prompt({ name: question, type: 'list', choices, default: defaultValue });
 		return val[question] as string;
@@ -32,5 +32,3 @@ const api: cliApi = {
 		return val[question] as string;
 	},
 };
-
-export default api;
