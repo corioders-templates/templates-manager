@@ -6,7 +6,7 @@ import { Global } from '@/plugins/global';
 
 import { Plugin } from './plugins';
 
-export function execute(plugins: Plugin[], global: Global = new Global(), pluginsDataFolder: string): Global {
+export function execute(plugins: Plugin[], global: Global, pluginsDataFolder: string): Global {
 	for (const plugin of plugins) {
 		executePlugin(plugin, global, pluginsDataFolder);
 	}
