@@ -1,4 +1,5 @@
-import { dotcorioders } from './location';
 import { resolve } from 'path';
 
-export const pluginsDataFolder = resolve(dotcorioders, 'pluginsData');
+import { dotcorioders } from './location';
+
+export const defaultPluginsDataFolder = resolve(dotcorioders, 'pluginsData');
