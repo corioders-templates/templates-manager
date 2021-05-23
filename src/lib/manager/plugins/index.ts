@@ -1,12 +1,10 @@
-import { ProgramManager } from '@/lib/manager/program';
 import { Global } from '@/plugins/global';
 
 import { execute } from './execute';
 import { Plugin, RealPlugin } from './plugins';
 
-export class PluginsManager extends ProgramManager {
+export class PluginsManager {
 	constructor(pluginsDataFolder: string) {
-		super();
 		this.initPaths(pluginsDataFolder);
 	}
 	private pluginsDataFolder: string;
