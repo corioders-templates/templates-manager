@@ -3,7 +3,7 @@ import { ProgramManager } from '@/lib/manager/program';
 import { Global } from '@/plugins/global';
 
 import { execute } from './execute';
-import { Plugin, RealPlugin } from './plugins';
+import { importPathToPlugin, Plugin, RealPlugin, RealPluginConstructor } from './plugins';
 
 export class PluginsManager {
 	constructor(pluginsDataFolder: string, ProgramManager: ProgramManager, ModulesManager: ModulesManager) {
@@ -20,6 +20,9 @@ export class PluginsManager {
 
 	execute(plugins: Plugin[], global: Global = new Global()): Global {
 		return execute(plugins, global, this.pluginsDataFolder);
+	}
+	importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
+		return importPathToPlugin(importPath, this.ProgramManager, this.ModulesManager);
 	}
 }
 

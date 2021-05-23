@@ -1,4 +1,5 @@
-import { defaultModulesManager, defaultProgramManager } from '@/lib/manager';
+import { ModulesManager } from '@/lib/manager/modules';
+import { ProgramManager } from '@/lib/manager/program';
 import { Storage } from '@/nodekit/storage';
 import { Global } from '@/plugins/global';
 
@@ -18,10 +19,10 @@ export abstract class Plugin {
 /**
  * importPathToPlugin creates plugin instance from importPath, it assumes that importPath is valid plugin import path.
  */
-export async function importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
-	const absolutePluginPath = await defaultModulesManager.importPathToAbsolute(importPath);
-	await defaultProgramManager.buildProgram(importPath, absolutePluginPath);
-	const module = (await import(defaultProgramManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
+export async function importPathToPlugin(importPath: string, ProgramManager: ProgramManager, ModulesManager: ModulesManager): Promise<RealPluginConstructor> {
+	const absolutePluginPath = await ModulesManager.importPathToAbsolute(importPath);
+	await ProgramManager.buildProgram(importPath, absolutePluginPath);
+	const module = (await import(ProgramManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
 	const plugin = module.default;
 	if (plugin === undefined) throw new Error('Plugin entry point must have a default export');
 	if (!isRealPluginConstructor(plugin)) throw new Error('Plugin entry point must export default class that implements Plugin class');
@@ -39,7 +40,7 @@ export class RealPlugin implements Plugin {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	execute(storage: Storage, global: Global): void {}
 }
-type RealPluginConstructor = typeof RealPlugin;
+export type RealPluginConstructor = typeof RealPlugin;
 
 function isRealPluginConstructor(x: unknown): x is RealPluginConstructor {
 	if (typeof x !== 'function') return false;
