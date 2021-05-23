@@ -9,5 +9,5 @@ import { ProgramManager } from './program';
 
 export const defaultCoriodersManager = new CoriodersManager(defaultStoragePath, defaultPathsJsonFilename);
 export const defaultModulesManager = new ModulesManager(defaultModulesFolder);
-export const defaultPluginsManager = new PluginsManager(defaultPluginsDataFolder);
+export const defaultPluginsManager = new PluginsManager(defaultPluginsDataFolder, new ProgramManager(), defaultModulesManager);
 export const defaultProgramManager = new ProgramManager();
