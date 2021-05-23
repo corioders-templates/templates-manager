@@ -33,6 +33,7 @@ async function setHashAttribute(importPath: string, git: SimpleGit): Promise<voi
 }
 
 function getRepoPath(importPath: string): string {
+	// import path (github.com/user/repo/directory) -> repo path (github.com/user/repo)
 	const importPathArray = importPath.split('/');
 	const repoPath: string[] = [];
 	for (let i = 0; i < 3; i++) repoPath.push(importPathArray[i]);
