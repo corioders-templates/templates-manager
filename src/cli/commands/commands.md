@@ -28,7 +28,7 @@ deletes dependency of a part.
 
 creates part from a `part template` and assigns it to the current project.
 
-## `part update`:
+## `part update` needs good idea for implementation:
 
 updates part based on the `part template`.
 
