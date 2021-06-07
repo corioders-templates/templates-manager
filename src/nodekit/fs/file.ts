@@ -6,10 +6,19 @@ export type FileOrFolder = File | Folder;
 
 export class File {
 	private path: string;
-	private contents: Buffer;
-	constructor(path: string, contents?: Buffer) {
+	private contents: Buffer | string = '';
+	constructor(path: string, contents?: Buffer | string) {
 		this.path = path;
 		if (contents !== undefined) this.contents = contents;
+	}
+
+	getContentsString(): string {
+		if (!(this.contents instanceof Buffer)) return this.contents;
+		return this.contents.toString();
+	}
+
+	setContentsString(contents: string): void {
+		this.contents = contents;
 	}
 
 	static async fromFilePath(path: string): Promise<File> {
@@ -31,14 +40,44 @@ export class File {
 
 export class Folder {
 	private path: string;
-	private files: FileOrFolder[];
-	constructor(path: string, files: FileOrFolder[]) {
+	private structure: FileOrFolder[];
+	constructor(path: string, structure: FileOrFolder[]) {
 		this.path = path;
-		this.files = files;
+		this.structure = structure;
+	}
+
+	getStructure(): FileOrFolder[] {
+		return this.structure;
+	}
+
+	private cache_getAllFiles: File[] | null = null;
+	getAllFiles(): File[] {
+		if (this.cache_getAllFiles !== null) return this.cache_getAllFiles;
+
+		const allFiles: File[] = [];
+		const runner = (structure: FileOrFolder[]): void => {
+			for (const structureElem of structure) {
+				if (structureElem instanceof Folder) {
+					// run recursively on folders
+					runner(structureElem.getStructure());
+					return;
+				}
+
+				allFiles.push(structureElem);
+			}
+		};
+
+		runner(this.structure);
+		this.cache_getAllFiles = allFiles;
+		return allFiles;
+	}
+
+	private invalidate(): void {
+		this.cache_getAllFiles = null;
 	}
 
 	static async fromFolderPath(rootPath: string): Promise<Folder> {
-		const filesPromises: Promise<FileOrFolder>[] = [];
+		const structurePromises: Promise<FileOrFolder>[] = [];
 
 		const fileNames = await readdir(rootPath);
 		for (const fileName of fileNames) {
@@ -46,15 +85,15 @@ export class Folder {
 
 			const stats = await lstat(filePath);
 			if (stats.isDirectory()) {
-				filesPromises.push(Folder.fromFolderPath(filePath));
+				structurePromises.push(Folder.fromFolderPath(filePath));
 				continue;
 			}
 
-			filesPromises.push(File.fromFilePath(filePath));
+			structurePromises.push(File.fromFilePath(filePath));
 		}
 
-		const files = await Promise.all(filesPromises);
+		const structure = await Promise.all(structurePromises);
 
-		return new Folder(rootPath, files);
+		return new Folder(rootPath, structure);
 	}
 }
