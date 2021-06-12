@@ -1,4 +1,4 @@
-import { Storage } from '@/nodekit/storage';
+import { Storage } from '@corioders/nodekit/storage';
 import axios, { AxiosError } from 'axios';
 
 import Provider from './provider';
