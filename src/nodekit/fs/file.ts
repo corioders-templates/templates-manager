@@ -1,24 +1,24 @@
 import { lstat, readdir } from '.';
-import { readFile } from 'fs';
+import { readFile } from 'graceful-fs';
 import { resolve } from 'path';
 
 export type FileOrFolder = File | Folder;
 
 export class File {
 	private path: string;
-	private contents: Buffer | string = '';
-	constructor(path: string, contents?: Buffer | string) {
+	private content: Buffer | string = '';
+	constructor(path: string, content?: Buffer | string) {
 		this.path = path;
-		if (contents !== undefined) this.contents = contents;
+		if (content !== undefined) this.content = content;
 	}
 
-	getContentsString(): string {
-		if (!(this.contents instanceof Buffer)) return this.contents;
-		return this.contents.toString();
+	getContentString(): string {
+		if (!(this.content instanceof Buffer)) return this.content;
+		return this.content.toString();
 	}
 
-	setContentsString(contents: string): void {
-		this.contents = contents;
+	setContentString(contents: string): void {
+		this.content = contents;
 	}
 
 	static async fromFilePath(path: string): Promise<File> {

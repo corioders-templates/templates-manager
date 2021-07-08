@@ -1,7 +1,9 @@
 import { Folder } from '@/nodekit/fs/file';
 import { Global } from '@/plugins/global';
 
-export interface TemplatesApi {
+import applyStripBlocks from './stripBlocks';
+
+export interface templatesApi {
 	// pluginsGlobal is an easy way to access all plugged stuff.
 	pluginsGlobal: Global;
 
@@ -13,18 +15,14 @@ export interface TemplatesApi {
 	applyStripBlocks(stripBlocksGlobalObject: Record<string, unknown>, folder?: Folder): Promise<void>;
 }
 
-// after template_func returns files are written into final part destination.
-async function template_func(api: TemplatesApi): Promise<void> {
-	// api.files are populated, but shouldn't be accessed directly.
+export class TemplatesApi implements templatesApi {
+	pluginsGlobal: Global;
+	folder: Folder;
+	constructor() {}
 
-	// Strip blocks parameters.
-	const use_ts = true;
-	const use_pinia = true;
-	const use_scriptSetup = true;
-
-	await api.applyStripBlocks({
-		use_pinia,
-		use_ts,
-		use_scriptSetup,
-	});
+	// TODO: @watjurk optimize this
+	async applyStripBlocks(stripBlocksGlobalObject: Record<string, unknown>, folder?: Folder): Promise<void> {
+		folder ||= this.folder;
+		await applyStripBlocks(stripBlocksGlobalObject, folder.getAllFiles());
+	}
 }
