@@ -1,6 +1,5 @@
+import { rmdir, lstat, readdir, readFile, writeFile, exists } from '@corioders/nodekit/fs';
 import { resolve, join } from 'path';
-
-import { rmdir, lstat, readdir, readFile, writeFile, exists } from '@/nodekit/fs';
 
 import { download } from './download';
 import { validateImportPath } from './importPath';

@@ -1,6 +1,5 @@
+import { FsJsonStorage } from '@corioders/nodekit/storage/impl';
 import * as path from 'path';
-
-import { FsJsonStorage } from '@/nodekit/storage/impl';
 
 import { dotcorioders } from './location';
 

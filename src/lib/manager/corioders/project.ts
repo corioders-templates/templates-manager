@@ -1,7 +1,6 @@
+import { mkdir, unlink, writeFile, exists } from '@corioders/nodekit/fs';
 import { resolve } from 'path';
 import simpleGit from 'simple-git';
-
-import { mkdir, unlink, writeFile, exists } from '@/nodekit/fs';
 
 export async function create(name: string, url: string, projectsStoragePath: string, pathsJsonFilename: string): Promise<void> {
 	const exists = await projectExists(name, projectsStoragePath);

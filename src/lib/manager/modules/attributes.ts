@@ -1,5 +1,6 @@
+import { Storage, NestedStorage } from '@corioders/nodekit/storage';
+
 import { attributesStorage } from '@/lib/constant/location/modules';
-import { Storage, NestedStorage } from '@/nodekit/storage';
 
 export function setAttribute(storage: Storage, importPath: string, key: string, value: unknown): Promise<void> {
 	const nested = getNested(storage, importPath);
@@ -25,7 +26,7 @@ function getNested(storage: Storage, key: string): NestedStorage {
 	let nested = nestedStorages.get(key);
 	if (nested === undefined) {
 		nested = new NestedStorage(key, storage);
-		nestedStorages.set(key, nested)
+		nestedStorages.set(key, nested);
 	}
 	return nested;
 }
