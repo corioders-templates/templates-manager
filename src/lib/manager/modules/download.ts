@@ -1,7 +1,6 @@
+import { exists } from '@corioders/nodekit/fs';
 import { resolve } from 'path';
 import simpleGit, { SimpleGit } from 'simple-git';
-
-import { exists } from '@/nodekit/fs';
 
 import { setCoriodersAttribute } from './attributes';
 

@@ -1,6 +1,7 @@
+import { Storage } from '@corioders/nodekit/storage';
+
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
-import { Storage } from '@/nodekit/storage';
 import { Global } from '@/plugins/global';
 
 export abstract class Plugin {

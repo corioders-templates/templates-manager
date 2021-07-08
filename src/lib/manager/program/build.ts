@@ -1,10 +1,10 @@
+import { exec } from '@corioders/nodekit/child_process';
+import { exists, mkdir, readJsonFile, symlink } from '@corioders/nodekit/fs';
 import { resolve } from 'path';
 
 import { packageJson, PackageJson } from '@/lib/constant/files/packageJson';
 import { outFolder } from '@/lib/constant/location/location';
 import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/modules/attributes';
-import { exec } from '@/nodekit/child_process';
-import { exists, mkdir, readJsonFile, symlink } from '@/nodekit/fs';
 
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
 	const currentHash = await getCoriodersAttribute(importPath, 'HASH');

@@ -1,7 +1,7 @@
+import { FsJsonStorage } from '@corioders/nodekit/storage/impl';
 import base64url from 'base64url';
 import { resolve } from 'path';
 
-import { FsJsonStorage } from '@/nodekit/storage/impl';
 import { Global } from '@/plugins/global';
 
 import { Plugin } from './plugins';
