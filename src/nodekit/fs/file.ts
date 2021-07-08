@@ -1,4 +1,4 @@
-import { lstat, readdir } from '.';
+import { lstat, readdir } from '@corioders/nodekit/fs';
 import { readFile } from 'graceful-fs';
 import { resolve } from 'path';
 
