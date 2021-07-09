@@ -13,10 +13,10 @@ export async function buildProgram(importPath: string, absoluteProgramPath: stri
 	// Check if we need to build, if nothing has changed there is no reason to rebuild.
 	// currentHash is the hash of latest git commit inside importPath repo.
 	const currentHash = await getCoriodersAttribute(importPath, 'HASH');
-	// buildHash is last hash that was builded.
-	const buildHash = await getCoriodersAttribute(importPath, 'BUILD_HASH');
-	// If currentHash differs from buildHash that means that we need to rebuild, to get our build hash up to date.
-	const shouldBuild = currentHash != buildHash;
+	// buildedHash is last hash that was builded.
+	const buildedHash = await getCoriodersAttribute(importPath, 'BUILDED_HASH');
+	// If currentHash differs from buildedHash that means that we need to rebuild, to get our build hash up to date.
+	const shouldBuild = currentHash != buildedHash;
 	if (!shouldBuild) return;
 
 	await validateProgram(absoluteProgramPath);
@@ -31,8 +31,8 @@ export async function buildProgram(importPath: string, absoluteProgramPath: stri
 
 	await createCoriodersSymlink(absoluteProgramPath);
 
-	// Update BUILD_HASH to current builded hash.
-	await setCoriodersAttribute(importPath, 'BUILD_HASH', currentHash);
+	// Update BUILDED_HASH to current builded hash.
+	await setCoriodersAttribute(importPath, 'BUILDED_HASH', currentHash);
 }
 
 export function getProgramEntry(absoluteProgramPath: string): string {
