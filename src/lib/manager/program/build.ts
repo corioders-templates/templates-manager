@@ -7,7 +7,7 @@ import { exec } from '@/nodekit/child_process';
 import { exists, mkdir, readJsonFile, symlink } from '@/nodekit/fs';
 
 /**
- * buildProgram builds program inside importPath, it assumes that importPath is valid program import path. 
+ * buildProgram builds program inside importPath, it assumes that importPath is valid program import path.
  */
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
 	// Check if we need to build, if nothing has changed there is no reason to rebuild.
@@ -23,11 +23,11 @@ export async function buildProgram(importPath: string, absoluteProgramPath: stri
 
 	// Install node_modules, by running yarn install.
 	const install = await exec('yarn install', { cwd: absoluteProgramPath });
-	if (install.stderr != '') throw install.stderr;
+	if (install.stderr != '') throw new Error(install.stderr);
 
 	// Run the actual build, by running yarn run build
 	const build = await exec('yarn run build', { cwd: absoluteProgramPath });
-	if (build.stderr != '') throw build.stderr;
+	if (build.stderr != '') throw new Error(build.stderr);
 
 	await createCoriodersSymlink(absoluteProgramPath);
 
