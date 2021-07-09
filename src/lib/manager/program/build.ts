@@ -6,21 +6,32 @@ import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/modu
 import { exec } from '@/nodekit/child_process';
 import { exists, mkdir, readJsonFile, symlink } from '@/nodekit/fs';
 
+/**
+ * buildProgram builds program inside importPath, it assumes that importPath is valid program import path. 
+ */
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
+	// Check if we need to build, if nothing has changed there is no reason to rebuild.
+	// currentHash is the hash of latest git commit inside importPath repo.
 	const currentHash = await getCoriodersAttribute(importPath, 'HASH');
+	// buildHash is last hash that was builded.
 	const buildHash = await getCoriodersAttribute(importPath, 'BUILD_HASH');
+	// If currentHash differs from buildHash that means that we need to rebuild, to get our build hash up to date.
 	const shouldBuild = currentHash != buildHash;
 	if (!shouldBuild) return;
 
 	await validateProgram(absoluteProgramPath);
 
+	// Install node_modules, by running yarn install.
 	const install = await exec('yarn install', { cwd: absoluteProgramPath });
 	if (install.stderr != '') throw install.stderr;
 
+	// Run the actual build, by running yarn run build
 	const build = await exec('yarn run build', { cwd: absoluteProgramPath });
 	if (build.stderr != '') throw build.stderr;
 
 	await createCoriodersSymlink(absoluteProgramPath);
+
+	// Update BUILD_HASH to current builded hash.
 	await setCoriodersAttribute(importPath, 'BUILD_HASH', currentHash);
 }
 
