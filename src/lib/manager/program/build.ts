@@ -48,11 +48,16 @@ async function validateProgram(absoluteProgramPath: string): Promise<void> {
 		programPackageJson?.devDependencies?.[currentProjectName] !== undefined ||
 		programPackageJson?.peerDependencies?.[currentProjectName] !== undefined
 	) {
-		// This project is a dependency of plugin which is incorrect.
+		// This project is a dependency of plugin which is incorrect, see createCoriodersSymlink.
 		throw new Error(`Plugin is dependent on ${currentProjectName} directly but should be dependent on @types/some_meaningful_name`);
 	}
 }
 
+/**
+ * createCoriodersSymlink, creates symlink inside programs node_modules folder that points to this project.
+ * One might ask why just don't 'yarn add <this project name>', the answer is that program must refer to this project directly.
+ * Because of that program installs just types of this project (from DefinitelyTyped) and the real implementation is symliked at runtime, this is done via this function.
+ */
 async function createCoriodersSymlink(absoluteProgramPath: string): Promise<void> {
 	const path = resolve(absoluteProgramPath, 'node_modules', packageJson.name);
 	if (await exists(path)) return;
