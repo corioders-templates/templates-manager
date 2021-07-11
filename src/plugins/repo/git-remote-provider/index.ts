@@ -1,4 +1,5 @@
-import { Storage } from '@/nodekit/storage';
+import { Storage } from '@corioders/nodekit/storage';
+
 import { Global } from '@/plugins/global';
 
 import GithubProvider from './githubProvider';

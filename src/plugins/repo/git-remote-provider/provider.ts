@@ -1,4 +1,4 @@
-import { Storage } from '@/nodekit/storage';
+import { Storage } from '@corioders/nodekit/storage';
 
 export default class Provider {
 	private readonly tokenKey = 't';

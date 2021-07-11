@@ -1,9 +1,9 @@
-import { create as createProject } from '@/lib/manager/corioders/project';
-import { update } from '@/lib/manager/modules';
+import { defaultProjectManager, defaultModulesManager } from '@/lib/manager';
 
 export default async function create(name: string): Promise<void> {
-	await update();
+	await defaultModulesManager.update();
+
 	const url = 'https://github.com/example-username/example-repo';
 	// url should be changed in the future
-	createProject(name, url);
+	defaultProjectManager.createProject(name, url);
 }

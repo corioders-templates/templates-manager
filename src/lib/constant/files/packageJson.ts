@@ -1,5 +1,6 @@
+import { readJsonFileSync } from '@corioders/nodekit/fs/sync';
+
 import { packageJsonFile } from '@/lib/constant/location/location';
-import { readJsonFileSync } from '@/nodekit/fs/sync';
 
 export const packageJson = readJsonFileSync<PackageJson>(packageJsonFile);
 

@@ -1,21 +1,11 @@
 import { resolve } from 'path';
 
-import { downloadsFolder } from '@/lib/constant/location/modules';
-
 import { download } from './download';
 
-export async function importPathToAbsolute(importPath: string): Promise<string> {
+export async function importPathToAbsolute(importPath: string, downloadsFolderPath: string): Promise<string> {
 	validateImportPath(importPath);
-	const repoPath = getRepoPath(importPath);
-	await download(repoPath, resolve(downloadsFolder, repoPath));
-	return resolve(downloadsFolder, importPath);
-}
-
-export function getRepoPath(importPath: string): string {
-	const importPathArray = importPath.split('/');
-	const repoPath: string[] = [];
-	for (let i = 0; i < 3; i++) repoPath.push(importPathArray[i]);
-	return repoPath.join('/');
+	await download(importPath, downloadsFolderPath);
+	return resolve(downloadsFolderPath, importPath);
 }
 
 export function validateImportPath(importPath: string): void {
