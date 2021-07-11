@@ -8,8 +8,8 @@
 	"scripts": {
 		"postinstall": "husky install",
 		"clean": "rm -rf out",
-		"watch": "tsc --watch",
-		"build": "yarn run clean && tsc && yarn run lint && tsc-alias -p tsconfig.json && yarn run makeExecutable",
+		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'eslint .'",
+		"build": "yarn run clean && tsc && yarn run lint && tsc-alias && yarn run makeExecutable",
 		"lint": "eslint .",
 		"release": "yarn run build && yarn run movePackageJson && cd out && npm publish --access public",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
@@ -29,11 +29,12 @@
 		"@typescript-eslint/parser": "^4.21.0",
 		"commitlint-config-jira": "^1.5.1",
 		"commitlint-plugin-jira-rules": "^1.5.1",
-		"eslint": "^7.23.0",
+		"eslint": "^7.30.0",
 		"husky": "^6.0.0",
 		"json": "^10.0.0",
+		"nodemon": "^2.0.12",
 		"prettier": "^2.2.1",
-		"tsc-alias": "^1.2.9",
+		"tsc-alias": "^1.3.7",
 		"typescript": "^4.2.4"
 	},
 	"dependencies": {
