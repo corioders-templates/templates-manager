@@ -27,6 +27,9 @@ export async function untap(importPath: string, downloadsFolderPath: string, tap
 	await writeTapsFile(taps, tapsFilePath);
 }
 
+/**
+ * getTaps returns array of importPaths
+ */
 export async function getTaps(tapsFilePath: string): Promise<string[]> {
 	if (tapsJsonCache !== null) return tapsJsonCache;
 
