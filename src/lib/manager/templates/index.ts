@@ -1,6 +1,7 @@
+import { Folder } from '@corioders/nodekit/fs/file';
+
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
-import { Folder } from '@/nodekit/fs/file';
 
 export class TemplatesManager {
 	private programManager: ProgramManager;

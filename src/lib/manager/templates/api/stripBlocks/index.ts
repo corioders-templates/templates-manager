@@ -1,4 +1,4 @@
-import { File } from '@/nodekit/fs/file';
+import { File } from '@corioders/nodekit/fs/file';
 
 import { Evaluator } from './evaluator';
 import parseStripBlocks from './parser';
