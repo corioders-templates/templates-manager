@@ -1,4 +1,5 @@
-import { Folder } from '@/nodekit/fs/file';
+import { Folder } from '@corioders/nodekit/fs/file';
+
 import { Global } from '@/plugins/global';
 
 import applyStripBlocks from './stripBlocks';
