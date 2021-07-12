@@ -1,7 +1,7 @@
-import { Folder } from '@corioders/nodekit/fs/file';
-
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
+
+import { importPathToTemplate, Template } from './template';
 
 export class TemplatesManager {
 	private programManager: ProgramManager;
@@ -15,8 +15,7 @@ export class TemplatesManager {
 
 	private initPaths(): void {}
 
-	importPathToPart(importPath: string): Promise<Folder> {
-		// return importPathToTemplate(importPath, this.programManager, this.modulesManager);
-		return new Promise(() => {});
+	importPathToTemplate(importPath: string): Promise<Template> {
+		return importPathToTemplate(importPath, this.programManager, this.modulesManager)
 	}
 }
