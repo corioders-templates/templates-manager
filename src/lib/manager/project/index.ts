@@ -1,6 +1,6 @@
 import { create, remove } from './project';
 
-export class CoriodersManager {
+export class ProjectManager {
 	constructor(projectsStoragePath: string, pathsJsonFilename: string) {
 		this.initPaths(projectsStoragePath, pathsJsonFilename);
 	}

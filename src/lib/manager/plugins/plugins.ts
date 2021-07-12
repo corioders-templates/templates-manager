@@ -7,18 +7,18 @@ import { Global } from '@/plugins/global';
 export abstract class Plugin {
 	/**
 	 * Name must be unique across all plugins.
-	 * Note that changing name changes dataFolder.
+	 * Note that changing name also changes dataFolder.
 	 */
 	abstract name: string;
 
 	/**
-	 * execute is called when plugin is executed
+	 * execute is called when plugin is executed.
 	 */
 	abstract execute(storage: Storage, global: Global): void;
 }
 
 /**
- * importPathToPlugin creates plugin instance from importPath, it assumes that importPath is valid plugin import path.
+ * importPathToPlugin returns plugin constructor from importPath, it assumes that importPath is valid plugin import path.
  */
 export async function importPathToPlugin(importPath: string, programManager: ProgramManager, modulesManager: ModulesManager): Promise<RealPluginConstructor> {
 	const absolutePluginPath = await modulesManager.importPathToAbsolute(importPath);
@@ -31,7 +31,7 @@ export async function importPathToPlugin(importPath: string, programManager: Pro
 }
 
 /**
- * This is how normal plugin should look like, of course normal plugin won't have noop execute nad constructor.
+ * This is how normal plugin should look like, of course normal plugin won't have noop execute and constructor.
  * This is only placeholder class and shouldn't be used directly.
  */
 export class RealPlugin implements Plugin {
