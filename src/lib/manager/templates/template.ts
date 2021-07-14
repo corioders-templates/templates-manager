@@ -2,10 +2,9 @@ import { Folder } from '@corioders/nodekit/fs/file';
 import { resolve } from 'path';
 
 import { CliInterface } from '@/cli/api';
-import { cliApi } from '@/cli/defaultApi';
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
-import { GlobalPluginsObject } from '@/plugins/global';
+import { globalPluginsObject } from '@/plugins/global';
 import { templatesApi } from '@/templates';
 
 import { TemplatesApi } from './api';
@@ -25,13 +24,10 @@ export class Template {
 
 	async executeTemplate(): Promise<Folder> {
 		const templateFolder = await this.templateFolderPromise;
-		const pluginGlobalObjectPlaceholder = {} as GlobalPluginsObject;
 
 		const tfo: TemplateFunctionObject = {
-			templatesApi: new TemplatesApi(templateFolder, pluginGlobalObjectPlaceholder),
-
-			// TODO(@watjurk): how to choose cli api !? Maybe provide this in plugins Global object ?
-			cliApi: cliApi,
+			templatesApi: new TemplatesApi(templateFolder, globalPluginsObject),
+			cliApi: globalPluginsObject['cli-api'],
 		};
 
 		await this.templateFunction(tfo);
