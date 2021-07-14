@@ -1,6 +1,5 @@
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
-import { Global } from '@/plugins/global';
 
 import { execute } from './execute';
 import { importPathToPlugin, Plugin, RealPlugin, RealPluginConstructor } from './plugins';
@@ -18,8 +17,8 @@ export class PluginsManager {
 		this.pluginsDataFolder = pluginsDataFolder;
 	}
 
-	execute(plugins: Plugin[], global: Global = new Global()): Global {
-		return execute(plugins, global, this.pluginsDataFolder);
+	execute(plugins: Plugin[]): void {
+		execute(plugins, this.pluginsDataFolder);
 	}
 	importPathToPlugin(importPath: string): Promise<RealPluginConstructor> {
 		return importPathToPlugin(importPath, this.programManager, this.modulesManager);
