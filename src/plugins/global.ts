@@ -2,7 +2,12 @@ import { AsyncSeriesHook } from 'tapable';
 
 import * as gitRemote from './git-remote-provider';
 
-export class Global {
+export interface GlobalPluginsObject {
+	'git-remote-provider': gitRemote.Provider;
+	hooks: GlobalHooks;
+}
+
+class GlobalClass implements GlobalPluginsObject {
 	'git-remote-provider': gitRemote.Provider;
 	hooks: GlobalHooks;
 
@@ -15,3 +20,5 @@ export class Global {
 class GlobalHooks {
 	init = new AsyncSeriesHook<[]>();
 }
+
+export const globalPluginsObject = new GlobalClass();

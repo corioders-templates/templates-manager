@@ -5,7 +5,7 @@ import { CliInterface } from '@/cli/api';
 import { cliApi } from '@/cli/defaultApi';
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
-import { Global } from '@/plugins/global';
+import { GlobalPluginsObject } from '@/plugins/global';
 import { templatesApi } from '@/templates';
 
 import { TemplatesApi } from './api';
@@ -25,7 +25,7 @@ export class Template {
 
 	async executeTemplate(): Promise<Folder> {
 		const templateFolder = await this.templateFolderPromise;
-		const pluginGlobalObjectPlaceholder = {} as Global;
+		const pluginGlobalObjectPlaceholder = {} as GlobalPluginsObject;
 
 		const tfo: TemplateFunctionObject = {
 			templatesApi: new TemplatesApi(templateFolder, pluginGlobalObjectPlaceholder),
