@@ -1,14 +1,42 @@
+import { Folder } from '@corioders/nodekit/fs/file';
+import { resolve } from 'path';
+
 import { CliInterface } from '@/cli/api';
+import { cliApi } from '@/cli/defaultApi';
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
+import { Global } from '@/plugins/global';
 import { templatesApi } from '@/templates';
 
+import { TemplatesApi } from './api';
+
 export class Template {
-	private absoluteTemplatePath: string;
+	private templateFolderPath: string;
+	private templateFolderPromise: Promise<Folder>;
+
 	private templateFunction: TemplateFunction;
+
 	constructor(absoluteTemplatePath: string, templateFunction: TemplateFunction) {
-		this.absoluteTemplatePath = absoluteTemplatePath;
+		this.templateFolderPath = resolve(absoluteTemplatePath, 'template');
 		this.templateFunction = templateFunction;
+
+		this.templateFolderPromise = Folder.fromFolderPath(this.templateFolderPath);
+	}
+
+	async executeTemplate(): Promise<Folder> {
+		const templateFolder = await this.templateFolderPromise;
+		const pluginGlobalObjectPlaceholder = {} as Global;
+
+		const tfo: TemplateFunctionObject = {
+			templatesApi: new TemplatesApi(templateFolder, pluginGlobalObjectPlaceholder),
+
+			// TODO(@watjurk): how to choose cli api !? Maybe provide this in plugins Global object ?
+			cliApi: cliApi,
+		};
+
+		await this.templateFunction(tfo);
+
+		return templateFolder;
 	}
 }
 
