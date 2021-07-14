@@ -2,7 +2,6 @@ import { Folder } from '@corioders/nodekit/fs/file';
 import { resolve } from 'path';
 
 import { CliInterface } from '@/cli/api';
-import { cliApi } from '@/cli/defaultApi';
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
 import { globalPluginsObject } from '@/plugins/global';
@@ -28,9 +27,7 @@ export class Template {
 
 		const tfo: TemplateFunctionObject = {
 			templatesApi: new TemplatesApi(templateFolder, globalPluginsObject),
-
-			// TODO(@watjurk): how to choose cli api !? Maybe provide this in plugins Global object ?
-			cliApi: cliApi,
+			cliApi: globalPluginsObject['cli-api'],
 		};
 
 		await this.templateFunction(tfo);
