@@ -1,6 +1,5 @@
 import { resolve } from 'path';
 
-import { getPluginsJsonAbsolutePaths, getTemplatesJsonAbsolutePaths } from './absolute';
 import { importPathToAbsolute } from './importPath';
 import { tap, untap, getTaps } from './tap';
 
@@ -21,17 +20,9 @@ export class ModulesManager {
 		this.downloadsFolderPath = resolve(modulesFolder, 'downloads');
 	}
 
-	async getPluginsJsonAbsolutePaths(): Promise<string[]> {
-		return await getPluginsJsonAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
-	}
-	async getTemplatesJsonAbsolutePaths(): Promise<string[]> {
-		return await getTemplatesJsonAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
-	}
-
 	async importPathToAbsolute(importPath: string): Promise<string> {
 		return await importPathToAbsolute(importPath, this.downloadsFolderPath);
 	}
-
 	async tap(importPath: string): Promise<void> {
 		await tap(importPath, this.downloadsFolderPath, this.tapsFilePath);
 	}
