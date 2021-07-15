@@ -20,10 +20,10 @@ export async function download(importPath: string, downloadsFolderPath: string):
 	}
 
 	let git = simpleGit();
-	await git.clone(`https://${importPath}`, absoluteRepoPath, ['--depth', '1', '--branch', 'master', '--single-branch']);
+	await git.clone(`https://${repoPath}`, absoluteRepoPath, ['--depth', '1', '--branch', 'master', '--single-branch']);
 
 	git = simpleGit(absoluteRepoPath);
-	await setHashAttribute(importPath, git);
+	await setHashAttribute(repoPath, git);
 }
 
 async function setHashAttribute(importPath: string, git: SimpleGit): Promise<void> {
