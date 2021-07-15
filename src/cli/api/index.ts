@@ -1,6 +1,5 @@
 export interface Config {}
-
-export interface CliInterface {
+export interface cliInterface {
 	choose(question: string, choices: string[], defaultValue: undefined | string | string[] | boolean): Promise<string>;
 	check(question: string, choices: string[], defaultValue: undefined | string | string[] | boolean): Promise<string[]>;
 	confirm(question: string, defaultValue: undefined | string | string[] | boolean): Promise<boolean>;
