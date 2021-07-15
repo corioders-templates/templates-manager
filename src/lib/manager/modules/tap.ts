@@ -27,6 +27,9 @@ export async function untap(importPath: string, downloadsFolderPath: string, tap
 	await writeTapsFile(taps, tapsFilePath);
 }
 
+/**
+ * getTaps returns array of importPaths
+ */
 export async function getTaps(tapsFilePath: string): Promise<string[]> {
 	if (tapsJsonCache !== null) return tapsJsonCache;
 
@@ -44,6 +47,9 @@ async function writeTapsFile(taps: string[], tapsFilePath: string): Promise<void
 	await writeFile(tapsFilePath, JSON.stringify(taps, null, 2), { encoding: 'utf-8' });
 }
 
+/**
+ * checkTap checks if the tap is valid (includes plugins.json or templates.json)
+ */
 async function checkTap(importPath: string, downloadsFolderPath: string, tapsFilePath: string): Promise<void> {
 	const absoluteImportPath = resolve(downloadsFolderPath, importPath);
 	if ((await exists(resolve(absoluteImportPath, 'plugins.json'))) || (await exists(resolve(absoluteImportPath, 'templates.json')))) return;

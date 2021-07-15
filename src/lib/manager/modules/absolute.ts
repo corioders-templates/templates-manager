@@ -15,10 +15,16 @@ async function getConfigAbsolutePaths(configName: string, downloadsFolderPath: s
 	return configPaths;
 }
 
-export async function getPluginsAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+/**
+ * getPluginsJsonAbsolutePaths returns array of absolute paths to plugins.json files found in taps
+ */
+export async function getPluginsJsonAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
 	return await getConfigAbsolutePaths('plugins', downloadsFolderPath, tapsFilePath);
 }
 
-export async function getTemplatesAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
+/**
+ * getTemplatesJsonAbsolutePaths returns array of absolute paths to templates.json files found in taps
+ */
+export async function getTemplatesJsonAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
 	return await getConfigAbsolutePaths('templates', downloadsFolderPath, tapsFilePath);
 }
