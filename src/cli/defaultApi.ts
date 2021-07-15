@@ -1,8 +1,8 @@
 import { prompt } from 'inquirer';
 
-import { CliInterface } from './api';
+import { cliInterface } from './api';
 
-export const cliApi: CliInterface = {
+export const cliApi: cliInterface = {
 	async choose(question, choices, defaultValue) {
 		const val = await prompt({ name: question, type: 'list', choices, default: defaultValue });
 		return val[question] as string;
