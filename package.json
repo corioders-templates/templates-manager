@@ -10,6 +10,7 @@
 		"clean": "rm -rf out",
 		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'eslint .'",
 		"build": "yarn run clean && tsc && yarn run lint && tsc-alias && yarn run makeExecutable",
+		"build:types": "yarn run clean && tsc --declaration --emitDeclarationOnly",
 		"lint": "eslint .",
 		"release": "yarn run build && yarn run movePackageJson && cd out && npm publish --access public",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
