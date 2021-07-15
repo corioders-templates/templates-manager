@@ -2,13 +2,13 @@ import { FsJsonStorage } from '@corioders/nodekit/storage/impl';
 import base64url from 'base64url';
 import { resolve } from 'path';
 
-import { globalPluginsObject } from '@/plugins/global';
+import { GlobalPluginsObject } from '@/plugins/global';
 
 import { Plugin } from './plugins';
 
-export function execute(plugins: Plugin[], pluginsDataFolder: string): void {
+export function execute(plugins: Plugin[], pluginsDataFolder: string, globalPluginsObject: GlobalPluginsObject): void {
 	for (const plugin of plugins) {
-		executePlugin(plugin, pluginsDataFolder);
+		executePlugin(plugin, pluginsDataFolder, globalPluginsObject);
 	}
 }
 
@@ -17,7 +17,7 @@ const usedPluginsNames = new Set<string>();
  * executePlugin executes single plugin, it validates if plugin is valid Plugin interface.
  * Additionally this function keeps track of received plugins names, and throws error when names are not unique.
  */
-function executePlugin(plugin: Plugin, pluginsDataFolder: string): void {
+function executePlugin(plugin: Plugin, pluginsDataFolder: string, globalPluginsObject: GlobalPluginsObject): void {
 	if (plugin.name === undefined) throw new Error(`plugins manager error: missing require property: plugin.name, for plugin ${plugin}`);
 	if (plugin.execute === undefined) throw new Error(`plugins manager error: missing require property: plugin.execute, for plugin ${plugin.name}`);
 	if (usedPluginsNames.has(plugin.name)) throw new Error(`plugins manager error: plugin name not unique: ${plugin.name}`);

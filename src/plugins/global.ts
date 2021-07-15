@@ -5,14 +5,7 @@ import * as cliDefaultApi from '@/cli/defaultApi';
 
 import * as gitRemote from './git-remote-provider';
 
-export interface GlobalPluginsObject {
-	'cli-api': CliInterface;
-
-	'git-remote-provider': gitRemote.Provider;
-	hooks: GlobalHooks;
-}
-
-class GlobalClass implements GlobalPluginsObject {
+export class GlobalPluginsObject {
 	'cli-api': CliInterface;
 
 	'git-remote-provider': gitRemote.Provider;
@@ -29,5 +22,3 @@ class GlobalClass implements GlobalPluginsObject {
 class GlobalHooks {
 	init = new AsyncSeriesHook<[]>();
 }
-
-export const globalPluginsObject = new GlobalClass();
