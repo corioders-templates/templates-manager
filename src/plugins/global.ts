@@ -1,18 +1,18 @@
 import { AsyncSeriesHook } from 'tapable';
 
-import { CliInterface } from '@/cli/api';
+import { cliInterface } from '@/cli/api';
 import * as cliDefaultApi from '@/cli/defaultApi';
 
 import * as gitRemote from './git-remote-provider';
 
 export class GlobalPluginsObject {
-	'cli-api': CliInterface;
+	'cli-api': cliInterface;
 
 	'git-remote-provider': gitRemote.Provider;
 	hooks: GlobalHooks;
 
 	constructor() {
-		this['cli-api'] = cliDefaultApi.cliApi;
+		this['cli-api'] = new cliDefaultApi.CliApi();
 
 		this['git-remote-provider'] = new gitRemote.NoopProvider();
 		this.hooks = new GlobalHooks();

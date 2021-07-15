@@ -1,7 +1,7 @@
 import { Folder } from '@corioders/nodekit/fs/file';
 import { resolve } from 'path';
 
-import { CliInterface } from '@/cli/api';
+import { cliInterface } from '@/cli/api';
 import { ModulesManager } from '@/lib/manager/modules';
 import { ProgramManager } from '@/lib/manager/program';
 import { GlobalPluginsObject } from '@/plugins/global';
@@ -27,7 +27,7 @@ export class Template {
 
 		const tfo: TemplateFunctionObject = {
 			templatesApi: new TemplatesApi(templateFolder, globalPluginsObject),
-			cliApi: globalPluginsObject['cli-api'],
+			CliApi: globalPluginsObject['cli-api'],
 		};
 
 		await this.templateFunction(tfo);
@@ -38,7 +38,7 @@ export class Template {
 
 export interface TemplateFunctionObject {
 	templatesApi: templatesApi;
-	cliApi: CliInterface;
+	CliApi: cliInterface;
 }
 
 export type TemplateFunction = (tfo: TemplateFunctionObject) => Promise<void>;
