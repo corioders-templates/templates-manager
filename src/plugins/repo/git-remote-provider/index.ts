@@ -1,6 +1,6 @@
 import { Storage } from '@corioders/nodekit/storage';
 
-import { Global } from '@/plugins/global';
+import { GlobalPluginsObject } from '@/plugins/global';
 
 import GithubProvider from './githubProvider';
 
@@ -14,7 +14,7 @@ export default class GitRemoteProvider {
 		this.providerType = providerType;
 	}
 
-	execute(storage: Storage, global: Global): void {
+	execute(storage: Storage, global: GlobalPluginsObject): void {
 		switch (this.providerType) {
 			case ProviderType.github:
 				global['git-remote-provider'] = new GithubProvider(storage);
