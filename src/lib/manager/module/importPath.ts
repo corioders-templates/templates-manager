@@ -2,10 +2,10 @@ import { resolve } from 'path';
 
 import { download } from './download';
 
-export async function importPathToAbsolute(importPath: string, downloadsFolderPath: string): Promise<string> {
+export async function importPathToAbsolute(importPath: string, downloadFolderPath: string): Promise<string> {
 	validateImportPath(importPath);
-	await download(importPath, downloadsFolderPath);
-	return resolve(downloadsFolderPath, importPath);
+	await download(importPath, downloadFolderPath);
+	return resolve(downloadFolderPath, importPath);
 }
 
 export function validateImportPath(importPath: string): void {

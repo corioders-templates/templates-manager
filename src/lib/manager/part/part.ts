@@ -1,6 +1,6 @@
 import { Folder } from '@corioders/nodekit/fs/file';
 
-import { Template } from '@/lib/manager/templates/template';
+import { Template } from '@/lib/manager/template/template';
 
 export class Part {
 	private name: string;

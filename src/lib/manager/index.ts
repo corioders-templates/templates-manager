@@ -1,13 +1,13 @@
-import { defaultModulesFolder } from '@/lib/constant/location/modules';
-import { defaultPluginsDataFolder } from '@/lib/constant/location/plugins';
-import { defaultPathsJsonFilename, defaultStoragePath } from '@/lib/constant/location/project';
+import { defaultModuleFolder } from '@/lib/constant/location/module';
+import { defaultPluginDataFolder } from '@/lib/constant/location/plugin';
+import { defaultPathJsonFilename, defaultStoragePath } from '@/lib/constant/location/project';
 
-import { ModulesManager } from './modules';
-import { PluginsManager } from './plugins';
+import { ModuleManager } from './module';
+import { PluginManager } from './plugin';
 import { ProgramManager } from './program';
 import { ProjectManager } from './project';
 
-export const defaultModulesManager = new ModulesManager(defaultModulesFolder);
+export const defaultModuleManager = new ModuleManager(defaultModuleFolder);
 export const defaultProgramManager = new ProgramManager();
-export const defaultPluginsManager = new PluginsManager(defaultPluginsDataFolder, defaultProgramManager, defaultModulesManager);
-export const defaultProjectManager = new ProjectManager(defaultStoragePath, defaultPathsJsonFilename);
+export const defaultPluginManager = new PluginManager(defaultPluginDataFolder, defaultProgramManager, defaultModuleManager);
+export const defaultProjectManager = new ProjectManager(defaultStoragePath, defaultPathJsonFilename);

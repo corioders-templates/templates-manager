@@ -1,6 +1,6 @@
 import { Storage } from '@corioders/nodekit/storage';
 
-import { GlobalPluginsObject } from '@/plugins/global';
+import { GlobalPluginsObject } from '@/plugin/global';
 
 import GithubProvider from './githubProvider';
 

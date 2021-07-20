@@ -1,19 +1,19 @@
 import { create, remove } from './project';
 
 export class ProjectManager {
-	constructor(projectsStoragePath: string, pathsJsonFilename: string) {
-		this.initPaths(projectsStoragePath, pathsJsonFilename);
+	constructor(projectStoragePath: string, pathJsonFilename: string) {
+		this.initPaths(projectStoragePath, pathJsonFilename);
 	}
-	private projectsStoragePath: string;
-	private pathsJsonFilename: string;
-	private initPaths(projectsStoragePath: string, pathsJsonFilename: string): void {
-		this.projectsStoragePath = projectsStoragePath;
-		this.pathsJsonFilename = pathsJsonFilename;
+	private projectStoragePath: string;
+	private pathJsonFilename: string;
+	private initPaths(projectStoragePath: string, pathJsonFilename: string): void {
+		this.projectStoragePath = projectStoragePath;
+		this.pathJsonFilename = pathJsonFilename;
 	}
 	async createProject(name: string, url: string): Promise<void> {
-		await create(name, url, this.projectsStoragePath, this.pathsJsonFilename);
+		await create(name, url, this.projectStoragePath, this.pathJsonFilename);
 	}
 	async removeProject(name: string): Promise<void> {
-		await remove(name, this.projectsStoragePath);
+		await remove(name, this.projectStoragePath);
 	}
 }

@@ -1,8 +1,8 @@
 import { Storage } from '@corioders/nodekit/storage';
 
-import { ModulesManager } from '@/lib/manager/modules';
+import { ModuleManager } from '@/lib/manager/module';
 import { ProgramManager } from '@/lib/manager/program';
-import { GlobalPluginsObject } from '@/plugins/global';
+import { GlobalPluginsObject } from '@/plugin/global';
 
 export abstract class Plugin {
 	/**
@@ -20,8 +20,8 @@ export abstract class Plugin {
 /**
  * importPathToPlugin returns plugin constructor from importPath, it assumes that importPath is valid plugin import path.
  */
-export async function importPathToPlugin(importPath: string, programManager: ProgramManager, modulesManager: ModulesManager): Promise<RealPluginConstructor> {
-	const absolutePluginPath = await modulesManager.importPathToAbsolute(importPath);
+export async function importPathToPlugin(importPath: string, programManager: ProgramManager, moduleManager: ModuleManager): Promise<RealPluginConstructor> {
+	const absolutePluginPath = await moduleManager.importPathToAbsolute(importPath);
 	await programManager.buildProgram(importPath, absolutePluginPath);
 	const module = (await import(programManager.getProgramEntry(absolutePluginPath))) as { default?: unknown };
 	const plugin = module.default;

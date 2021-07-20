@@ -2,11 +2,11 @@ import { exists } from '@corioders/nodekit/fs';
 import { resolve } from 'path';
 import simpleGit, { SimpleGit } from 'simple-git';
 
-import { setCoriodersAttribute } from './attributes';
+import { setCoriodersAttribute } from './attribute';
 
-export async function download(importPath: string, downloadsFolderPath: string): Promise<void> {
+export async function download(importPath: string, downloadFolderPath: string): Promise<void> {
 	const repoPath = getRepoPath(importPath);
-	const absoluteRepoPath = resolve(downloadsFolderPath, repoPath);
+	const absoluteRepoPath = resolve(downloadFolderPath, repoPath);
 	if (await exists(absoluteRepoPath)) {
 		const git = simpleGit(absoluteRepoPath);
 		const pullResult = await git.pull('origin', 'master');
