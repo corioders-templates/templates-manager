@@ -1,34 +1,12 @@
-# Corioders projects manager:
-
-## Not really cli, more a tool:
-
-This shouldn't be called "cli" because the main goal of this is to manage projects the `templates` think is just a feature of it all.
-
-## How to create project:
-
-[TODO](https://corioders.atlassian.net/browse/CLI-11)
-
-# Abstract:
-
-America wasn't build in one day, and so should be every project, slowly in small parts. `corioders` should be build with this in mind
+# Corioders templates manager:
 
 # Concepts:
 
-## Project creation:
-
-## General:
-
-### project:
-
-description: this is a thing that stores all metadata for all `parts`.
-
-### part:
-
-description: this is a thing that stores all files and folders related to one logical section that is `part` of a `project`. Usually this would be a folder on a disk.
-
-### part template
-
 description: the code template for a part.
+
+### template:
+
+description: a code template that is transformed and then saved.
 
 ### plugin:
 

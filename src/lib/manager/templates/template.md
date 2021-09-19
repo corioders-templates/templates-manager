@@ -7,7 +7,7 @@ Each template must contain template directory located in TEMPLATE_ROOT/template,
 ## Template function
 
 Template functions is functions that is exported by index.js in TEMPLATE_ROOT/out/index.js, it takes one parameter Template Function Object and can be async.  
-This function uses cliApi and templatesApi for communication with outside world, all of this communication leads to part creation.
+This function uses cliApi and templatesApi for communication with outside world.
 
 ## Template Function Object
 
