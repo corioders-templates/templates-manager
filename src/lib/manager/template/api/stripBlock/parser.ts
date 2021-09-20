@@ -29,15 +29,15 @@ const parsers: Map<Keywords, Parser> = new Map<Keywords, Parser>([
 ]);
 
 interface State {
-	usedName: Set<string>;
-	stripBlock: StripBlockStore;
+	usedNames: Set<string>;
+	stripBlocks: StripBlockStore;
 }
 
-export default function parseStripBlock(sourceLine: string[]): StripBlock[] {
+export default function parseStripBlocks(sourceLine: string[]): StripBlock[] {
 	// Internal state of the parser.
 	const state: State = {
-		usedName: new Set<string>(),
-		stripBlock: new StripBlockStore(),
+		usedNames: new Set<string>(),
+		stripBlocks: new StripBlockStore(),
 	};
 
 	for (let lineIndex = 0; lineIndex < sourceLine.length; lineIndex++) {
@@ -57,7 +57,7 @@ export default function parseStripBlock(sourceLine: string[]): StripBlock[] {
 		}
 	}
 
-	const stripBlocks = state.stripBlock.getAll();
+	const stripBlocks = state.stripBlocks.getAll();
 	for (const stripBlock of stripBlocks) {
 		if (!stripBlock.isComplete()) {
 			throw new Error(`Got incomplete stripBlock, did you forget to add "strip:end ${stripBlock.name}"? strip:start seen on line: ${stripBlock.startLine}`);
@@ -73,16 +73,16 @@ export default function parseStripBlock(sourceLine: string[]): StripBlock[] {
 	// sb1 and sb2 are overlapping, when sb1 is removed sb2 structure is not complete and vice versa.
 	// We can detect such issue by checking if strip blocks close in exactly reverse order as they opened, if so then no overlapping occurs.
 
-	const lineIndexToStripBlockMap = new Map<number, StripBlock>();
+	const lineIndexToStripBlocksMap = new Map<number, StripBlock>();
 	for (const stripBlock of stripBlocks) {
-		lineIndexToStripBlockMap.set(stripBlock.startLine, stripBlock);
-		lineIndexToStripBlockMap.set(stripBlock.endLine, stripBlock);
+		lineIndexToStripBlocksMap.set(stripBlock.startLine, stripBlock);
+		lineIndexToStripBlocksMap.set(stripBlock.endLine, stripBlock);
 	}
 
-	const sortedLineIndex = [...lineIndexToStripBlockMap.keys()].sort();
+	const sortedLineIndexes = [...lineIndexToStripBlocksMap.keys()].sort();
 	const closeOrder: StripBlock[] = [];
-	for (const lineIndex of sortedLineIndex) {
-		const stripBlock = lineIndexToStripBlockMap.get(lineIndex) as StripBlock;
+	for (const lineIndex of sortedLineIndexes) {
+		const stripBlock = lineIndexToStripBlocksMap.get(lineIndex) as StripBlock;
 		// If stripBlock.startLine === lineIndex this means that stripBlock is opening at lineIndex.
 		if (stripBlock.startLine === lineIndex) {
 			closeOrder.push(stripBlock);
@@ -139,10 +139,10 @@ function parseStripBlockStart(state: State, line: string, lineIndex: number): vo
 		throw new Error(`No expression provided after "strip:start ${name}" on line: ${lineIndex}`);
 	}
 
-	if (state.usedName.has(name)) {
+	if (state.usedNames.has(name)) {
 		throw new Error(`Duplicate strip-block name: ${name}`);
 	}
-	state.usedName.add(name);
+	state.usedNames.add(name);
 
 	// Expression is right after name, +1 is for skipping the leading space.
 	const expression = line.substring(nameEndSpaceIndex + 1);
@@ -154,13 +154,13 @@ function parseStripBlockStart(state: State, line: string, lineIndex: number): vo
 
 	stripBlock.expression = expression;
 	stripBlock.startLine = lineIndex;
-	state.stripBlock.set(stripBlock);
+	state.stripBlocks.set(stripBlock);
 }
 
 function parseStripBlockEnd(state: State, line: string, lineIndex: number): void {
 	// stripBlock name is right after strip:end keyword
 	const name = line;
-	const stripBlock = state.stripBlock.getByName(name);
+	const stripBlock = state.stripBlocks.getByName(name);
 	if (stripBlock === undefined) {
 		throw new Error(`No strip:start was defined for strip-block with name: ${name}`);
 	}

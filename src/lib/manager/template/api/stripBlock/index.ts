@@ -1,21 +1,21 @@
 import { File } from '@corioders/nodekit/fs/file';
 
 import { Evaluator } from './evaluator';
-import parseStripBlock from './parser';
+import parseStripBlocks from './parser';
 
-export default async function applyStripBlock(stripBlockGlobalObject: Record<string, unknown>, files: File[]): Promise<void> {
+export default async function applyStripBlocks(stripBlockGlobalObject: Record<string, unknown>, files: File[]): Promise<void> {
 	const evaluator = new Evaluator(stripBlockGlobalObject);
-	const applyPromise = [];
+	const applyPromises = [];
 	for (const file of files) {
-		applyPromise.push(applyStripBlockToFile(evaluator, file));
+		applyPromises.push(applyStripBlocksToFile(evaluator, file));
 	}
-	await Promise.all(applyPromise);
+	await Promise.all(applyPromises);
 }
 
-async function applyStripBlockToFile(evaluator: Evaluator, file: File): Promise<void> {
+async function applyStripBlocksToFile(evaluator: Evaluator, file: File): Promise<void> {
 	const content = file.getContentString();
-	const contentLine = content.split('\n');
-	const stripBlocks = parseStripBlock(contentLine);
+	const contentLines = content.split('\n');
+	const stripBlocks = parseStripBlocks(contentLines);
 
 	// TODO(@watjurk): optimize the following part of this function by dynamically evaluating expressions based on how stripBlocks effect one another:
 	// strip:start sb1 false
@@ -25,27 +25,27 @@ async function applyStripBlockToFile(evaluator: Evaluator, file: File): Promise<
 	// no need to evaluate expression for sb2, as it will be deleted because of sb1.
 
 	// Evaluate all expressions.
-	const evaluatorPromise = [];
+	const evaluatorPromises = [];
 	for (const stripBlock of stripBlocks) {
-		evaluatorPromise.push(
+		evaluatorPromises.push(
 			(async (): Promise<void> => {
 				stripBlock.evaluatedExpression = await evaluator.evaluate(stripBlock.expression);
 			})(),
 		);
 	}
-	await Promise.all(evaluatorPromise);
+	await Promise.all(evaluatorPromises);
 
 	// Strip blocks where evaluatedExpression is false.
 	for (const stripBlock of stripBlocks) {
 		// Remove the strip:start and strip:end.
-		contentLine[stripBlock.startLine] = '';
-		contentLine[stripBlock.endLine] = '';
+		contentLines[stripBlock.startLine] = '';
+		contentLines[stripBlock.endLine] = '';
 
 		if (stripBlock.evaluatedExpression === false) {
 			// Remove contents between strip:start and strip:end.
-			for (let i = stripBlock.startLine + 1; i < stripBlock.endLine; i++) contentLine[i] = '';
+			for (let i = stripBlock.startLine + 1; i < stripBlock.endLine; i++) contentLines[i] = '';
 		}
 	}
 
-	file.setContentString(contentLine.join('\n'));
+	file.setContentString(contentLines.join('\n'));
 }
