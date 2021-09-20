@@ -386,14 +386,14 @@
   dependencies:
     chalk "^4.0.0"
 
-"@corioders/nodekit@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@corioders/nodekit/-/nodekit-0.0.5.tgz#ab1e70299fddab565be4f481b60fa031a723b9be"
-  integrity sha512-Np0OOcZYErCxLR6JspW4Q/92Uqgn37J+EriieSosHHOYCGuUehYzUGmUxrXjaLvyvP6eAoydgKresJUJlRUYoA==
+"@corioders/nodekit@^0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@corioders/nodekit/-/nodekit-0.0.6.tgz#b7e3e25809af0607b1df2e70c78b98e9930ab00f"
+  integrity sha512-KrfWLGkImxA0RZExWdT4/Df+hMHtR6etUnZlvfmqPCZpv7Pmcj7x6651LvLnE+FYnYBE9VgkFs7Odw6rqFuJvw==
   dependencies:
-    "@types/graceful-fs" "^4.1.5"
-    "@types/node" "^16.3.2"
-    graceful-fs "^4.2.6"
+    "@types/graceful-fs" "4.1.5"
+    "@types/node" "16.9.4"
+    graceful-fs "4.2.8"
 
 "@eslint/eslintrc@^0.4.2":
   version "0.4.2"
@@ -500,7 +500,7 @@
     lodash "4.17.21"
     prettier "2.2.1"
 
-"@types/graceful-fs@^4.1.5":
+"@types/graceful-fs@4.1.5":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
   integrity sha512-anKkLmZZ+xm4p8JWBf4hElkM4XR+EZeA2M9BAkkTldmcyDY4mbdIJnRghDJH3Ov5ooY7/UAoENtmdMSkaAd7Cw==
@@ -534,6 +534,11 @@
   version "16.3.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.3.2.tgz#655432817f83b51ac869c2d51dd8305fb8342e16"
   integrity sha512-jJs9ErFLP403I+hMLGnqDRWT0RYKSvArxuBVh2veudHV7ifEC1WAmjJADacZ7mRbA2nWgHtn8xyECMAot0SkAw==
+
+"@types/node@16.9.4":
+  version "16.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.9.4.tgz#a12f0ee7847cf17a97f6fdf1093cb7a9af23cca4"
+  integrity sha512-KDazLNYAGIuJugdbULwFZULF9qQ13yNWEBFnfVpqlpgAAo6H/qnM9RjBgh0A0kmHf3XxAKLdN5mTIng9iUvVLA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -1681,7 +1686,12 @@ got@^9.6.0:
     to-readable-stream "^1.0.0"
     url-parse-lax "^3.0.0"
 
-graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.6:
+graceful-fs@4.2.8:
+  version "4.2.8"
+  resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.8.tgz#e412b8d33f5e006593cbd3cee6df9f2cebbe802a"
+  integrity sha512-qkIilPUYcNhJpd33n0GBXTB1MMPp14TxEsEs0pTrsSVucApsYzW5V+Q8Qxhik6KU3evy+qkAAowTByymK0avdg==
+
+graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.6.tgz#ff040b2b0853b23c3d31027523706f1885d76bee"
   integrity sha512-nTnJ528pbqxYanhpDYsi4Rd8MAeaBA67+RZ10CM1m3bTAVFEDcd5AuA4a6W5YkGZ1iNXHzZz8T6TBKLeBuNriQ==
