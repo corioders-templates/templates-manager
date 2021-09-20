@@ -1,6 +1,6 @@
 import { Storage, NestedStorage } from '@corioders/nodekit/storage';
 
-import { attributesStorage } from '@/lib/constant/location/modules';
+import { attributeStorage } from '@/lib/constant/location/module';
 
 export function setAttribute(storage: Storage, importPath: string, key: string, value: unknown): Promise<void> {
 	const nested = getNested(storage, importPath);
@@ -12,21 +12,21 @@ export function getAttribute(storage: Storage, importPath: string, key: string):
 	return nested.get(key);
 }
 
-const coriodersAttributes = new NestedStorage('CORIODERS', attributesStorage);
+const coriodersAttribute = new NestedStorage('CORIODERS', attributeStorage);
 export function setCoriodersAttribute(importPath: string, key: string, value: unknown): Promise<void> {
-	return setAttribute(coriodersAttributes, importPath, key, value);
+	return setAttribute(coriodersAttribute, importPath, key, value);
 }
 
 export function getCoriodersAttribute(importPath: string, key: string): Promise<unknown> {
-	return getAttribute(coriodersAttributes, importPath, key);
+	return getAttribute(coriodersAttribute, importPath, key);
 }
 
-const nestedStorages = new Map<string, NestedStorage>();
+const nestedStorage = new Map<string, NestedStorage>();
 function getNested(storage: Storage, key: string): NestedStorage {
-	let nested = nestedStorages.get(key);
+	let nested = nestedStorage.get(key);
 	if (nested === undefined) {
 		nested = new NestedStorage(key, storage);
-		nestedStorages.set(key, nested);
+		nestedStorage.set(key, nested);
 	}
 	return nested;
 }

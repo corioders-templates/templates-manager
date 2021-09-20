@@ -3,8 +3,8 @@ import { File } from '@corioders/nodekit/fs/file';
 import { Evaluator } from './evaluator';
 import parseStripBlocks from './parser';
 
-export default async function applyStripBlocks(stripBlocksGlobalObject: Record<string, unknown>, files: File[]): Promise<void> {
-	const evaluator = new Evaluator(stripBlocksGlobalObject);
+export default async function applyStripBlocks(stripBlockGlobalObject: Record<string, unknown>, files: File[]): Promise<void> {
+	const evaluator = new Evaluator(stripBlockGlobalObject);
 	const applyPromises = [];
 	for (const file of files) {
 		applyPromises.push(applyStripBlocksToFile(evaluator, file));

@@ -2,12 +2,12 @@ import { Folder } from '@corioders/nodekit/fs/file';
 import { resolve } from 'path';
 
 import { cliInterface } from '@/cli/api';
-import { ModulesManager } from '@/lib/manager/modules';
+import { ModuleManager } from '@/lib/manager/module';
 import { ProgramManager } from '@/lib/manager/program';
-import { globalPluginsObject } from '@/plugins/global';
-import { templatesApi } from '@/templates';
+import { globalPluginsObject } from '@/plugin/global';
+import { templateApi } from '@/template';
 
-import { TemplatesApi } from './api';
+import { TemplateApi } from './api';
 
 export class Template {
 	private templateFolderPath: string;
@@ -26,7 +26,7 @@ export class Template {
 		const templateFolder = await this.templateFolderPromise;
 
 		const tfo: TemplateFunctionObject = {
-			templatesApi: new TemplatesApi(templateFolder, globalPluginsObject),
+			templateApi: new TemplateApi(templateFolder, globalPluginsObject),
 			CliApi: globalPluginsObject['cli-api'],
 		};
 
@@ -37,15 +37,15 @@ export class Template {
 }
 
 export interface TemplateFunctionObject {
-	templatesApi: templatesApi;
+	templateApi: templateApi;
 	CliApi: cliInterface;
 }
 
 export type TemplateFunction = (tfo: TemplateFunctionObject) => Promise<void>;
 
-export async function importPathToTemplate(importPath: string, programManager: ProgramManager, modulesManager: ModulesManager): Promise<Template> {
+export async function importPathToTemplate(importPath: string, programManager: ProgramManager, moduleManager: ModuleManager): Promise<Template> {
 	// Find and 'link' template function.
-	const absoluteTemplatePath = await modulesManager.importPathToAbsolute(importPath);
+	const absoluteTemplatePath = await moduleManager.importPathToAbsolute(importPath);
 	await programManager.buildProgram(importPath, absoluteTemplatePath);
 	const module = (await import(programManager.getProgramEntry(absoluteTemplatePath))) as { default?: unknown };
 	const templateFunction = module.default;

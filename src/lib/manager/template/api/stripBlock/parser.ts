@@ -33,15 +33,15 @@ interface State {
 	stripBlocks: StripBlockStore;
 }
 
-export default function parseStripBlocks(sourceLines: string[]): StripBlock[] {
+export default function parseStripBlocks(sourceLine: string[]): StripBlock[] {
 	// Internal state of the parser.
 	const state: State = {
 		usedNames: new Set<string>(),
 		stripBlocks: new StripBlockStore(),
 	};
 
-	for (let lineIndex = 0; lineIndex < sourceLines.length; lineIndex++) {
-		const line = sourceLines[lineIndex];
+	for (let lineIndex = 0; lineIndex < sourceLine.length; lineIndex++) {
+		const line = sourceLine[lineIndex];
 		for (const keyword of keywords) {
 			const parser = parsers.get(keyword.ID);
 			if (parser === undefined) {
@@ -91,13 +91,15 @@ export default function parseStripBlocks(sourceLines: string[]): StripBlock[] {
 		// If stripBlock.endLine === lineIndex this means that stripBlock is closing at lineIndex.
 		if (stripBlock.endLine === lineIndex) {
 			const poppedStripBlock = closeOrder.pop();
-			if(poppedStripBlock === undefined) {
-				throw new Error(`poppedStripBlock should never be undefined, unexpected!`)
+			if (poppedStripBlock === undefined) {
+				throw new Error(`poppedStripBlock should never be undefined, unexpected!`);
 			}
 
 			// If expected close order is different from actual then we know that overlapping is happening.
 			if (poppedStripBlock !== stripBlock) {
-				throw new Error(`StripBlock starting at line: ${stripBlock.startLine} and ending at line: ${stripBlock.endLine} is overlapping with strip block starting at line: ${poppedStripBlock.startLine} and ending at line: ${poppedStripBlock.endLine}`);
+				throw new Error(
+					`StripBlock starting at line: ${stripBlock.startLine} and ending at line: ${stripBlock.endLine} is overlapping with strip block starting at line: ${poppedStripBlock.startLine} and ending at line: ${poppedStripBlock.endLine}`,
+				);
 			}
 		}
 	}
