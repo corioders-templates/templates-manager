@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 import { create } from '@/lib';
-import { globalPluginsObject } from '@/plugins/global';
+import { globalPluginsObject } from '@/plugin/global';
 
 import { Program } from '../cli';
 
