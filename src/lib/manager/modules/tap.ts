@@ -57,13 +57,6 @@ async function checkTap(importPath: string, downloadsFolderPath: string, tapsFil
 	throw new Error(`This repository doesn't contain the required configs`);
 }
 
-export async function getTapsAbsolutePaths(downloadsFolderPath: string, tapsFilePath: string): Promise<string[]> {
-	const taps = await getTaps(tapsFilePath);
-	const tapsAbsolutePaths = [];
-	for (const tap of taps) tapsAbsolutePaths.push(resolve(downloadsFolderPath, tap));
-	return tapsAbsolutePaths;
-}
-
 async function removeEmptyDirectories(directory: string): Promise<void> {
 	const fileStats = await lstat(directory);
 	if (!fileStats.isDirectory()) {

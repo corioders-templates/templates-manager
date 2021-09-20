@@ -1,9 +1,7 @@
 import { resolve } from 'path';
 
-import { getPluginsJsonAbsolutePaths, getTemplatesJsonAbsolutePaths } from './absolute';
 import { importPathToAbsolute } from './importPath';
 import { tap, untap, getTaps } from './tap';
-import { update } from './update';
 
 /**
  * ModulesManager manages tapable modules that you can find on git remote platforms like github
@@ -22,17 +20,9 @@ export class ModulesManager {
 		this.downloadsFolderPath = resolve(modulesFolder, 'downloads');
 	}
 
-	async getPluginsJsonAbsolutePaths(): Promise<string[]> {
-		return await getPluginsJsonAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
-	}
-	async getTemplatesJsonAbsolutePaths(): Promise<string[]> {
-		return await getTemplatesJsonAbsolutePaths(this.downloadsFolderPath, this.tapsFilePath);
-	}
-
 	async importPathToAbsolute(importPath: string): Promise<string> {
 		return await importPathToAbsolute(importPath, this.downloadsFolderPath);
 	}
-
 	async tap(importPath: string): Promise<void> {
 		await tap(importPath, this.downloadsFolderPath, this.tapsFilePath);
 	}
@@ -41,9 +31,5 @@ export class ModulesManager {
 	}
 	async getTaps(): Promise<string[]> {
 		return await getTaps(this.tapsFilePath);
-	}
-
-	async update(): Promise<void> {
-		await update(this.downloadsFolderPath, this.tapsFilePath);
 	}
 }
