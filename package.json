@@ -1,19 +1,23 @@
 {
 	"name": "@corioders/templates-manager",
-	"version": "1.0.0",
+	"version": "0.0.1",
 	"description": "Corioders' templates management tool",
 	"repository": "https://github.com/corioders-templates/templates-manager.git",
 	"author": "corioders",
 	"license": "CC0-1.0",
 	"scripts": {
-		"clean": "rm -rf out",
 		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'eslint .'",
+		"clean": "rm -rf out",
+		"lint": "eslint .",
 		"build": "yarn run clean && yarn run lint && tsc && tsc-alias && yarn run makeExecutable",
 		"build:types": "yarn run clean && yarn run lint && tsc --declaration --emitDeclarationOnly && tsc-alias",
-		"release": "yarn run build && yarn run movePackageJson && cd out && yarn publish --access public",
-		"lint": "eslint .",
+
+		"release": "yarn run build && yarn run movePackageJson && yarn run release:toNpm && yarn run build:types && yarn run movePackageJson && yarn run preparePackageJsonForTypes && yarn run release:toNpm",
+		
+		"release:toNpm": "cd out && yarn publish --access public",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
 		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json",
+		"preparePackageJsonForTypes": "cat ./out/package.json | json -e 'delete this.bin; this.name = this.name+`-types`' > ./out/temp.package.json && rm ./out/package.json && mv ./out/temp.package.json ./out/package.json",
 		"postinstall": "husky install"
 	},
 	"bin": {
