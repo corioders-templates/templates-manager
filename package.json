@@ -11,10 +11,8 @@
 		"lint": "eslint .",
 		"build": "yarn run clean && yarn run lint && tsc && tsc-alias && yarn run makeExecutable",
 		"build:types": "yarn run clean && yarn run lint && tsc --declaration --emitDeclarationOnly && tsc-alias",
-
 		"release": "yarn run build && yarn run movePackageJson && yarn run release:toNpm && yarn run build:types && yarn run movePackageJson && yarn run preparePackageJsonForTypes && yarn run release:toNpm",
-		
-		"release:toNpm": "cd out && yarn publish --access public",
+		"release:toNpm": "cd out && yarn publish --access public --non-interactive",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
 		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json",
 		"preparePackageJsonForTypes": "cat ./out/package.json | json -e 'delete this.bin; this.name = this.name+`-types`' > ./out/temp.package.json && rm ./out/package.json && mv ./out/temp.package.json ./out/package.json",
