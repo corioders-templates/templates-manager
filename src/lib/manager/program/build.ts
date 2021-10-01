@@ -49,7 +49,7 @@ async function validateProgram(absoluteProgramPath: string): Promise<void> {
 		programPackageJson?.peerDependencies?.[currentProjectName] !== undefined
 	) {
 		// This project is a dependency of plugin which is incorrect, see createCoriodersSymlink.
-		throw new Error(`Plugin is dependent on ${currentProjectName} directly but should be dependent on @types/some_meaningful_name`);
+		throw new Error(`Plugin is dependent on ${currentProjectName} directly but should be dependent on ${currentProjectName + '-types'}`);
 	}
 }
 
@@ -59,7 +59,7 @@ async function validateProgram(absoluteProgramPath: string): Promise<void> {
  * Because of that program installs just types of this project (from DefinitelyTyped) and the real implementation is symliked at runtime, this is done via this function.
  */
 async function createCoriodersSymlink(absoluteProgramPath: string): Promise<void> {
-	const path = resolve(absoluteProgramPath, 'node_modules', packageJson.name);
+	const path = resolve(absoluteProgramPath, 'node_modules', packageJson.name + '-types');
 	if (await exists(path)) return;
 
 	const realPathSplit = path.split('/');
