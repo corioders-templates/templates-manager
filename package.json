@@ -1,25 +1,25 @@
 {
-	"name": "@corioders/projects-manager",
+	"name": "@corioders/templates-manager",
 	"version": "1.0.0",
-	"description": "Corioders' projects management tool",
-	"repository": "https://github.com/corioders-templates/projects-manager.git",
+	"description": "Corioders' templates management tool",
+	"repository": "https://github.com/corioders-templates/templates-manager.git",
 	"author": "corioders",
 	"license": "CC0-1.0",
 	"scripts": {
-		"postinstall": "husky install",
 		"clean": "rm -rf out",
 		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'eslint .'",
-		"build": "yarn run clean && tsc && yarn run lint && tsc-alias && yarn run makeExecutable",
+		"build": "yarn run clean && yarn run lint && tsc && tsc-alias && yarn run makeExecutable",
+		"build:types": "yarn run clean && yarn run lint && tsc --declaration --emitDeclarationOnly && tsc-alias",
+		"release": "yarn run build && yarn run movePackageJson && cd out && yarn publish --access public",
 		"lint": "eslint .",
-		"release": "yarn run build && yarn run movePackageJson && cd out && npm publish --access public",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
-		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json"
+		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json",
+		"postinstall": "husky install"
 	},
 	"bin": {
 		"corioders": "./out/bin/corioders.js"
 	},
 	"devDependencies": {
-		"@babel/eslint-parser": "^7.14.7",
 		"@commitlint/cli": "^12.1.4",
 		"@trivago/prettier-plugin-sort-imports": "^2.0.2",
 		"@types/inquirer": "^7.3.3",
@@ -37,8 +37,7 @@
 		"typescript": "^4.3.5"
 	},
 	"dependencies": {
-		"@corioders/nodekit": "^0.0.5",
-		"axios": "^0.21.1",
+		"@corioders/nodekit": "^0.0.6",
 		"base64url": "^3.0.1",
 		"commander": "^8.0.0",
 		"inquirer": "^8.1.2",

@@ -2,9 +2,9 @@ import { exec } from '@corioders/nodekit/child_process';
 import { exists, mkdir, readJsonFile, symlink } from '@corioders/nodekit/fs';
 import { resolve } from 'path';
 
-import { packageJson, PackageJson } from '@/lib/constant/files/packageJson';
+import { packageJson, PackageJson } from '@/lib/constant/file/packageJson';
 import { outFolder } from '@/lib/constant/location/location';
-import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/modules/attributes';
+import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/module/attribute';
 
 /**
  * buildProgram builds program inside importPath, it assumes that importPath is valid program import path.

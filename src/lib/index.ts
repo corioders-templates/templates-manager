@@ -1,3 +1,3 @@
-import create from './project/create';
+import { create } from './template';
 
 export { create };
