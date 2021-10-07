@@ -1,22 +1,14 @@
 import { AsyncSeriesHook } from 'tapable';
 
-import { cliInterface } from '@/cli/api';
-import * as cliDefaultApi from '@/cli/defaultApi';
+import * as cli from './cli-api';
 
-
-export interface GlobalPluginsObject {
-	'cli-api': cliInterface;
-
-	hooks: GlobalHooks;
-}
-
-class GlobalClass implements GlobalPluginsObject {
-	'cli-api': cliInterface;
+export class GlobalPluginObject {
+	'cli-api': cli.interface;
 
 	hooks: GlobalHooks;
 
 	constructor() {
-		this['cli-api'] = new cliDefaultApi.CliApi();
+		this['cli-api'] = new cli.Api();
 
 		this.hooks = new GlobalHooks();
 	}
@@ -25,5 +17,3 @@ class GlobalClass implements GlobalPluginsObject {
 class GlobalHooks {
 	init = new AsyncSeriesHook<[]>();
 }
-
-export const globalPluginsObject = new GlobalClass();

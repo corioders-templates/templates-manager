@@ -4,7 +4,7 @@ import { importPathToAbsolute } from './importPath';
 import { tap, untap, getTaps } from './tap';
 
 /**
- * ModulesManager manages tapable modules that you can find on git remote platforms like github
+ * ModuleManager manages tapable modules that you can find on git remote platforms like github
  */
 export class ModuleManager {
 	constructor(moduleFolder: string) {

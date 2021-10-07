@@ -1,7 +1,7 @@
 import { resolve } from 'path';
 
 import { create } from '@/lib';
-import { globalPluginsObject } from '@/plugin/global';
+import { defaultPluginManager } from '@/lib/manager';
 
 import { Program } from '../cli';
 
@@ -12,7 +12,7 @@ export default function (program: Program): void {
 		const projectPath = resolve(process.cwd(), projectName);
 
 		// Select template.
-		const templateImportPath = await globalPluginsObject['cli-api'].input('template import path', undefined, undefined);
+		const templateImportPath = await defaultPluginManager.globalPluginObject['cli-api'].input('template import path', undefined, undefined);
 
 		// Create template.
 		const templateFolder = await create(templateImportPath);

@@ -1,9 +1,9 @@
 import { Folder } from '@corioders/nodekit/fs/file';
 
-import { defaultTemplateManager } from '@/lib/manager';
+import { defaultTemplateManager, defaultPluginManager } from '@/lib/manager';
 
 export async function create(templateImportPath: string): Promise<Folder> {
 	const template = await defaultTemplateManager.importPathToTemplate(templateImportPath);
-	const templateFolder = await template.executeTemplate();
+	const templateFolder = await template.executeTemplate(defaultPluginManager.globalPluginObject);
 	return templateFolder;
 }
