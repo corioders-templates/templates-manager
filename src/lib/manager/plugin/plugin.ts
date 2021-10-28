@@ -2,7 +2,7 @@ import { Storage } from '@corioders/nodekit/storage';
 
 import { ModuleManager } from '@/lib/manager/module';
 import { ProgramManager } from '@/lib/manager/program';
-import { GlobalPluginsObject } from '@/plugin/global';
+import { GlobalPluginObject } from '@/plugin/global';
 
 export abstract class Plugin {
 	/**
@@ -14,7 +14,7 @@ export abstract class Plugin {
 	/**
 	 * execute is called when plugin is executed.
 	 */
-	abstract execute(storage: Storage, global: GlobalPluginsObject): void;
+	abstract execute(storage: Storage, global: GlobalPluginObject): void;
 }
 
 /**
@@ -39,7 +39,7 @@ export class RealPlugin implements Plugin {
 	constructor(...args: unknown[]) {}
 	name: string;
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	execute(storage: Storage, global: GlobalPluginsObject): void {}
+	execute(storage: Storage, global: GlobalPluginObject): void {}
 }
 export type RealPluginConstructor = typeof RealPlugin;
 

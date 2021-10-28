@@ -4,7 +4,7 @@ import { resolve } from 'path';
 import { cliInterface } from '@/cli/api';
 import { ModuleManager } from '@/lib/manager/module';
 import { ProgramManager } from '@/lib/manager/program';
-import { globalPluginsObject } from '@/plugin/global';
+import { GlobalPluginObject } from '@/plugin/global';
 import { templateApi } from '@/template';
 
 import { TemplateApi } from './api';
@@ -22,7 +22,7 @@ export class Template {
 		this.templateFolderPromise = Folder.fromFolderPath(this.templateFolderPath);
 	}
 
-	async executeTemplate(): Promise<Folder> {
+	async executeTemplate(globalPluginsObject: GlobalPluginObject): Promise<Folder> {
 		const templateFolder = await this.templateFolderPromise;
 
 		const tfo: TemplateFunctionObject = {
