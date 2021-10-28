@@ -15,11 +15,11 @@
 		"release:toNpm": "cd out && yarn publish --access public --non-interactive",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
 		"movePackageJson": "cat ./package.json | json -e 'delete this.scripts; delete this.devDependencies' > ./out/package.json",
-		"preparePackageJsonForTypes": "cat ./out/package.json | json -e 'delete this.bin; this.name = this.name+`-types`' > ./out/temp.package.json && rm ./out/package.json && mv ./out/temp.package.json ./out/package.json",
+		"preparePackageJsonForTypes": "cat ./out/package.json | json -e 'this.name = this.name+`-types`' > ./out/temp.package.json && rm ./out/package.json && mv ./out/temp.package.json ./out/package.json",
 		"postinstall": "husky install"
 	},
 	"bin": {
-		"corioders": "./out/bin/corioders.js"
+		"corioders": "./bin/corioders.js"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^12.1.4",
