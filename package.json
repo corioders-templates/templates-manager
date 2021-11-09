@@ -11,7 +11,7 @@
 		"lint": "eslint .",
 		"build": "yarn run clean && yarn run lint && tsc && tsc-alias && yarn run makeExecutable",
 		"build:types": "yarn run clean && yarn run lint && tsc --declaration --emitDeclarationOnly && tsc-alias",
-		"release-old": "yarn run build && yarn run moveFiles && yarn run release:toNpm && yarn run build:types && yarn run moveFiles && yarn run preparePackageJsonForTypes && yarn run release:toNpm",
+		"release": "yarn run build && yarn run moveFiles && yarn run release:toNpm && yarn run build:types && yarn run moveFiles && yarn run preparePackageJsonForTypes && yarn run release:toNpm",
 		"release:toNpm": "cd out && yarn publish --access public --non-interactive",
 		"makeExecutable": "chmod +x ./out/bin/corioders.js",
 		"moveFiles": "mkdir ./out/out && ! mv ./out/* ./out/out 2> /dev/null && yarn run movePackageJson",
