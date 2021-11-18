@@ -27,7 +27,7 @@ export class Template {
 
 		const tfo: TemplateFunctionObject = {
 			templateApi: new TemplateApi(templateFolder, globalPluginsObject),
-			CliApi: globalPluginsObject['cli-api'],
+			cliApi: globalPluginsObject['cli-api'],
 		};
 
 		await this.templateFunction(tfo);
@@ -38,7 +38,7 @@ export class Template {
 
 export interface TemplateFunctionObject {
 	templateApi: templateApi;
-	CliApi: cliApi;
+	cliApi: cliApi;
 }
 
 export type TemplateFunction = (tfo: TemplateFunctionObject) => Promise<void>;
