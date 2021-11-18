@@ -22,6 +22,7 @@
 	"bin": {
 		"corioders": "./out/bin/corioders.js"
 	},
+	"types": "./out",
 	"devDependencies": {
 		"@commitlint/cli": "^12.1.4",
 		"@trivago/prettier-plugin-sort-imports": "^2.0.2",
