@@ -1,6 +1,6 @@
 {
 	"name": "@corioders/templates-manager",
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"description": "Corioders' templates management tool",
 	"repository": "https://github.com/corioders-templates/templates-manager.git",
 	"author": "corioders",
