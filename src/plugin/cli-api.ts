@@ -1,4 +1,4 @@
-import { cliInterface } from '@/cli/api';
+import { cliApi } from '@/cli/api';
 import { CliApi } from '@/cli/defaultApi';
 
-export { cliInterface as interface, CliApi as Api };
+export { cliApi as api, CliApi as DefaultApi };
