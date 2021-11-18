@@ -6,7 +6,7 @@
 	"author": "corioders",
 	"license": "CC0-1.0",
 	"scripts": {
-		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'eslint .'",
+		"watch": "tsc --watch & tsc-alias --watch --silent & nodemon --quiet --ext ts --watch src --exec 'yarn run --silent lint && yarn run --silent makeExecutable'",
 		"clean": "rm -rf out",
 		"lint": "eslint .",
 		"build": "yarn run clean && yarn run lint && tsc && tsc-alias && yarn run makeExecutable",
