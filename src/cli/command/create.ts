@@ -16,6 +16,6 @@ export default function (program: Program): void {
 
 		// Create template.
 		const templateFolder = await create(templateImportPath);
-		templateFolder.save(projectPath);
+		await templateFolder.save(projectPath);
 	});
 }
