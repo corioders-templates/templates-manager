@@ -1,23 +1,31 @@
 import { exec } from '@corioders/nodekit/child_process';
 import { exists, mkdir, readJsonFile, symlink } from '@corioders/nodekit/fs';
-import { resolve } from 'path';
+import { resolve, join } from 'path';
 
 import { packageJson, PackageJson } from '@/lib/constant/file/packageJson';
 import { outFolder } from '@/lib/constant/location/location';
 import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/module/attribute';
 
+import { importPathToVersion } from '../module/importPath';
+
 /**
  * buildProgram builds program inside importPath, it assumes that importPath is valid program import path.
  */
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
+	const { importPathWithoutVersion } = importPathToVersion(importPath);
+
 	// Check if we need to build, if nothing has changed there is no reason to rebuild.
 	// currentHash is the hash of latest git commit inside importPath repo.
-	const currentHash = await getCoriodersAttribute(importPath, 'HASH');
-	// buildedHash is last hash that was builded.
-	const buildedHash = await getCoriodersAttribute(importPath, 'BUILDED_HASH');
-	// If currentHash differs from buildedHash that means that we need to rebuild, to get our build hash up to date.
-	const shouldBuild = currentHash != buildedHash;
-	if (!shouldBuild) return;
+	const currentHash = (await getCoriodersAttribute(importPathWithoutVersion, 'HASH')) ?? 'currentHash';
+
+	// Only if out dir exists there is a reason why we need to check this.
+	if (await exists(join(absoluteProgramPath, 'out'))) {
+		// buildedHash is last hash that was builded.
+		const buildedHash = (await getCoriodersAttribute(importPathWithoutVersion, 'BUILDED_HASH')) ?? 'buildedHash';
+		// If currentHash differs from buildedHash that means that we need to rebuild, to get our build hash up to date.
+		const shouldBuild = currentHash != buildedHash;
+		if (!shouldBuild) return;
+	}
 
 	await validateProgram(absoluteProgramPath);
 
@@ -32,7 +40,7 @@ export async function buildProgram(importPath: string, absoluteProgramPath: stri
 	await createCoriodersSymlink(absoluteProgramPath);
 
 	// Update BUILDED_HASH to current builded hash.
-	await setCoriodersAttribute(importPath, 'BUILDED_HASH', currentHash);
+	await setCoriodersAttribute(importPathWithoutVersion, 'BUILDED_HASH', currentHash);
 }
 
 export function getProgramEntry(absoluteProgramPath: string): string {

@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import simpleGit from 'simple-git';
 
 import { download } from './download';
 
@@ -14,7 +15,40 @@ export async function importPathToAbsolute(importPath: string, downloadFolderPat
 
 	validateImportPath(importPath);
 	await download(importPath, downloadFolderPath);
-	return resolve(downloadFolderPath, importPath);
+
+	const { importPathWithoutVersion } = importPathToVersion(importPath);
+	return resolve(downloadFolderPath, importPathWithoutVersion);
+}
+
+export async function importPathToModuleVersion(importPath: string, downloadFolderPath: string): Promise<string> {
+	const absolutePath = await importPathToAbsolute(importPath, downloadFolderPath);
+	const git = simpleGit(absolutePath);
+	const version = await git.revparse('HEAD');
+	return version;
+}
+
+export interface ImportPathToVersionReturn {
+	importPathWithoutVersion: string;
+	version: string | null;
+}
+
+// Import path with version looks like this: github.com/user/repo/directory@optionalVersion, were optionalVersion is something that can be checked out by git.
+export function importPathToVersion(importPath: string): ImportPathToVersionReturn {
+	let version: string | null = null;
+	const importPathVersionArray = importPath.split('@');
+
+	if (importPathVersionArray.length !== 1) {
+		version = importPathVersionArray[importPathVersionArray.length - 1];
+
+		// Remove version.
+		importPathVersionArray.pop();
+	}
+
+	const importPathWithoutVersion = importPathVersionArray.join('@');
+	return {
+		version,
+		importPathWithoutVersion,
+	};
 }
 
 export function validateImportPath(importPath: string): void {

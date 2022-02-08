@@ -2,6 +2,7 @@ import { Folder } from '@corioders/nodekit/fs/file';
 import { resolve } from 'path';
 
 import { cliApi } from '@/cli/api';
+import { MetadataManager } from '@/lib/manager/metadata';
 import { ModuleManager } from '@/lib/manager/module';
 import { ProgramManager } from '@/lib/manager/program';
 import { GlobalPluginObject } from '@/plugin/global';
@@ -10,12 +11,20 @@ import { templateApi } from '@/template';
 import { TemplateApi } from './api';
 
 export class Template {
+	private version: string;
+
+	private metadataManager: MetadataManager;
+
 	private templateFolderPath: string;
 	private templateFolderPromise: Promise<Folder>;
 
 	private templateFunction: TemplateFunction;
 
-	constructor(absoluteTemplatePath: string, templateFunction: TemplateFunction) {
+	constructor(absoluteTemplatePath: string, version: string, templateFunction: TemplateFunction, metadataManager: MetadataManager) {
+		this.version = version;
+
+		this.metadataManager = metadataManager;
+
 		this.templateFolderPath = resolve(absoluteTemplatePath, 'template');
 		this.templateFunction = templateFunction;
 
@@ -32,6 +41,7 @@ export class Template {
 
 		await this.templateFunction(tfo);
 
+		this.metadataManager.initMetadata(templateFolder, { version: this.version });
 		return templateFolder;
 	}
 }
@@ -43,9 +53,15 @@ export interface TemplateFunctionObject {
 
 export type TemplateFunction = (tfo: TemplateFunctionObject) => Promise<void>;
 
-export async function importPathToTemplate(importPath: string, programManager: ProgramManager, moduleManager: ModuleManager): Promise<Template> {
+export async function importPathToTemplate(
+	importPath: string,
+	programManager: ProgramManager,
+	moduleManager: ModuleManager,
+	metadataManager: MetadataManager,
+): Promise<Template> {
 	// Find and 'link' template function.
 	const absoluteTemplatePath = await moduleManager.importPathToAbsolute(importPath);
+	const templateVersion = await moduleManager.importPathToModuleVersion(importPath);
 	await programManager.buildProgram(importPath, absoluteTemplatePath);
 	const module = (await import(programManager.getProgramEntry(absoluteTemplatePath))) as { default?: unknown };
 	const templateFunction = module.default;
@@ -53,7 +69,7 @@ export async function importPathToTemplate(importPath: string, programManager: P
 	if (templateFunction === undefined) throw new Error('Template function must have a default export');
 	if (!isTemplateFunction(templateFunction)) throw new Error('Template function must have a default export, that takes TemplateFunctionObject as first parameter');
 
-	const template = new Template(absoluteTemplatePath, templateFunction);
+	const template = new Template(absoluteTemplatePath, templateVersion, templateFunction, metadataManager);
 	return template;
 }
 

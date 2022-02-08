@@ -373,10 +373,10 @@
   dependencies:
     chalk "^4.0.0"
 
-"@corioders/nodekit@0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@corioders/nodekit/-/nodekit-0.0.7.tgz#19242c0954514a01ed35d19340018a850982e255"
-  integrity sha512-OvYxR+azKHL99M30tdqxHKN3wPU4o+AgDaUQqdzcNrb3MNMEN1sXLaMRHYbvk2W7p4gwwqp60KkPDwqoW7af4g==
+"@corioders/nodekit@0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@corioders/nodekit/-/nodekit-0.0.8.tgz#9a2e1ad64bcb8d6e9f30e5de8a1797f22c96a740"
+  integrity sha512-t11s8QkI1BikDQlmSKRj5Pj9lALYALuW48VsnDvfHZ8QcIpQm4xriQ/+VDEQ9GWXTXMZH6xDn1V49h5F5DY6zA==
   dependencies:
     "@types/graceful-fs" "4.1.5"
     "@types/node" "16.9.4"

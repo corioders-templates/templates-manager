@@ -1,6 +1,6 @@
 import { resolve } from 'path';
 
-import { importPathToAbsolute } from './importPath';
+import { importPathToAbsolute, importPathToModuleVersion } from './importPath';
 import { tap, untap, getTaps } from './tap';
 
 /**
@@ -22,6 +22,9 @@ export class ModuleManager {
 
 	async importPathToAbsolute(importPath: string): Promise<string> {
 		return await importPathToAbsolute(importPath, this.downloadFolderPath);
+	}
+	async importPathToModuleVersion(importPath: string): Promise<string> {
+		return await importPathToModuleVersion(importPath, this.downloadFolderPath);
 	}
 	async tap(importPath: string): Promise<void> {
 		await tap(importPath, this.downloadFolderPath, this.tapFilePath);
