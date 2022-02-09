@@ -3,7 +3,7 @@ import * as path from 'path';
 
 const projectPathCache = new Map<string, string | null>();
 
-export async function getProjectPath(currentFolderPath: string, metadataFileName: string, maxSearchDepth: number): Promise<string | null> {
+export async function getProjectRootPath(currentFolderPath: string, metadataFileName: string, maxSearchDepth: number): Promise<string | null> {
 	const cacheKey = `${currentFolderPath}_${metadataFileName}_${maxSearchDepth}`;
 	const cached = projectPathCache.get(cacheKey);
 	if (cached !== undefined) return cached;

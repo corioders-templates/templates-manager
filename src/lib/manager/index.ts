@@ -11,4 +11,4 @@ export const defaultModuleManager = new ModuleManager(defaultModuleFolder);
 export const defaultProgramManager = new ProgramManager();
 export const defaultPluginManager = new PluginManager(defaultPluginDataFolder, defaultProgramManager, defaultModuleManager);
 export const defaultMetadataManger = new MetadataManager();
-export const defaultTemplateManager = new TemplateManager(defaultProgramManager, defaultModuleManager, defaultMetadataManger);
+export const defaultTemplateManager = new TemplateManager(defaultProgramManager, defaultModuleManager, defaultPluginManager, defaultMetadataManger);

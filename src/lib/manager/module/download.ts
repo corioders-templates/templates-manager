@@ -3,10 +3,10 @@ import { resolve } from 'path';
 import simpleGit, { SimpleGit } from 'simple-git';
 
 import { setCoriodersAttribute } from './attribute';
-import { importPathToVersion } from './importPath';
+import { importPathToImportVersion } from './importPath';
 
 export async function download(importPath: string, downloadFolderPath: string): Promise<void> {
-	const { importPathWithoutVersion, version } = importPathToVersion(importPath);
+	const { importPathWithoutVersion, version } = importPathToImportVersion(importPath);
 	const repoPath = getRepoPath(importPathWithoutVersion);
 
 	const checkoutToVersion = async function (git: SimpleGit): Promise<void> {

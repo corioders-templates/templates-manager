@@ -16,7 +16,7 @@ export async function importPathToAbsolute(importPath: string, downloadFolderPat
 	validateImportPath(importPath);
 	await download(importPath, downloadFolderPath);
 
-	const { importPathWithoutVersion } = importPathToVersion(importPath);
+	const { importPathWithoutVersion } = importPathToImportVersion(importPath);
 	return resolve(downloadFolderPath, importPathWithoutVersion);
 }
 
@@ -27,13 +27,13 @@ export async function importPathToModuleVersion(importPath: string, downloadFold
 	return version;
 }
 
-export interface ImportPathToVersionReturn {
+export interface ImportPathToImportVersionReturn {
 	importPathWithoutVersion: string;
 	version: string | null;
 }
 
 // Import path with version looks like this: github.com/user/repo/directory@optionalVersion, were optionalVersion is something that can be checked out by git.
-export function importPathToVersion(importPath: string): ImportPathToVersionReturn {
+export function importPathToImportVersion(importPath: string): ImportPathToImportVersionReturn {
 	let version: string | null = null;
 	const importPathVersionArray = importPath.split('@');
 

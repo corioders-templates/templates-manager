@@ -1,3 +1,3 @@
-import { create } from './template';
+import { create, update } from './template';
 
-export { create };
+export { create, update };

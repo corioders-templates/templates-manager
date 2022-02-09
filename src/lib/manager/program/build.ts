@@ -6,13 +6,13 @@ import { packageJson, PackageJson } from '@/lib/constant/file/packageJson';
 import { outFolder } from '@/lib/constant/location/location';
 import { getCoriodersAttribute, setCoriodersAttribute } from '@/lib/manager/module/attribute';
 
-import { importPathToVersion } from '../module/importPath';
+import { importPathToImportVersion } from '../module/importPath';
 
 /**
  * buildProgram builds program inside importPath, it assumes that importPath is valid program import path.
  */
 export async function buildProgram(importPath: string, absoluteProgramPath: string): Promise<void> {
-	const { importPathWithoutVersion } = importPathToVersion(importPath);
+	const { importPathWithoutVersion } = importPathToImportVersion(importPath);
 
 	// Check if we need to build, if nothing has changed there is no reason to rebuild.
 	// currentHash is the hash of latest git commit inside importPath repo.
